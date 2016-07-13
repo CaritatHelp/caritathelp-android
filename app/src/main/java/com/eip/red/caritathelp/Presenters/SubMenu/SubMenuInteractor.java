@@ -55,8 +55,4 @@ public class SubMenuInteractor {
     public int getUserId() {
         return user.getId();
     }
-
-    public MainPicture getUserPicture() {
-        return user.getPicture();
-    }
 }

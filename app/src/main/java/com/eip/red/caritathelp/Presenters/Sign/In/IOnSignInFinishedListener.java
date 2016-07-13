@@ -14,7 +14,5 @@ public interface IOnSignInFinishedListener {
 
     void onDialog(String title, String msg);
 
-    void onFailureInitProfileImg(User user);
-
     void onSuccess(User user);
 }

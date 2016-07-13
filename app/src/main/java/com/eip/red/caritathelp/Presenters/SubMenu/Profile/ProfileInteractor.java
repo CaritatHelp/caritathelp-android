@@ -25,6 +25,7 @@ public class ProfileInteractor {
     private Context context;
     private User    mainUser;
     private int     userId;
+    private User    user;
 
     public ProfileInteractor(Context context, User mainUser, int userId) {
         this.context = context;
@@ -60,8 +61,6 @@ public class ProfileInteractor {
                             else {
                                 // Set User Model
                                 mainUser.setThumb_path(result.getResponse().getPicture_path().getThumb().getUrl());
-                                mainUser.setPicture(result.getResponse());
-
                                 listener.onSuccessUploadProfileImg();
                             }
                         }
@@ -89,14 +88,14 @@ public class ProfileInteractor {
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialog("Statut 400", result.getMessage());
                             else {
-                                // Set User Profile Image
-                                Network.loadImage(context, imageView, Network.API_LOCATION_2 + result.getResponse().getThumb_path(), R.drawable.profile_example);
+                                // Set User model
+                                user = result.getResponse();
 
-                                // Check if it's MY profile
-                                if (userId == mainUser.getId())
-                                    listener.onSuccessGetProfile(result.getResponse(), null);
-                                else
-                                    getMyFriends(listener, progressBar, result.getResponse());
+                                // Set User Profile Image
+                                Network.loadImage(context, imageView, Network.API_LOCATION_2 + user.getThumb_path(), R.drawable.profile_example);
+
+                                // Go to presenter
+                                listener.onSuccessGetProfile(user);
                             }
                         }
                         else
@@ -105,34 +104,7 @@ public class ProfileInteractor {
                 });
     }
 
-    // Get MAIN user's Friends! Not friends to the user who the profile is shown.
-    private void getMyFriends(final IOnProfileFinishedListener listener, final ProgressBar progressBar, final User user) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
-        Ion.with(context)
-                .load("GET", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_VOLUNTEER + mainUser.getId() + Network.API_REQUEST_FRIENDSHIP)
-                .progressBar(progressBar)
-                .setJsonObjectBody(json)
-                .as(new TypeToken<FriendsJson>(){})
-                .setCallback(new FutureCallback<FriendsJson>() {
-                    @Override
-                    public void onCompleted(Exception error, FriendsJson result) {
-                        if (error == null) {
-                            // Status == 400 == error
-                            if (result.getStatus() == Network.API_STATUS_ERROR)
-                                listener.onDialog("Statut 400", result.getMessage());
-                            else
-                                listener.onSuccessGetProfile(user, result.getResponse());
-                        }
-                        else
-                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
-                    }
-                });
-    }
-
-    public void addFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar, final String name) {
+    public void addFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar) {
         JsonObject json = new JsonObject();
 
         json.addProperty("token", mainUser.getToken());
@@ -150,7 +122,60 @@ public class ProfileInteractor {
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialog("Statut 400", result.getMessage());
                             else
-                                listener.onSuccessAddFriend(name);
+                                listener.onSuccessAddFriend();
+                        }
+                        else
+                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                    }
+                });
+    }
+
+    public void removeFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar) {
+        JsonObject json = new JsonObject();
+
+        json.addProperty("token", mainUser.getToken());
+        json.addProperty("id", String.valueOf(userId));
+
+        Ion.with(context)
+                .load("DELETE", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REMOVE )
+                .progressBar(progressBar)
+                .setJsonObjectBody(json)
+                .as(new TypeToken<Friendship>(){})
+                .setCallback(new FutureCallback<Friendship>() {
+                    @Override
+                    public void onCompleted(Exception error, Friendship result) {
+                        if (error == null) {
+                            if (result.getStatus() == Network.API_STATUS_ERROR)
+                                listener.onDialog("Statut 400", result.getMessage());
+                            else
+                                listener.onSuccessRemoveFriend();
+                        }
+                        else
+                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                    }
+                });
+    }
+
+    public void replyFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar, final String acceptance) {
+        JsonObject json = new JsonObject();
+
+        json.addProperty("token", mainUser.getToken());
+        json.addProperty("notif_id", String.valueOf(user.getNotif_id()));
+        json.addProperty("acceptance", acceptance);
+
+        Ion.with(context)
+                .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REPLY )
+                .progressBar(progressBar)
+                .setJsonObjectBody(json)
+                .as(new TypeToken<Friendship>(){})
+                .setCallback(new FutureCallback<Friendship>() {
+                    @Override
+                    public void onCompleted(Exception error, Friendship result) {
+                        if (error == null) {
+                            if (result.getStatus() == Network.API_STATUS_ERROR)
+                                listener.onDialog("Statut 400", result.getMessage());
+                            else
+                                listener.onSuccessReplyFriend(acceptance);
                         }
                         else
                             listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
@@ -164,5 +189,9 @@ public class ProfileInteractor {
 
     public int getUserId() {
         return userId;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

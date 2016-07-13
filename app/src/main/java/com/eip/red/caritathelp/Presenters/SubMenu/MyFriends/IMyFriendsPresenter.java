@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Presenters.SubMenu.Friends;
+package com.eip.red.caritathelp.Presenters.SubMenu.MyFriends;
 
 import com.eip.red.caritathelp.Models.Friends.Friend;
 import com.eip.red.caritathelp.Models.Friends.FriendInvitation;
@@ -7,7 +7,7 @@ import com.eip.red.caritathelp.Models.Friends.FriendInvitation;
  * Created by pierr on 19/04/2016.
  */
 
-public interface IFriendsPresenter {
+public interface IMyFriendsPresenter {
 
     void onClick(int viewId);
 

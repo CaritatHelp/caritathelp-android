@@ -1,9 +1,13 @@
 package com.eip.red.caritathelp.Presenters.SubMenu.AccountSettings;
 
+import com.eip.red.caritathelp.Models.User.User;
+
 /**
  * Created by pierr on 22/01/2016.
  */
 public interface IOnAccountSettingsFinishedListener {
+
+    void onDialog(String title, String msg);
 
     void onEmailError(String error);
 
@@ -13,5 +17,7 @@ public interface IOnAccountSettingsFinishedListener {
 
     void onNewPasswordCheckingError(String error);
 
-    void onSuccess();
+    void onSuccessGetUser(User user);
+
+    void onSuccessSaveModification(User user);
 }

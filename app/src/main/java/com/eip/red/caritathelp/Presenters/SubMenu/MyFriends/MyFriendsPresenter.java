@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Presenters.SubMenu.Friends;
+package com.eip.red.caritathelp.Presenters.SubMenu.MyFriends;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,7 +11,7 @@ import com.eip.red.caritathelp.Models.Friends.FriendInvitation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
-import com.eip.red.caritathelp.Views.SubMenu.Friends.FriendsView;
+import com.eip.red.caritathelp.Views.SubMenu.MyFriends.MyFriendsView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
 
 import java.util.List;
@@ -20,14 +20,14 @@ import java.util.List;
  * Created by pierr on 19/04/2016.
  */
 
-public class FriendsPresenter implements IFriendsPresenter, IOnFriendsFinishedListener {
+public class MyFriendsPresenter implements IMyFriendsPresenter, IOnMyFriendsFinishedListener {
 
-    private FriendsView         view;
-    private FriendsInteractor   interactor;
+    private MyFriendsView view;
+    private MyFriendsInteractor interactor;
 
-    public FriendsPresenter(FriendsView view, User mainUser, int userId) {
+    public MyFriendsPresenter(MyFriendsView view, User mainUser, int userId) {
         this.view = view;
-        interactor = new FriendsInteractor(view.getContext(), mainUser, userId);
+        interactor = new MyFriendsInteractor(view.getContext(), mainUser, userId);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class FriendsPresenter implements IFriendsPresenter, IOnFriendsFinishedLi
                 view.getSentRV().setVisibility(View.GONE);
 
                 // Set TextStyle Tabs
-                view.setTabsTypeface(FriendsView.TAB_FRIEND);
+                view.setTabsTypeface(MyFriendsView.TAB_FRIEND);
 
                 // Update Data
                 interactor.getMyFriends(this);
@@ -56,7 +56,7 @@ public class FriendsPresenter implements IFriendsPresenter, IOnFriendsFinishedLi
                 view.getSentRV().setVisibility(View.GONE);
 
                 // Set TextStyle Tabs
-                view.setTabsTypeface(FriendsView.TAB_INVITATIONS);
+                view.setTabsTypeface(MyFriendsView.TAB_INVITATIONS);
 
                 // Update Data
                 interactor.getInvitations("default", this);
@@ -70,7 +70,7 @@ public class FriendsPresenter implements IFriendsPresenter, IOnFriendsFinishedLi
                 view.getSentRV().setVisibility(View.VISIBLE);
 
                 // Set TextStyle Tabs
-                view.setTabsTypeface(FriendsView.TAB_SENT);
+                view.setTabsTypeface(MyFriendsView.TAB_SENT);
 
                 // Update Data
                 interactor.getInvitations("true", this);
@@ -100,7 +100,7 @@ public class FriendsPresenter implements IFriendsPresenter, IOnFriendsFinishedLi
             case R.id.btn_block:
                 break;
             case R.id.btn_remove:
-                final IOnFriendsFinishedListener  listener = this;
+                final IOnMyFriendsFinishedListener listener = this;
                 String  name = friend.getFirstname() + " " + friend.getLastname();
 
                 // Display RemoveFriendDialog

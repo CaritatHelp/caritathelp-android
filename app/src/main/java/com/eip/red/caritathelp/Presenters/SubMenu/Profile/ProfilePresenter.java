@@ -13,19 +13,18 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Friends.Friend;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
-import com.eip.red.caritathelp.Views.SubMenu.Friends.FriendsView;
+import com.eip.red.caritathelp.Views.SubMenu.MyFriends.MyFriendsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyEvents.MyEventsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyOrganisations.MyOrganisationsView;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.Friends.FriendsView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by pierr on 11/05/2016.
@@ -33,13 +32,13 @@ import java.util.List;
 
 public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedListener {
 
-    static final public  int     RESULT_LOAD_IMAGE = 1;
-    static final public  int     RESULT_CAPTURE_IMAGE = 2;
+    static final public int RESULT_LOAD_IMAGE = 1;
+    static final public int RESULT_CAPTURE_IMAGE = 2;
 
-    private ProfileView         view;
-    private ProfileInteractor   interactor;
+    private ProfileView view;
+    private ProfileInteractor interactor;
 
-    private AlertDialog         dialog;
+    private AlertDialog dialog;
 
     public ProfilePresenter(final ProfileView view, User user, int id) {
         this.view = view;
@@ -57,7 +56,7 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                             try {
-                                File    photoFile = Tools.createImageFile();
+                                File photoFile = Tools.createImageFile();
 //                                Uri     photoURI = FileProvider.getUriForFile(view.getContext(), "com.example.android.fileprovider", photoFile);
 //                                File    photoFile = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
                                 Uri photoURI = Uri.fromFile(photoFile);
@@ -82,8 +81,7 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
                             // Start the image capture Intent
                             view.startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
 */
-                        }
-                        else {
+                        } else {
                             // Create intent to Open Image applications like Gallery, Google Photos
                             Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             // Start the Intent
@@ -103,14 +101,29 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
                 if (interactor.isMainUser())
                     dialog.show();
                 break;
-            case R.id.btn_add_friend:
+            case R.id.btn_friendship_friend:
                 view.showProgress();
-                interactor.addFriend(this, view.getProgressBar(), view.getName().toString());
+                interactor.removeFriend(this, view.getProgressBar());
+                break;
+            case R.id.btn_friendship_none:
+                view.showProgress();
+                interactor.addFriend(this, view.getProgressBar());
+                break;
+            case R.id.btn_friendship_confirm:
+                view.showProgress();
+                interactor.replyFriend(this, view.getProgressBar(), "true");
+                break;
+            case R.id.btn_friendship_remove:
+                view.showProgress();
+                interactor.replyFriend(this, view.getProgressBar(), "false");
                 break;
             case R.id.btn_send_message:
                 break;
             case R.id.btn_friends:
-                Tools.replaceView(view, FriendsView.newInstance(interactor.getUserId()), Animation.FADE_IN_OUT, false);
+                if (interactor.isMainUser())
+                    Tools.replaceView(view, MyFriendsView.newInstance(interactor.getUserId()), Animation.FADE_IN_OUT, false);
+                else
+                    Tools.replaceView(view, FriendsView.newInstance(interactor.getUserId()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_organisations:
                 Tools.replaceView(view, MyOrganisationsView.newInstance(interactor.getUserId(), interactor.isMainUser()), Animation.FADE_IN_OUT, false);
@@ -139,7 +152,7 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
         // Set the image
         // Get the Image from data
         Uri selectedImage = data.getData();
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
         // Get the cursor
         Cursor cursor = view.getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -186,25 +199,37 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
     }
 
     @Override
-    public void onSuccessGetProfile(User user, List<Friend> friends) {
+    public void onSuccessGetProfile(User user) {
         // Set User Profile Name
         String name = user.getFirstname() + " " + user.getLastname();
         view.getName().setText(name);
 
-        // Set Add Friend Button Visibility
-        if (friends != null && !isFriend(friends, user.getId()))
-            view.getAddFriend().setVisibility(View.VISIBLE);
+        // Friendship
+        switch (user.getFriendship()) {
+            case User.FRIENDSHIP_YOURSELF:
+                view.getMessageBtn().setVisibility(View.INVISIBLE);
+                break;
+            case User.FRIENDSHIP_NONE:
+                view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
+                view.getMessageBtn().setVisibility(View.VISIBLE);
+                break;
+            case User.FRIENDSHIP_FRIEND:
+                view.getFriendshipBtn(User.FRIENDSHIP_FRIEND).setVisibility(View.VISIBLE);
+                view.getMessageBtn().setVisibility(View.VISIBLE);
+                break;
+            case User.FRIENDSHIP_INVITATION_SENT:
+                view.getFriendshipBtn(User.FRIENDSHIP_INVITATION_SENT).setVisibility(View.VISIBLE);
+                view.getMessageBtn().setVisibility(View.VISIBLE);
+                break;
+            case User.FRIENDSHIP_INVITATIONS_RECEIVED:
+                view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM).setVisibility(View.VISIBLE);
+                view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE).setVisibility(View.VISIBLE);
+                view.getMessageBtn().setVisibility(View.VISIBLE);
+                break;
+        }
 
         // Set ProgressBar Visibility
         view.hideProgress();
-    }
-
-    private boolean isFriend(List<Friend> friends, int userId) {
-        for (Friend friend : friends) {
-            if (friend.getId() == userId)
-                return (true);
-        }
-        return (false);
     }
 
     @Override
@@ -213,18 +238,38 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
     }
 
     @Override
-    public void onSuccessAddFriend(String name) {
-        // Set Create Btn Visibility
-        view.getAddFriend().setVisibility(View.INVISIBLE);
+    public void onSuccessAddFriend() {
+        // Set Friendship Btn Visibility
+        view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.GONE);
+        view.getFriendshipBtn(User.FRIENDSHIP_INVITATION_SENT).setVisibility(View.VISIBLE);
 
         // Set ProgressBar Visibility
         view.hideProgress();
-
-        // Display Dialog Success Message
-        new AlertDialog.Builder(view.getActivity())
-                .setCancelable(true)
-                .setTitle("Invitation envoyée")
-                .setMessage("En attente de la réponse de " + name)
-                .show();
     }
+
+    @Override
+    public void onSuccessRemoveFriend() {
+        // Set Friendship Btn Visibility
+        view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
+        view.getFriendshipBtn(User.FRIENDSHIP_FRIEND).setVisibility(View.GONE);
+
+        // Set ProgressBar Visibility
+        view.hideProgress();
+    }
+
+    @Override
+    public void onSuccessReplyFriend(String acceptance) {
+        // Set Friendship Btn Visibility
+        view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM).setVisibility(View.GONE);
+        view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE).setVisibility(View.GONE);
+
+        if (acceptance.equals("true"))
+            view.getFriendshipBtn(User.FRIENDSHIP_FRIEND).setVisibility(View.VISIBLE);
+        else
+            view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
+
+        // Set ProgressBar Visibility
+        view.hideProgress();
+    }
+
 }

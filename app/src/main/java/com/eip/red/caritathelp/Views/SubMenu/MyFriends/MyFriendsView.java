@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Views.SubMenu.Friends;
+package com.eip.red.caritathelp.Views.SubMenu.MyFriends;
 
 import android.app.AlertDialog;
 import android.graphics.Typeface;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
-import com.eip.red.caritathelp.Presenters.SubMenu.Friends.FriendsPresenter;
+import com.eip.red.caritathelp.Presenters.SubMenu.MyFriends.MyFriendsPresenter;
 import com.eip.red.caritathelp.R;
 
 import java.util.ArrayList;
@@ -26,15 +26,15 @@ import java.util.List;
  * Created by pierr on 19/04/2016.
  */
 
-public class FriendsView extends Fragment implements IFriendView, View.OnClickListener {
+public class MyFriendsView extends Fragment implements IMyFriendView, View.OnClickListener {
 
-    private FriendsPresenter    presenter;
+    private MyFriendsPresenter presenter;
 
     private RecyclerView        friendsRV;
     private RecyclerView        invitationsRV;
     private RecyclerView        sentRV;
 
-    private FriendsRVAdapter        friendsRVA;
+    private MyFriendsRVAdapter      friendsRVA;
     private InvitationsRVAdapter    invitationsRVA;
     private SentRVAdapter           sentRVA;
 
@@ -48,8 +48,8 @@ public class FriendsView extends Fragment implements IFriendView, View.OnClickLi
     private ProgressBar         progressBar;
     private AlertDialog         dialog;
 
-    public static FriendsView newInstance(int userId) {
-        FriendsView    myFragment = new FriendsView();
+    public static MyFriendsView newInstance(int userId) {
+        MyFriendsView myFragment = new MyFriendsView();
 
         Bundle args = new Bundle();
         args.putInt("page", R.string.view_name_submenu_friends);
@@ -68,7 +68,7 @@ public class FriendsView extends Fragment implements IFriendView, View.OnClickLi
         int     userId = getArguments().getInt("user id");
 
         // Init Presenter
-        presenter = new FriendsPresenter(this, mainUser, userId);
+        presenter = new MyFriendsPresenter(this, mainUser, userId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())
@@ -79,7 +79,7 @@ public class FriendsView extends Fragment implements IFriendView, View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_submenu_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_submenu_my_friends, container, false);
 
         // Init UI Element
         tabs = new ArrayList<>();
@@ -146,7 +146,7 @@ public class FriendsView extends Fragment implements IFriendView, View.OnClickLi
         sentRV = (RecyclerView) view.findViewById(R.id.recycler_view_sent);
 
         // Init Adapters
-        friendsRVA = new FriendsRVAdapter(presenter);
+        friendsRVA = new MyFriendsRVAdapter(presenter);
         invitationsRVA = new InvitationsRVAdapter(presenter);
         sentRVA = new SentRVAdapter(presenter);
 
@@ -220,7 +220,7 @@ public class FriendsView extends Fragment implements IFriendView, View.OnClickLi
         return sentRV;
     }
 
-    public FriendsRVAdapter getFriendsRVA() {
+    public MyFriendsRVAdapter getFriendsRVA() {
         return friendsRVA;
     }
 

@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Presenters.SubMenu.Friends;
+package com.eip.red.caritathelp.Presenters.SubMenu.MyFriends;
 
 import com.eip.red.caritathelp.Models.Friends.Friend;
 import com.eip.red.caritathelp.Models.Friends.FriendInvitation;
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by pierr on 19/04/2016.
  */
 
-public interface IOnFriendsFinishedListener {
+public interface IOnMyFriendsFinishedListener {
 
     void onDialog(String title, String msg);
 

@@ -10,6 +10,8 @@ public interface IAccountSettingsView {
 
     void hideProgress();
 
+    void setDialog(String title, String msg);
+
     void setEmailError(String error);
 
     void setCurrentPasswordError(String error);
@@ -17,6 +19,4 @@ public interface IAccountSettingsView {
     void setNewPasswordError(String error);
 
     void setNewPasswordCheckingError(String error);
-
-    void navigateToPreviousFragment();
 }

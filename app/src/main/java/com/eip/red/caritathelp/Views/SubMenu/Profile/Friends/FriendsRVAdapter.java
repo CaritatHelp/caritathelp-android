@@ -1,15 +1,14 @@
-package com.eip.red.caritathelp.Views.SubMenu.Friends;
+package com.eip.red.caritathelp.Views.SubMenu.Profile.Friends;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Friends.Friend;
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Presenters.SubMenu.Friends.FriendsPresenter;
+import com.eip.red.caritathelp.Presenters.SubMenu.Profile.Friends.FriendsPresenter;
 import com.eip.red.caritathelp.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pierr on 23/04/2016.
+ * Created by pierr on 13/07/2016.
  */
 
 public class FriendsRVAdapter extends RecyclerView.Adapter<FriendsRVAdapter.DataObjectHolder> {
@@ -37,8 +36,6 @@ public class FriendsRVAdapter extends RecyclerView.Adapter<FriendsRVAdapter.Data
         CircularImageView   image;
         TextView            name;
         TextView            nb_common_friends;
-        ImageButton         block;
-        ImageButton         remove;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
@@ -47,16 +44,11 @@ public class FriendsRVAdapter extends RecyclerView.Adapter<FriendsRVAdapter.Data
             image = (CircularImageView) itemView.findViewById(R.id.image);
             name = (TextView) itemView.findViewById(R.id.name);
             nb_common_friends = (TextView) itemView.findViewById(R.id.nb_common_friends);
-            block = (ImageButton) itemView.findViewById(R.id.btn_block);
-            remove = (ImageButton) itemView.findViewById(R.id.btn_remove);
 
             // Init Listeners
             image.setOnClickListener(this);
             name.setOnClickListener(this);
             nb_common_friends.setOnClickListener(this);
-            block.setOnClickListener(this);
-            remove.setOnClickListener(this);
-            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -67,7 +59,7 @@ public class FriendsRVAdapter extends RecyclerView.Adapter<FriendsRVAdapter.Data
 
     @Override
     public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_submenu_friends_my_friends_rv_row, parent, false);
+        View                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_submenu_profile_friends_rv_row, parent, false);
         DataObjectHolder    holder = new DataObjectHolder(view);
 
         return holder;

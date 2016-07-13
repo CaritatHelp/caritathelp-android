@@ -48,9 +48,22 @@
                     android:textStyle="bold"
                     android:textColor="@color/primary_text" />
 
-                <!-- Add Friend Bnt -->
+                <!-- Friendship Friend Bnt -->
                 <ImageButton
-                    android:id="@+id/btn_add_friend"
+                    android:id="@+id/btn_friendship_friend"
+                    android:layout_toLeftOf="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_clear_white_36dp"
+                    android:scaleType="centerInside"
+                    android:background="@android:color/transparent"
+                    android:visibility="invisible"/>
+
+                <!-- Friendship None Bnt -->
+                <ImageButton
+                    android:id="@+id/btn_friendship_none"
                     android:layout_toLeftOf="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -61,7 +74,52 @@
                     android:background="@android:color/transparent"
                     android:visibility="invisible"/>
 
-                <!-- Add Friend Bnt -->
+                <!-- Friendship Invitation Sent Bnt -->
+                <ImageButton
+                    android:id="@+id/btn_friendship_invitation_sent"
+                    android:layout_toLeftOf="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_hourglass_empty_white_36dp"
+                    android:scaleType="centerInside"
+                    android:background="@android:color/transparent"
+                    android:visibility="invisible"/>
+
+                <!-- Add Friend Invitation Received Bnt -->
+                <LinearLayout
+                    android:layout_toLeftOf="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true">
+
+                    <ImageButton
+                        android:id="@+id/btn_friendship_confirm"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_done_white_36dp"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent"
+                        android:visibility="invisible"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_friendship_remove"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_clear_white_36dp"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+
+                <!-- Message Bnt -->
                 <ImageButton
                     android:id="@+id/btn_send_message"
                     android:layout_toRightOf="@+id/image"
@@ -71,7 +129,8 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chat_white_36dp"
                     android:scaleType="centerInside"
-                    android:background="@android:color/transparent"/>
+                    android:background="@android:color/transparent"
+                    android:visibility="invisible"/>
 
             </RelativeLayout>
 

@@ -167,10 +167,10 @@
     <string name="organisation_event_management_save">Sauvegarder les changements</string>
 
     <!-- Account Settings View -->
-    <string name="account_settings_toolbar_title">Gestion de compte</string>
+    <string name="account_settings_name">Prénom &amp; Nom</string>
     <string name="account_settings_current_password">Mot de passe actuel</string>
     <string name="account_settings_new_password">Nouveau mot de passe</string>
-    <string name="account_settings_new_password_checking">Retaper le nouveau mot de passe</string>
+    <string name="account_settings_new_password_checking">Retaper votre nouveau mot de passe</string>
     <string name="account_settings_save_changes">Sauvegarder les changements</string>
 
 

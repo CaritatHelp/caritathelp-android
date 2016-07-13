@@ -67,50 +67,10 @@ public class SignInInteractor {
                                     listener.onEmailError("Mail inconnu");
                                 else
                                     listener.onPasswordError("Mauvais mot de passe");
-                            } else {
+                            }
+                            else
                                 listener.onSuccess(result.getResponse());
-
-                                // Get Profile Image
-//                                getProfileImg(result.getResponse(), listener);
-                            }
                         }
-                    }
-                });
-    }
-
-    // First Get the URL of the image
-    // Then Load the image
-    private void getProfileImg(final User user, final IOnSignInFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
-
-        Ion.with(context)
-                .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + user.getId() + Network.API_REQUEST_VOLUNTEERS_MAIN_PICTURE)
-                .setJsonObjectBody(json)
-                .as(new TypeToken<MainPictureJson>() {})
-                .setCallback(new FutureCallback<MainPictureJson>() {
-                    @Override
-                    public void onCompleted(Exception error, MainPictureJson result) {
-                        if (error == null) {
-                            if (result.getStatus() == Network.API_STATUS_ERROR)
-                                listener.onDialog("Statut 400", result.getMessage());
-                            else {
-                                MainPicture picture = result.getResponse();
-
-                                if (picture != null) {
-                                    // Set User Picture
-                                    user.setPicture(result.getResponse());
-
-                                    // Go to MainActivity
-                                    listener.onSuccess(user);
-                                }
-                                else
-                                    listener.onFailureInitProfileImg(user);
-                            }
-                        }
-                        else
-                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
                     }
                 });
     }

@@ -17,6 +17,10 @@ import com.eip.red.caritathelp.Presenters.SubMenu.Profile.ProfilePresenter;
 import com.eip.red.caritathelp.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by pierr on 11/05/2016.
  */
@@ -25,11 +29,12 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
 
     private ProfilePresenter    presenter;
 
-    private CircularImageView   profileImg;
-    private TextView            name;
-    private ImageButton         addFriend;
-    private ProgressBar         progressBar;
-    private AlertDialog         dialog;
+    private CircularImageView               profileImg;
+    private TextView                        name;
+    private HashMap<String, ImageButton>    friendshipBtn;
+    private ImageButton                     messageBtn;
+    private ProgressBar                     progressBar;
+    private AlertDialog                     dialog;
 
     public static ProfileView newInstance(int id) {
         ProfileView    myFragment = new ProfileView();
@@ -68,13 +73,21 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
         // Init UI Element
         profileImg = (CircularImageView) view.findViewById(R.id.image);
         name = (TextView) view.findViewById(R.id.name);
-        addFriend = (ImageButton) view.findViewById(R.id.btn_add_friend);
+        friendshipBtn = new HashMap<>();
+        friendshipBtn.put(User.FRIENDSHIP_FRIEND, (ImageButton) view.findViewById(R.id.btn_friendship_friend));
+        friendshipBtn.put(User.FRIENDSHIP_NONE, (ImageButton) view.findViewById(R.id.btn_friendship_none));
+        friendshipBtn.put(User.FRIENDSHIP_INVITATION_SENT, (ImageButton) view.findViewById(R.id.btn_friendship_invitation_sent));
+        friendshipBtn.put(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM, (ImageButton) view.findViewById(R.id.btn_friendship_confirm));
+        friendshipBtn.put(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE, (ImageButton) view.findViewById(R.id.btn_friendship_remove));
+        messageBtn = (ImageButton) view.findViewById(R.id.btn_send_message);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         // Init Listener
         profileImg.setOnClickListener(this);
-        view.findViewById(R.id.btn_add_friend).setOnClickListener(this);
-        view.findViewById(R.id.btn_send_message).setOnClickListener(this);
+        for (ImageButton imageButton : friendshipBtn.values()) {
+            imageButton.setOnClickListener(this);
+        }
+        messageBtn.setOnClickListener(this);
         view.findViewById(R.id.btn_friends).setOnClickListener(this);
         view.findViewById(R.id.btn_organisations).setOnClickListener(this);
         view.findViewById(R.id.btn_events).setOnClickListener(this);
@@ -134,8 +147,12 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
         return name;
     }
 
-    public ImageButton getAddFriend() {
-        return addFriend;
+    public ImageButton getFriendshipBtn(String key) {
+        return friendshipBtn.get(key);
+    }
+
+    public ImageButton getMessageBtn() {
+        return messageBtn;
     }
 
     public ProgressBar getProgressBar() {

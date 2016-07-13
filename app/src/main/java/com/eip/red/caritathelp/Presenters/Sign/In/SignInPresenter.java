@@ -55,15 +55,6 @@ public class SignInPresenter implements ISignInPresenter, IOnSignInFinishedListe
     }
 
     @Override
-    public void onFailureInitProfileImg(User user) {
-        // Set User Picture to NULL
-        user.setPicture(null);
-
-        // Go to MainActivity
-        onSuccess(user);
-    }
-
-    @Override
     public void onSuccess(User user) {
         view.hideProgress();
 

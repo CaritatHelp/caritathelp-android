@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Presenters.SubMenu.Friends;
+package com.eip.red.caritathelp.Presenters.SubMenu.MyFriends;
 
 import android.content.Context;
 import android.widget.ProgressBar;
@@ -18,19 +18,19 @@ import com.koushikdutta.ion.Ion;
  * Created by pierr on 19/04/2016.
  */
 
-public class FriendsInteractor {
+public class MyFriendsInteractor {
 
     private Context context;
     private User    mainUser;
     private int     userId;
 
-    public FriendsInteractor(Context context, User mainUser, int userId) {
+    public MyFriendsInteractor(Context context, User mainUser, int userId) {
         this.context = context;
         this.mainUser = mainUser;
         this.userId = userId;
     }
 
-    public void getMyFriends(final IOnFriendsFinishedListener listener) {
+    public void getMyFriends(final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
 
         json.addProperty("token", mainUser.getToken());
@@ -55,7 +55,7 @@ public class FriendsInteractor {
                 });
     }
 
-    public void getInvitations(final String sent, final IOnFriendsFinishedListener listener) {
+    public void getInvitations(final String sent, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
 
         json.addProperty("token", mainUser.getToken());
@@ -85,7 +85,7 @@ public class FriendsInteractor {
 
     }
 
-    public void removeFriend(int unfriendId, ProgressBar progressBar, final IOnFriendsFinishedListener listener) {
+    public void removeFriend(int unfriendId, ProgressBar progressBar, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
 
         json.addProperty("token", mainUser.getToken());
@@ -112,7 +112,7 @@ public class FriendsInteractor {
                 });
     }
 
-    public void invitationReply(final FriendInvitation friendInvitation, final String acceptance, final IOnFriendsFinishedListener listener) {
+    public void invitationReply(final FriendInvitation friendInvitation, final String acceptance, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
 
         json.addProperty("token", mainUser.getToken());

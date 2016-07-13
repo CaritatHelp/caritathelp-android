@@ -3,9 +3,12 @@ package com.eip.red.caritathelp.Views.SubMenu.AccountSettings;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -30,13 +33,12 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
     static final public int    PASSWORD_NEW = 4;
     static final public int    PASSWORD_NEW_CHECKING = 5;
 
-    private User    user;
-
     private AccountSettingsPresenter    presenter;
 
-    private HashMap<Integer, EditText>   editTexts;
-
-    private ProgressBar progressBar;
+    private HashMap<Integer, EditText>  form;
+    private Button                      saveBtn;
+    private ProgressBar                 progressBar;
+    private AlertDialog                 dialog;
 
     public static Fragment newInstance() {
         AccountSettingsView fragment = new AccountSettingsView();
@@ -53,10 +55,15 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
         super.onCreate(savedInstanceState);
 
         // Get User  Model
-        user = ((MainActivity) getActivity()).getModelManager().getUser();
+        User    user = ((MainActivity) getActivity()).getModelManager().getUser();
 
         // Init Presenter
         presenter = new AccountSettingsPresenter(this, user);
+
+        // Init Dialog
+        dialog = new AlertDialog.Builder(getContext())
+                .setCancelable(true)
+                .create();
     }
 
     @Override
@@ -64,32 +71,40 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_submenu_account_settings, container, false);
 
-//        // Init SearchBar
-//        ((MainActivity) getActivity()).getToolBar().getSearchBar().setVisibility(View.GONE);
-
-        // Init Edit Text
-        EditText firsname = (EditText) view.findViewById(R.id.firstname);
-        EditText lastname = (EditText) view.findViewById(R.id.lastname);
-        EditText mail = (EditText) view.findViewById(R.id.mail);
-
-        firsname.setHint("Prénom : " +  user.getFirstname());
-        lastname.setHint("Nom : " + user.getLastname());
-        mail.setHint("E-mail : " + user.getMail());
-
-        // Init HashMap Texts
-        editTexts = new HashMap<>();
-        editTexts.put(FIRSTNAME, firsname);
-        editTexts.put(LASTNAME, lastname);
-        editTexts.put(MAIL, mail);
-        editTexts.put(PASSWORD_CURRENT, (EditText) view.findViewById(R.id.current_password));
-        editTexts.put(PASSWORD_NEW, (EditText) view.findViewById(R.id.new_password));
-        editTexts.put(PASSWORD_NEW_CHECKING, (EditText) view.findViewById(R.id.new_password_verification));
+        // Init UI Element
+        form = new HashMap<>();
+        form.put(FIRSTNAME, (EditText) view.findViewById(R.id.firstname));
+        form.put(LASTNAME, (EditText) view.findViewById(R.id.lastname));
+        form.put(MAIL, (EditText) view.findViewById(R.id.mail));
+        form.put(PASSWORD_CURRENT, (EditText) view.findViewById(R.id.current_password));
+        form.put(PASSWORD_NEW, (EditText) view.findViewById(R.id.new_password));
+        form.put(PASSWORD_NEW_CHECKING, (EditText) view.findViewById(R.id.new_password_verification));
+        saveBtn = (Button) view.findViewById(R.id.btn_save);
+        progressBar = (ProgressBar) view.findViewById(R.id.account_settings_progress_bar);
 
         // Init Listener
         view.findViewById(R.id.btn_save).setOnClickListener(this);
+        for (EditText editText : form.values()) {
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        // Init Progress Bar
-        progressBar = (ProgressBar) view.findViewById(R.id.account_settings_progress_bar);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.length() > 0)
+                        saveBtn.setVisibility(View.VISIBLE);
+                    else
+                        saveBtn.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
 
         return (view);
     }
@@ -100,13 +115,15 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
 
         // Init ToolBar Title
         getActivity().setTitle(getArguments().getInt("page"));
+
+        // Init User Profile
+        presenter.getUser();
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_save)
-            presenter.saveModification(editTexts);
+        presenter.onClick(v.getId());
     }
 
     @Override
@@ -116,68 +133,37 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void setDialog(String title, String msg) {
+        dialog.setTitle(title);
+        dialog.setMessage(msg);
+        dialog.show();
     }
 
     @Override
     public void setEmailError(String error) {
-        editTexts.get(MAIL).setError(error);
+        form.get(MAIL).setError(error);
     }
 
     @Override
     public void setCurrentPasswordError(String error) {
-        editTexts.get(PASSWORD_CURRENT).setError(error);
+        form.get(PASSWORD_CURRENT).setError(error);
     }
 
     @Override
     public void setNewPasswordError(String error) {
-        editTexts.get(PASSWORD_NEW).setError(error);
+        form.get(PASSWORD_NEW).setError(error);
     }
 
     @Override
     public void setNewPasswordCheckingError(String error) {
-        editTexts.get(PASSWORD_NEW_CHECKING).setError(error);
+        form.get(PASSWORD_NEW_CHECKING).setError(error);
     }
 
-    @Override
-    public void navigateToPreviousFragment() {
-        refreshEditText(getView());
-
-        // Display a dialog box
-        new AlertDialog.Builder(getActivity().getBaseContext())
-                .setMessage("Vos changements ont bien été enregistrés")
-                .show();
+    public HashMap<Integer, EditText> getForm() {
+        return form;
     }
-
-    private void refreshEditText(View view) {
-        EditText    firsname = (EditText) view.findViewById(R.id.firstname);
-        EditText    lastname = (EditText) view.findViewById(R.id.lastname);
-        EditText    mail = (EditText) view.findViewById(R.id.mail);
-        EditText    currentP = (EditText) view.findViewById(R.id.current_password);
-        EditText    newP = (EditText) view.findViewById(R.id.new_password);
-        EditText    newCP = (EditText) view.findViewById(R.id.new_password_verification);
-
-        firsname.invalidate();
-        lastname.invalidate();
-        mail.invalidate();
-        currentP.invalidate();
-        newP.invalidate();
-        newCP.invalidate();
-
-        firsname.getText().clear();
-        lastname.getText().clear();
-        mail.getText().clear();
-        currentP.getText().clear();
-        newP.getText().clear();
-        newCP.getText().clear();
-
-        firsname.setHint("Prénom : " + user.getFirstname());
-        lastname.setHint("Nom : " + user.getLastname());
-        mail.setHint("E-mail : " + user.getMail());
-        currentP.setHint("Mot de passe actuel");
-        newP.setHint("Nouveau mot de passe");
-        newCP.setHint("Retapez le nouveau mot de passe");
-
-    }
-
 }

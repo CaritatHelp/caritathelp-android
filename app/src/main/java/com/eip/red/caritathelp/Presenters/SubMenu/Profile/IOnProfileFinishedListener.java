@@ -16,9 +16,13 @@ public interface IOnProfileFinishedListener {
 
     void onSuccessUploadProfileImg();
 
-    void onSuccessGetProfile(User user, List<Friend> friend);
+    void onSuccessGetProfile(User user);
 
     void onSuccessGetNews();
 
-    void onSuccessAddFriend(String name);
+    void onSuccessAddFriend();
+
+    void onSuccessRemoveFriend();
+
+    void onSuccessReplyFriend(String acceptance);
 }

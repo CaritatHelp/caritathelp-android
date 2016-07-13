@@ -9,6 +9,7 @@ import java.util.HashMap;
  */
 public interface IAccountSettingsPresenter {
 
-    void saveModification(HashMap<Integer, EditText> modification);
+    void getUser();
 
+    void onClick(int viewId);
 }

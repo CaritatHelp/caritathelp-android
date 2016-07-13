@@ -37,7 +37,7 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_MY_EVENTS = "/volunteers/";
 
     static final public  String     API_REQUEST_SUBSCRIBE = "volunteers";
-    static final public  String     API_REQUEST_ACCOUNT_SETTINGS_MODIFICATION = "volunteers/";
+    static final public  String     API_REQUEST_ACCOUNT_SETTINGS_MODIFICATION = "volunteers";
     static final public  String     API_REQUEST_VOLUNTEER_DELETE_ACCOUNT = "volunteers/";
 
     /* NOTIFICATIONS */

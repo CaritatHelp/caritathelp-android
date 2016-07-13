@@ -8,7 +8,7 @@ import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.SubMenu.AccountSettings.AccountSettingsView;
-import com.eip.red.caritathelp.Views.SubMenu.Friends.FriendsView;
+import com.eip.red.caritathelp.Views.SubMenu.MyFriends.MyFriendsView;
 import com.eip.red.caritathelp.Views.SubMenu.Invitations.InvitationsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyEvents.MyEventsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyOrganisations.MyOrganisationsView;
@@ -47,7 +47,7 @@ public class SubMenuPresenter implements ISubMenuPresenter {
                 Tools.replaceView(view, MyEventsView.newInstance(interactor.getUserId(), true), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.submenu_friends:
-                Tools.replaceView(view, FriendsView.newInstance(interactor.getUserId()), Animation.FADE_IN_OUT, false);
+                Tools.replaceView(view, MyFriendsView.newInstance(interactor.getUserId()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.submenu_invitations:
                 Tools.replaceView(view, InvitationsView.newInstance(), Animation.FADE_IN_OUT, false);
