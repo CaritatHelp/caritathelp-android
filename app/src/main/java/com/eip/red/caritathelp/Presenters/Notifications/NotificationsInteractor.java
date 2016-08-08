@@ -19,7 +19,8 @@ import com.koushikdutta.ion.Ion;
 
 public class NotificationsInteractor {
 
-    private Context context;private User    user;
+    private Context context;
+    private User    user;
 
     public NotificationsInteractor(Context context, User user) {
         this.context = context;

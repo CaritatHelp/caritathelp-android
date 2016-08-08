@@ -12,6 +12,15 @@ import java.io.Serializable;
 
 public class Organisation implements Serializable {
 
+    public static final String ORGANISATION_OWNER = "owner";
+    public static final String ORGANISATION_ADMIN = "admin";
+    public static final String ORGANISATION_MEMBER = "member";
+    public static final String ORGANISATION_NONE = "none";
+    public static final String ORGANISATION_INVITED = "invited";
+    public static final String ORGANISATION_INVITED_CONFIRM = "invited confirm";
+    public static final String ORGANISATION_INVITED_REMOVE = "invited remove";
+    public static final String ORGANISATION_WAITING = "waiting";
+
     private int     id;
     private String  name;
     private String  description;

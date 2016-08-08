@@ -1,6 +1,6 @@
 package com.eip.red.caritathelp.Views.Organisation.Events.Event;
 
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
 
 import java.util.List;
 

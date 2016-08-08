@@ -114,7 +114,7 @@ public class FriendsView extends Fragment implements IFriendsView {
         friendsRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         // Set Options to enable toolbar display/hide
-        friendsRV.setNestedScrollingEnabled(false);
+        friendsRV.setNestedScrollingEnabled(true);
         friendsRV.setHasFixedSize(false);
 
         // Init Dividers (between items)

@@ -7,9 +7,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.eip.red.caritathelp.Models.Home.News;
-import com.eip.red.caritathelp.Models.Home.NewsList;
+import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.R;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by pierr on 05/04/2016.
@@ -17,10 +25,15 @@ import com.eip.red.caritathelp.R;
 
 public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObjectHolder> {
 
-    private NewsList    newsList;
+    private List<News>          newsList;
+    private DateTimeFormatter   formatter;
+    private DateTimeFormatter   newFormatter;
 
-    public HomeRVAdapter(NewsList newsList) {
-        this.newsList = newsList;
+
+    public HomeRVAdapter() {
+        newsList = new ArrayList<>();
+        formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withLocale(Locale.FRANCE);
+        newFormatter = DateTimeFormat.forPattern("dd MMMM 'à' HH:mm").withLocale(Locale.FRANCE);
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -31,10 +44,10 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObject
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.news_image);
-            title = (TextView) itemView.findViewById(R.id.news_title);
-            date = (TextView) itemView.findViewById(R.id.news_date);
-            description = (TextView) itemView.findViewById(R.id.news_description);
+            image = (ImageView) itemView.findViewById(R.id.image);
+            title = (TextView) itemView.findViewById(R.id.title);
+            date = (TextView) itemView.findViewById(R.id.date);
+            description = (TextView) itemView.findViewById(R.id.description);
             itemView.setOnClickListener(this);
         }
 
@@ -57,27 +70,45 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObject
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        News    news = newsList.getNews(position);
+        News        news = newsList.get(position);
+        DateTime    dt = formatter.parseDateTime(news.getCreated_at());
 
-        if (news != null) {
-            holder.image.setImageResource(news.getLogo());
-            holder.title.setText(news.getTitle());
-            holder.date.setText(news.getDate());
-            holder.description.setText(news.getDescription());
+        // Set Image & Title & description
+        switch (news.getNews_type()) {
+            case News.TYPE_VOLUNTEER:
+                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getVolunteer_thumb_path(), R.drawable.profile_example);
+                holder.title.setText(news.getVolunteer_name());
+                holder.description.setText(news.getContent());
+                break;
+            case News.TYPE_ORGANISATION:
+                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getAssoc_thumb_path(), R.drawable.profile_example);
+                holder.title.setText(news.getAssoc_name());
+                holder.description.setText(news.getContent());
+                break;
+            case News.TYPE_EVENT:
+                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getEvent_thumb_path(), R.drawable.profile_example);
+                holder.title.setText(news.getEvent_thumb_path());
+                holder.description.setText(news.getContent());
+                break;
+            default:
+                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getVolunteer_thumb_path(), R.drawable.profile_example);
+                holder.title.setText(news.getVolunteer_name());
+                holder.description.setText(news.getContent());
+                break;
         }
+
+        // Set Date
+        holder.date.setText(newFormatter.print(dt));
     }
 
     @Override
     public int getItemCount() {
-        return (newsList.getNews().size());
+        return newsList.size();
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    public void update() {
+    public void update(List<News> newsList2) {
+        newsList.clear();
+        newsList.addAll(newsList2);
         notifyDataSetChanged();
     }
 }

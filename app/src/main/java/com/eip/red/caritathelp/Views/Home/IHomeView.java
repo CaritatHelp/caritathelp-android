@@ -1,5 +1,6 @@
 package com.eip.red.caritathelp.Views.Home;
 
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public interface IHomeView {
 
     void setDialog(String title, String msg);
 
-    void updateRecyclerView();
+    void updateRecyclerViewData(List<News> newsList);
 }

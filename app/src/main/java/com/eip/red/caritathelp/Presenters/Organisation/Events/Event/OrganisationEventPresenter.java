@@ -1,14 +1,9 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event;
 
-import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 
-import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Home.News;
-import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Guests.OrganisationEventGuestsView;

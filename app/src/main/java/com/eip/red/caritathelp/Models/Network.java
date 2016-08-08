@@ -54,7 +54,15 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_FRIENDSHIP_REPLY = "/friendship/reply";
 
     /* MEMBERSHIP */
+    static final public  String     API_REQUEST_MEMBERSHIP_KICK = "/membership/kick";
+    static final public  String     API_REQUEST_MEMBERSHIP_UPGRADE = "/membership/upgrade";
+    static final public  String     API_REQUEST_MEMBERSHIP_JOIN = "/membership/join";
+    static final public  String     API_REQUEST_MEMBERSHIP_INVITE = "/membership/invite";
     static final public  String     API_REQUEST_MEMBERSHIP_REPLY_INVITE = "/membership/reply_invite";
+    static final public  String     API_REQUEST_MEMBERSHIP_LEAVE = "/membership/leave";
+    static final public  String     API_REQUEST_MEMBERSHIP_INVITED = "/membership/invited";
+    static final public  String     API_REQUEST_MEMBERSHIP_UNINVITE = "/membership/uninvite";
+    static final public  String     API_REQUEST_MEMBERSHIP_WAITING = "/membership/waiting";
 
     /* GUESTS */
     static final public  String     API_REQUEST_GUESTS_REPLY_INVITE = "/guests/reply_invite";
@@ -64,6 +72,10 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_ORGANISATIONS_INVITED = "/associations/invited";
     static final public  String     API_REQUEST_EVENTS_INVITED = "/events/invited";
 
+    /* NEWS */
+    static final public  String     API_REQUEST_NEWS = "/news";
+    static final public  String     API_REQUEST_NEWS_WALL_MESSAGE = "/wall_message";
+    static final public  String     API_REQUEST_NEWS_COMMENTS = "/comments";
 
 
     /* PICTURE */

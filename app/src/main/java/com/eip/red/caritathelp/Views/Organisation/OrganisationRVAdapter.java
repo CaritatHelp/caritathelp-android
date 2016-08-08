@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Presenters.Organisation.OrganisationPresenter;
 import com.eip.red.caritathelp.R;
 
@@ -61,13 +61,12 @@ public class OrganisationRVAdapter extends RecyclerView.Adapter<OrganisationRVAd
 
     @Override
     public int getItemCount() {
-        return (10);
+        return newsList.size();
     }
 
-    public void update(List<News> news) {
+    public void update(List<News> newsList2) {
         newsList.clear();
-        newsList.addAll(news);
-
+        newsList.addAll(newsList2);
         notifyDataSetChanged();
     }
 

@@ -1,6 +1,6 @@
 package com.eip.red.caritathelp.Views.Organisation;
 
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IOrganisationView {
 
-    void initView(String right);
+    void setLogoPosition(String right);
 
     void showProgress();
 

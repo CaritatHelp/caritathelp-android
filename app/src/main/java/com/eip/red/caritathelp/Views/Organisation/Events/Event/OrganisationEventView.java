@@ -12,16 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
-import com.eip.red.caritathelp.Models.Home.News;
-import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.OrganisationEventPresenter;
 import com.eip.red.caritathelp.R;
-import com.eip.red.caritathelp.Tools;
 
 import java.util.List;
 
@@ -146,7 +143,7 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
 
     @Override
     public void updateRecyclerView(List<News> news) {
-        ((OrganisationEventRVAdapter) recyclerView.getAdapter()).update(news);
+//        ((OrganisationEventRVAdapter) recyclerView.getAdapter()).update(news);
     }
 
     @Override

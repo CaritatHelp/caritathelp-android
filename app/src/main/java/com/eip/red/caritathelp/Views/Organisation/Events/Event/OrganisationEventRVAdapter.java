@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,12 +18,10 @@ import java.util.List;
  */
 public class OrganisationEventRVAdapter extends RecyclerView.Adapter<OrganisationEventRVAdapter.EventObjectHolder> {
 
-//    private List<Event> visibleObjects;
-//    private List<Event> allObjects;
-    
+    private List<News> newsList;
+
     public OrganisationEventRVAdapter() {
-//        visibleObjects = new ArrayList<>();
-//        allObjects = new ArrayList<>();
+        newsList = new ArrayList<>();
     }
 
     public static class EventObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -33,10 +32,10 @@ public class OrganisationEventRVAdapter extends RecyclerView.Adapter<Organisatio
 
         public EventObjectHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.news_image);
-            title = (TextView) itemView.findViewById(R.id.news_title);
-            date = (TextView) itemView.findViewById(R.id.news_date);
-            description = (TextView) itemView.findViewById(R.id.news_description);
+            image = (ImageView) itemView.findViewById(R.id.image);
+            title = (TextView) itemView.findViewById(R.id.title);
+            date = (TextView) itemView.findViewById(R.id.date);
+            description = (TextView) itemView.findViewById(R.id.description);
             itemView.setOnClickListener(this);
         }
 
@@ -64,7 +63,7 @@ public class OrganisationEventRVAdapter extends RecyclerView.Adapter<Organisatio
 
     @Override
     public int getItemCount() {
-        return (10);
+        return newsList.size();
     }
 
     @Override
@@ -72,13 +71,9 @@ public class OrganisationEventRVAdapter extends RecyclerView.Adapter<Organisatio
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public void update(List<News> news) {
-//        visibleObjects.clear();
-//        allObjects.clear();
-//
-//        visibleObjects.addAll(events);
-//        allObjects.addAll(events);
-//
-//        notifyDataSetChanged();
+    public void update(List<News> newsList2) {
+        newsList.clear();
+        newsList.addAll(newsList2);
+        notifyDataSetChanged();
     }
 }

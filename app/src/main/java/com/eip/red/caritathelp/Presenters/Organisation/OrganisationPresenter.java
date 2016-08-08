@@ -1,8 +1,11 @@
 package com.eip.red.caritathelp.Presenters.Organisation;
 
+import android.view.View;
+
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Home.News;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.News.News;
+import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.OrganisationEventsView;
@@ -35,7 +38,29 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
             case R.id.btn_management:
                 Tools.replaceView(view, OrganisationManagementView.newInstance(interactor.getOrganisationId()), Animation.FADE_IN_OUT, false);
                 break;
-            case R.id.btn_join:
+            case R.id.btn_membership_owner:
+                view.showProgress();
+                interactor.leave(this);
+                break;
+            case R.id.btn_membership_admin:
+                view.showProgress();
+                interactor.leave(this);
+                break;
+            case R.id.btn_membership_member:
+                view.showProgress();
+                interactor.leave(this);
+                break;
+            case R.id.btn_membership_none:
+                view.showProgress();
+                interactor.join(this);
+                break;
+            case R.id.btn_membership_confirm:
+                view.showProgress();
+                interactor.reply(this, "true");
+                break;
+            case R.id.btn_membership_remove:
+                view.showProgress();
+                interactor.reply(this, "false");
                 break;
             case R.id.btn_follow:
                 break;
@@ -73,23 +98,81 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
     }
 
     @Override
-    public void onOrganisationRequestSuccess(String thumb, String right) {
-        // Set Progress Bar Visibility
-        view.hideProgress();
-
+    public void onSuccessGetOrganisation(Organisation organisation) {
         // Set Profle Picture
-        if (thumb != null)
-            Network.loadImage(view.getContext(), view.getLogo(), Network.API_LOCATION_2 + thumb, R.drawable.profile_example);
-        else
-            view.getLogo().setImageResource(R.drawable.profile_example);
+        Network.loadImage(view.getContext(), view.getLogo(), Network.API_LOCATION_2 + organisation.getName(), R.drawable.profile_example);
 
         // Set Management Button Visibility
-        view.initView(right);
+        view.setLogoPosition(organisation.getRights());
+
+        // Set Membership Button Visibility
+        switch (organisation.getRights()) {
+            case Organisation.ORGANISATION_OWNER:
+                view.getMembershipBtn(Organisation.ORGANISATION_OWNER).setVisibility(View.VISIBLE);
+                break;
+            case Organisation.ORGANISATION_ADMIN:
+                view.getMembershipBtn(Organisation.ORGANISATION_OWNER).setVisibility(View.VISIBLE);
+                break;
+            case Organisation.ORGANISATION_MEMBER:
+                view.getMembershipBtn(Organisation.ORGANISATION_MEMBER).setVisibility(View.VISIBLE);
+                break;
+            case Organisation.ORGANISATION_NONE:
+                view.getMembershipBtn(Organisation.ORGANISATION_NONE).setVisibility(View.VISIBLE);
+                break;
+            case Organisation.ORGANISATION_INVITED:
+                view.getMembershipBtn(Organisation.ORGANISATION_INVITED_CONFIRM).setVisibility(View.VISIBLE);
+                view.getMembershipBtn(Organisation.ORGANISATION_INVITED_REMOVE).setVisibility(View.VISIBLE);
+                break;
+            case Organisation.ORGANISATION_WAITING:
+                view.getMembershipBtn(Organisation.ORGANISATION_WAITING).setVisibility(View.VISIBLE);
+                break;
+        }
+
+        // Set Progress Bar Visibility
+        view.hideProgress();
+    }
+
+    @Override
+    public void onSuccessLeave() {
+        // Set Membership Btn Visibility
+        view.getMembershipBtn(Organisation.ORGANISATION_OWNER).setVisibility(View.GONE);
+        view.getMembershipBtn(Organisation.ORGANISATION_ADMIN).setVisibility(View.GONE);
+        view.getMembershipBtn(Organisation.ORGANISATION_MEMBER).setVisibility(View.GONE);
+        view.getMembershipBtn(Organisation.ORGANISATION_NONE).setVisibility(View.VISIBLE);
+
+        // Set Progress Bar Visibility
+        view.hideProgress();
+    }
+
+    @Override
+    public void onSuccessJoin() {
+        // Set Membership Btn Visibility
+        view.getMembershipBtn(Organisation.ORGANISATION_NONE).setVisibility(View.GONE);
+        view.getMembershipBtn(Organisation.ORGANISATION_WAITING).setVisibility(View.VISIBLE);
+
+        // Set Progress Bar Visibility
+        view.hideProgress();
+    }
+
+    @Override
+    public void onSuccessReply(String acceptance) {
+        // Set Membership Btn Visibility
+        view.getMembershipBtn(Organisation.ORGANISATION_INVITED_CONFIRM).setVisibility(View.GONE);
+        view.getMembershipBtn(Organisation.ORGANISATION_INVITED_REMOVE).setVisibility(View.GONE);
+
+        if (acceptance.equals("true"))
+            view.getMembershipBtn(Organisation.ORGANISATION_MEMBER).setVisibility(View.VISIBLE);
+        else
+            view.getMembershipBtn(Organisation.ORGANISATION_NONE).setVisibility(View.VISIBLE);
+
+        // Set Progress Bar Visibility
+        view.hideProgress();
     }
 
     @Override
     public void onNewsRequestSuccess(List<News> newsList) {
+//        view.updateRV(newsList);
         view.hideProgress();
-        view.updateRV(newsList);
     }
+
 }

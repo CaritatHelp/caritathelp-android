@@ -1,6 +1,6 @@
 package com.eip.red.caritathelp.Presenters.Organisation;
 
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
 
 import java.util.List;
@@ -13,7 +13,13 @@ public interface IOnOrganisationFinishedListener {
 
     void onDialogError(String title, String msg);
 
-    void onOrganisationRequestSuccess(String thumb, String right);
+    void onSuccessGetOrganisation(Organisation organisation);
+
+    void onSuccessLeave();
+
+    void onSuccessJoin();
+
+    void onSuccessReply(String acceptance);
 
     void onNewsRequestSuccess(List<News> newsList);
 }

@@ -1,9 +1,5 @@
 package com.eip.red.caritathelp.Views.Organisation.Events.Event.Management;
 
-import com.eip.red.caritathelp.Models.Home.News;
-
-import java.util.List;
-
 /**
  * Created by pierr on 14/04/2016.
  */

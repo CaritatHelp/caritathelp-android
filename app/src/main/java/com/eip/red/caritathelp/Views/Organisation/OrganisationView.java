@@ -13,7 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
+import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
 import com.eip.red.caritathelp.Presenters.Organisation.OrganisationPresenter;
@@ -21,6 +22,7 @@ import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,11 +33,12 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
     private OrganisationPresenter   presenter;
 
-    private CircularImageView   logo;
-    private ImageButton         managementBtn;
-    private RecyclerView        recyclerView;
-    private ProgressBar         progressBar;
-    private AlertDialog         dialog;
+    private CircularImageView               logo;
+    private HashMap<String, ImageButton>    membershipBtn;
+    private ImageButton                     managementBtn;
+    private RecyclerView                    recyclerView;
+    private ProgressBar                     progressBar;
+    private AlertDialog                     dialog;
 
     public static OrganisationView newInstance(int id, String name) {
         OrganisationView    myFragment = new OrganisationView();
@@ -73,6 +76,14 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
         // Init UI Element
         logo = (CircularImageView) view.findViewById(R.id.logo);
+        membershipBtn = new HashMap<>();
+        membershipBtn.put(Organisation.ORGANISATION_OWNER, (ImageButton) view.findViewById(R.id.btn_membership_owner));
+        membershipBtn.put(Organisation.ORGANISATION_ADMIN, (ImageButton) view.findViewById(R.id.btn_membership_admin));
+        membershipBtn.put(Organisation.ORGANISATION_MEMBER, (ImageButton) view.findViewById(R.id.btn_membership_member));
+        membershipBtn.put(Organisation.ORGANISATION_NONE, (ImageButton) view.findViewById(R.id.btn_membership_none));
+        membershipBtn.put(Organisation.ORGANISATION_INVITED_CONFIRM, (ImageButton) view.findViewById(R.id.btn_membership_confirm));
+        membershipBtn.put(Organisation.ORGANISATION_INVITED_REMOVE, (ImageButton) view.findViewById(R.id.btn_membership_remove));
+        membershipBtn.put(Organisation.ORGANISATION_WAITING, (ImageButton) view.findViewById(R.id.btn_membership_waiting));
         managementBtn = (ImageButton) view.findViewById(R.id.btn_management);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
@@ -80,7 +91,9 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         initRecyclerView(view);
 
         // Init Listener
-        view.findViewById(R.id.btn_join).setOnClickListener(this);
+        for (ImageButton imageButton : membershipBtn.values()) {
+            imageButton.setOnClickListener(this);
+        }
         view.findViewById(R.id.btn_follow).setOnClickListener(this);
         view.findViewById(R.id.btn_post).setOnClickListener(this);
         view.findViewById(R.id.btn_members).setOnClickListener(this);
@@ -127,7 +140,7 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
 
     @Override
-    public void initView(String right) {
+    public void setLogoPosition(String right) {
         if (!right.equals("owner")) {
             // Set Logo Position
             logo.bringToFront();
@@ -170,7 +183,13 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
     }
 
+
     public CircularImageView getLogo() {
         return logo;
     }
+
+    public ImageButton getMembershipBtn(String key) {
+        return membershipBtn.get(key);
+    }
+
 }

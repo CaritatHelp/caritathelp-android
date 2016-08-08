@@ -1,7 +1,7 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event;
 
-import com.eip.red.caritathelp.Models.Home.News;
-import com.eip.red.caritathelp.Models.Organisation.Event;
+
+import com.eip.red.caritathelp.Models.News.News;
 
 import java.util.List;
 
