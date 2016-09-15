@@ -2,6 +2,7 @@ package com.eip.red.caritathelp.Presenters.Organisation.Events.Event;
 
 
 import com.eip.red.caritathelp.Models.News.News;
+import com.eip.red.caritathelp.Models.Organisation.Event;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface IOnOrganisationEventFinishedListener {
 
     void onDialog(String title, String msg);
 
-    void onSuccessGetEvent(String title, String rights);
+    void onSuccessGetData(Event event, List<News> newsList);
 
     void onSuccessGetNews(List<News> newsList);
 }

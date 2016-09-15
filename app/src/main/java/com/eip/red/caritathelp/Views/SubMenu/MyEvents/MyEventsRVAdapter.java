@@ -45,8 +45,8 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
         allObjects = new ArrayList<>();
 
         // Init DateTimeFormatter
-        //            DateTimeZone        timeZone = DateTimeZone.forID("Europe/Paris");
-        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");//.withZone(timeZone);
+//        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");//.withZone(timeZone);
+        formatter = DateTimeFormat.forPattern("yyyy-MM-dd' 'HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
         newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
     }
 
@@ -97,6 +97,7 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
         holder.title.setText(Tools.upperCaseFirstLetter(title));
 
         // Set date
+        System.out.println("Date : " + date);
         if (date != null && !TextUtils.isEmpty(date)) {
             DateTime    dt = formatter.parseDateTime(date);
             holder.date.setText(newFormatter.print(dt));

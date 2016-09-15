@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ import com.eip.red.caritathelp.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by pierr on 18/03/2016.
  */
@@ -30,12 +34,18 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
 
     private OrganisationEventPresenter presenter;
 
-    private RecyclerView    recyclerView;
-    private ImageButton     joinBtn;
-    private ImageButton     quitBtn;
-    private ImageButton     managementBtn;
-    private ProgressBar     progressBar;
-    private AlertDialog     dialog;
+    private OrganisationEventRVAdapter  adapter;
+    private AlertDialog                 dialog;
+
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.btn_post) ImageButton postBtn;
+    @BindView(R.id.btn_guests) ImageButton guestBtn;
+    @BindView(R.id.btn_informations) ImageButton informationsBtn;
+    @BindView(R.id.btn_join) ImageButton joinBtn;
+    @BindView(R.id.btn_quit) ImageButton quitBtn;
+    @BindView(R.id.btn_management) ImageButton managementBtn;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     public static OrganisationEventView newInstance(int eventId, String title) {
         OrganisationEventView    myFragment = new OrganisationEventView();
@@ -71,26 +81,10 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
         // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_event, container, false);
 
-        // Init UI Element
-        joinBtn = (ImageButton) view.findViewById(R.id.btn_join);
-        quitBtn = (ImageButton) view.findViewById(R.id.btn_quit);
-        managementBtn = (ImageButton) view.findViewById(R.id.btn_management);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
         // Init Image Filter (Darken the image)
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         LightingColorFilter lcf = new LightingColorFilter(0xFF888888, 0x00222222);
         imageView.setColorFilter(lcf);
-
-        // Init RecyclerView
-        initRecyclerView(view);
-
-        // Init Listener
-        joinBtn.setOnClickListener(this);
-        quitBtn.setOnClickListener(this);
-        view.findViewById(R.id.btn_guests).setOnClickListener(this);
-        view.findViewById(R.id.btn_informations).setOnClickListener(this);
-        managementBtn.setOnClickListener(this);
 
         return (view);
     }
@@ -98,18 +92,38 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+
+        initSwipeRefreshLayout();
+        initRecyclerView();
+
+        // Init Listener
+        postBtn.setOnClickListener(this);
+        joinBtn.setOnClickListener(this);
+        quitBtn.setOnClickListener(this);
+        guestBtn.setOnClickListener(this);
+        informationsBtn.setOnClickListener(this);
+        managementBtn.setOnClickListener(this);
 
         // Init Event Model
-        presenter.getEvent();
-
-        // Init News Model
-//        presenter.getNews();
+        presenter.getData();
     }
 
-    private void initRecyclerView(View view) {
+    private void initSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getNews(true);
+            }
+        });
+    }
+
+    private void initRecyclerView() {
         // Init RecyclerView
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(new OrganisationEventRVAdapter());
+        adapter = new OrganisationEventRVAdapter(presenter);
+        recyclerView.setAdapter(adapter);
 
         // Init LayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -132,18 +146,20 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.INVISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void setDialogError(String title, String msg) {
+    public void setDialog(String title, String msg) {
         dialog.setTitle(title);
         dialog.setMessage(msg);
         dialog.show();
+
     }
 
     @Override
-    public void updateRecyclerView(List<News> news) {
-//        ((OrganisationEventRVAdapter) recyclerView.getAdapter()).update(news);
+    public void updateRV(List<News> newsList) {
+        adapter.update(newsList);
     }
 
     @Override

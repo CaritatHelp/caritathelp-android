@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment    fragment = Tools.getLastFragment(myPagerAdapter.getFragment(position).getChildFragmentManager());
                 Bundle      bundle = fragment.getArguments();
 
-                fragment.onViewCreated(fragment.getView(), bundle);
+//                fragment.onViewCreated(fragment.getView(), bundle);
                 if (bundle != null) {
                     int stringId = bundle.getInt("page");
 

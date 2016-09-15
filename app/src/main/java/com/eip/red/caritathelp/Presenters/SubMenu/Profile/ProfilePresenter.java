@@ -13,9 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
+import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
+import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
+import com.eip.red.caritathelp.Views.Home.Post.PostView;
+import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
 import com.eip.red.caritathelp.Views.SubMenu.MyFriends.MyFriendsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyEvents.MyEventsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyOrganisations.MyOrganisationsView;
@@ -25,6 +30,7 @@ import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by pierr on 11/05/2016.
@@ -135,14 +141,16 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
     }
 
     @Override
-    public void getProfile(ImageView imageView) {
+    public void getData() {
         view.showProgress();
-        interactor.getProfile(this, imageView, view.getProgressBar());
+        interactor.getData(this);
     }
 
     @Override
-    public void getNews() {
-        view.showProgress();
+    public void getNews(boolean isSwipeRefresh) {
+        if (!isSwipeRefresh)
+            view.showProgress();
+        interactor.getNews(this);
     }
 
     @Override
@@ -182,6 +190,29 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
     }
 
     @Override
+    public void goToProfileView() {
+        Tools.replaceView(view, ProfileView.newInstance(interactor.getMainUser().getId()), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
+    public void goToPostView() {
+        Tools.replaceView(view, PostView.newInstance(News.GROUP_TYPE_VOLUNTEER, interactor.getMainUser().getId(), null, null), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
+    public void goToProfileView(News news) {
+        if (news.isAs_group())
+            Tools.replaceView(view, OrganisationView.newInstance(news.getGroup_id(),news.getGroup_name()), Animation.FADE_IN_OUT, false);
+        else
+            Tools.replaceView(view, ProfileView.newInstance(news.getVolunteer_id()), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
+    public void goToCommentView(News news) {
+        Tools.replaceView(view, CommentView.newInstance(news.getId()), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
     public void onDialog(String title, String msg) {
         view.hideProgress();
         view.setDialog(title, msg);
@@ -199,42 +230,51 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
     }
 
     @Override
-    public void onSuccessGetProfile(User user) {
-        // Set User Profile Name
-        String name = user.getFirstname() + " " + user.getLastname();
+    public void onSuccessGetData(User user, List<News> newsList) {
+        String  name = user.getFirstname() + " " + user.getLastname();
+        String  friendship = user.getFriendship();
+
         view.getName().setText(name);
 
-        // Friendship
-        switch (user.getFriendship()) {
-            case User.FRIENDSHIP_YOURSELF:
-                view.getMessageBtn().setVisibility(View.INVISIBLE);
-                break;
-            case User.FRIENDSHIP_NONE:
-                view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
-                view.getMessageBtn().setVisibility(View.VISIBLE);
-                break;
-            case User.FRIENDSHIP_FRIEND:
-                view.getFriendshipBtn(User.FRIENDSHIP_FRIEND).setVisibility(View.VISIBLE);
-                view.getMessageBtn().setVisibility(View.VISIBLE);
-                break;
-            case User.FRIENDSHIP_INVITATION_SENT:
-                view.getFriendshipBtn(User.FRIENDSHIP_INVITATION_SENT).setVisibility(View.VISIBLE);
-                view.getMessageBtn().setVisibility(View.VISIBLE);
-                break;
-            case User.FRIENDSHIP_INVITATIONS_RECEIVED:
-                view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM).setVisibility(View.VISIBLE);
-                view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE).setVisibility(View.VISIBLE);
-                view.getMessageBtn().setVisibility(View.VISIBLE);
-                break;
+        if (friendship != null) {
+            switch (friendship) {
+                case User.FRIENDSHIP_YOURSELF:
+                    view.getMessageBtn().setVisibility(View.INVISIBLE);
+                    break;
+                case User.FRIENDSHIP_NONE:
+                    view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
+                    view.getMessageBtn().setVisibility(View.VISIBLE);
+                    break;
+                case User.FRIENDSHIP_FRIEND:
+                    view.getFriendshipBtn(User.FRIENDSHIP_FRIEND).setVisibility(View.VISIBLE);
+                    view.getMessageBtn().setVisibility(View.VISIBLE);
+                    break;
+                case User.FRIENDSHIP_INVITATION_SENT:
+                    view.getFriendshipBtn(User.FRIENDSHIP_INVITATION_SENT).setVisibility(View.VISIBLE);
+                    view.getMessageBtn().setVisibility(View.VISIBLE);
+                    break;
+                case User.FRIENDSHIP_INVITATIONS_RECEIVED:
+                    view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM).setVisibility(View.VISIBLE);
+                    view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE).setVisibility(View.VISIBLE);
+                    view.getMessageBtn().setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+        else {
+            view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
+            view.getMessageBtn().setVisibility(View.VISIBLE);
         }
 
-        // Set ProgressBar Visibility
+        Network.loadImage(view.getContext(), view.getProfileImg(), Network.API_LOCATION_2 + user.getThumb_path(), R.drawable.profile_example);
+        Network.loadImage(view.getContext(), view.getImageUser(), Network.API_LOCATION_2 + interactor.getMainUser().getThumb_path(), R.drawable.profile_example);
+        view.updateRecyclerViewData(newsList);
         view.hideProgress();
     }
 
     @Override
-    public void onSuccessGetNews() {
-
+    public void onSuccessGetNews(List<News> newsList) {
+        view.updateRecyclerViewData(newsList);
+        view.hideProgress();
     }
 
     @Override

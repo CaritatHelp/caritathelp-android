@@ -1,14 +1,17 @@
 package com.eip.red.caritathelp.Views.Home;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
+import com.eip.red.caritathelp.Presenters.Home.HomePresenter;
 import com.eip.red.caritathelp.R;
 
 import org.joda.time.DateTime;
@@ -19,45 +22,81 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by pierr on 05/04/2016.
  */
 
 public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObjectHolder> {
 
+    private HomePresenter       presenter;
     private List<News>          newsList;
     private DateTimeFormatter   formatter;
     private DateTimeFormatter   newFormatter;
 
-
-    public HomeRVAdapter() {
+    public HomeRVAdapter(HomePresenter presenter) {
+        this.presenter = presenter;
         newsList = new ArrayList<>();
         formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withLocale(Locale.FRANCE);
         newFormatter = DateTimeFormat.forPattern("dd MMMM 'à' HH:mm").withLocale(Locale.FRANCE);
     }
 
-    public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView   image;
-        TextView    title;
-        TextView    date;
-        TextView    description;
+    public class DataObjectHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.image)                   ImageView       image;
+        @BindView(R.id.title)                   TextView        title;
+        @BindView(R.id.date)                    TextView        date;
+        @BindView(R.id.description)             TextView        description;
+        @BindView(R.id.btn_comment)             LinearLayout    commentsBtn;
+        @BindView(R.id.text_view_comment_amount)TextView        commentsNumber;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.image);
-            title = (TextView) itemView.findViewById(R.id.title);
-            date = (TextView) itemView.findViewById(R.id.date);
-            description = (TextView) itemView.findViewById(R.id.description);
-            itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
         }
 
-        @Override
-        public void onClick(View v) {
-//            Event event = visibleObjects.get(getAdapterPosition());
-//
-//            if (event != null)
-//                presenter.navigateToEventView(event);
+        @OnClick(R.id.image)
+        public void OnClickImage() {
+            News news = newsList.get(getAdapterPosition());
+
+            if (news != null)
+                presenter.goToProfileView(news);
         }
+
+        @OnClick(R.id.title)
+        public void OnClickTitle() {
+            News news = newsList.get(getAdapterPosition());
+
+            if (news != null)
+                presenter.goToProfileView(news);
+        }
+
+        @OnClick(R.id.description)
+        public void OnClickDescription() {
+            News    news = newsList.get(getAdapterPosition());
+
+            if (news != null)
+                presenter.goToCommentView(news);
+        }
+
+        @OnClick(R.id.btn_comment)
+        public void OnClickCommentBtn() {
+            News    news = newsList.get(getAdapterPosition());
+
+            if (news != null)
+                presenter.goToCommentView(news);
+        }
+
+        @OnClick(R.id.text_view_comment_amount)
+        public void OnClickCommentAmountBtn() {
+            News    news = newsList.get(getAdapterPosition());
+
+            if (news != null)
+                presenter.goToCommentView(news);
+        }
+
     }
 
     @Override
@@ -72,32 +111,32 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObject
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         News        news = newsList.get(position);
         DateTime    dt = formatter.parseDateTime(news.getCreated_at());
+        int         commentsNumberValue = news.getNumber_comments();
 
-        // Set Image & Title & description
-        switch (news.getNews_type()) {
-            case News.TYPE_VOLUNTEER:
-                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getVolunteer_thumb_path(), R.drawable.profile_example);
-                holder.title.setText(news.getVolunteer_name());
-                holder.description.setText(news.getContent());
-                break;
-            case News.TYPE_ORGANISATION:
-                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getAssoc_thumb_path(), R.drawable.profile_example);
-                holder.title.setText(news.getAssoc_name());
-                holder.description.setText(news.getContent());
-                break;
-            case News.TYPE_EVENT:
-                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getEvent_thumb_path(), R.drawable.profile_example);
-                holder.title.setText(news.getEvent_thumb_path());
-                holder.description.setText(news.getContent());
-                break;
-            default:
-                Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getVolunteer_thumb_path(), R.drawable.profile_example);
-                holder.title.setText(news.getVolunteer_name());
-                holder.description.setText(news.getContent());
-                break;
+        if (news.isAs_group()) {
+            Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getGroup_thumb_path(), R.drawable.profile_example);
+            holder.title.setText(news.getGroup_name());
+            holder.description.setText(news.getContent());
+        }
+        else {
+            Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION + news.getVolunteer_thumb_path(), R.drawable.profile_example);
+            holder.title.setText(news.getVolunteer_name());
+            holder.description.setText(news.getContent());
         }
 
-        // Set Date
+        if (commentsNumberValue > 0) {
+            if (commentsNumberValue == 1)
+                holder.commentsNumber.setText(new StringBuilder(String.valueOf(commentsNumberValue)).append(" commentaire"));
+            else
+                holder.commentsNumber.setText(new StringBuilder(String.valueOf(commentsNumberValue)).append(" commentaires"));
+            holder.commentsNumber.setVisibility(View.VISIBLE);
+            holder.commentsBtn.setGravity(Gravity.NO_GRAVITY);
+        }
+        else {
+            holder.commentsNumber.setVisibility(View.GONE);
+            holder.commentsBtn.setGravity(Gravity.CENTER);
+        }
+
         holder.date.setText(newFormatter.print(dt));
     }
 
@@ -110,5 +149,10 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObject
         newsList.clear();
         newsList.addAll(newsList2);
         notifyDataSetChanged();
+    }
+
+    public void addNews(News news) {
+        newsList.add(0, news);
+        notifyItemInserted(0);
     }
 }

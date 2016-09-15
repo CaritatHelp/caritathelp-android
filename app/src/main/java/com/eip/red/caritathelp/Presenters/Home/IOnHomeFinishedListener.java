@@ -13,5 +13,4 @@ public interface IOnHomeFinishedListener {
     void onDialog(String title, String msg);
 
     void onSuccessGetNews(List<News> newsList);
-
 }

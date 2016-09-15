@@ -19,4 +19,6 @@ public interface IOrganisationView {
     void setDialog(String title, String msg);
 
     void updateRV(List<News> newsList);
+
+    void addNews(News news);
 }

@@ -1,118 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Event Image + Event Btn for management -->
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-
-                android:scaleType="fitXY"
-                android:src="@drawable/solidarite"/>
-
-            <!-- DIVIDER -->
-            <View style="@style/Divider" />
-
-            <!-- BAR 2 - MENU -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                android:orientation="horizontal"
-                android:background="@color/icons"
-                android:elevation="4dp">
+                <!-- Event Image + Event Btn for management -->
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
 
-                <ImageButton
-                    android:id="@+id/btn_join"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/solidarite"/>
 
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_event_available_light_green_400_36dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerInside"
-                    android:visibility="gone"/>
+                <!-- DIVIDER -->
+                <View style="@style/Divider" />
 
-                <ImageButton
-                    android:id="@+id/btn_quit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                <!-- BAR 2 - MENU -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
 
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_event_busy_light_green_400_36dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerInside"
-                    android:visibility="gone"/>
+                    android:orientation="horizontal"
+                    android:background="@color/icons"
+                    android:elevation="4dp">
 
-                <ImageButton
-                    android:id="@+id/btn_guests"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    <ImageButton
+                        android:id="@+id/btn_join"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
 
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_people_light_green_400_36dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerInside"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_event_available_light_green_400_36dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"
+                        android:visibility="gone"/>
 
-                <ImageButton
-                    android:id="@+id/btn_informations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    <ImageButton
+                        android:id="@+id/btn_quit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
 
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_info_outline_light_green_400_36dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerInside"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_event_busy_light_green_400_36dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"
+                        android:visibility="gone"/>
 
-                <ImageButton
-                    android:id="@+id/btn_management"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    <ImageButton
+                        android:id="@+id/btn_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
 
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_settings_light_green_400_36dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerInside"
-                    android:visibility="gone"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_create_light_green_400_36dp"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent" />
+
+                    <ImageButton
+                        android:id="@+id/btn_guests"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_people_light_green_400_36dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_informations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_info_outline_light_green_400_36dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_management"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_settings_light_green_400_36dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <!-- DIVIDER -->
+                <View style="@style/Divider"/>
+
+                <!-- NEWS -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            <!-- DIVIDER -->
-            <View style="@style/Divider"/>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
-            <!-- NEWS -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"/>
+    </RelativeLayout>
 
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
-
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

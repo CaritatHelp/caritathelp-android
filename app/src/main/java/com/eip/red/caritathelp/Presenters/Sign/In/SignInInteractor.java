@@ -8,6 +8,7 @@ import com.eip.red.caritathelp.Models.Profile.MainPicture;
 import com.eip.red.caritathelp.Models.Profile.MainPictureJson;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Models.User.UserJson;
+import com.eip.red.caritathelp.R;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -60,7 +61,7 @@ public class SignInInteractor {
                     public void onCompleted(Exception error, UserJson result) {
 
                         if (error != null)
-                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
                         else {
                             if (result.getStatus() == Network.API_STATUS_ERROR) {
                                 if (result.getMessage().equals(Network.API_MSG_UNKNOWN_MAIL))

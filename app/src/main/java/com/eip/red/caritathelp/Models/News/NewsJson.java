@@ -7,9 +7,9 @@ import java.util.List;
  */
 public class NewsJson {
 
-    private int         status;
-    private String      message;
-    private List<News>  response;
+    private int     status;
+    private String  message;
+    private News    response;
 
     public int getStatus() {
         return status;
@@ -19,7 +19,7 @@ public class NewsJson {
         return message;
     }
 
-    public List<News> getResponse() {
+    public News getResponse() {
         return response;
     }
 }

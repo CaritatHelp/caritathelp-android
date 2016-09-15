@@ -62,6 +62,9 @@ public class SignInPresenter implements ISignInPresenter, IOnSignInFinishedListe
         SignActivity activity = (SignActivity) view.getActivity();
         Intent intent = new Intent(activity, MainActivity.class);
 
+        /* DEBUG TOKEN */
+        System.out.println("***************************************ID : " + user.getId());
+        System.out.println("***************************************TOKEN : " + user.getToken());
         intent.putExtra("user", user);
         view.startActivity(intent);
         activity.finish();

@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface IOnOrganisationFinishedListener {
 
-    void onDialogError(String title, String msg);
+    void onDialog(String title, String msg);
 
-    void onSuccessGetOrganisation(Organisation organisation);
+    void onSuccessGetData(Organisation organisation, List<News> newsList);
+
+    void onSuccessGetNews(List<News> newsList);
 
     void onSuccessLeave();
 
     void onSuccessJoin();
 
     void onSuccessReply(String acceptance);
-
-    void onNewsRequestSuccess(List<News> newsList);
 }

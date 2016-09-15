@@ -10,16 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.User.User;
-import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
 import com.eip.red.caritathelp.Presenters.Home.HomePresenter;
 import com.eip.red.caritathelp.R;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by pierr on 16/11/2015.
@@ -29,10 +34,14 @@ public class HomeView extends Fragment implements IHomeView {
 
     private HomePresenter   presenter;
 
-    private RecyclerView        recyclerView;
-    private SwipeRefreshLayout  swipeRefreshLayout;
-    private ProgressBar         progressBar;
+    private Unbinder            unbinder;
+    private HomeRVAdapter       adapter;
     private AlertDialog         dialog;
+
+    @BindView(R.id.image_user)          ImageView           imageUser;
+    @BindView(R.id.recycler_view)       RecyclerView        recyclerView;
+    @BindView(R.id.refresh_layout)      SwipeRefreshLayout  swipeRefreshLayout;
+    @BindView(R.id.progress_bar)        ProgressBar         progressBar;
 
     public static Fragment newInstance() {
         HomeView     fragment = new HomeView();
@@ -47,73 +56,58 @@ public class HomeView extends Fragment implements IHomeView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Get User Model
         User user = ((MainActivity) getActivity()).getModelManager().getUser();
-
-        // Init Presenter
-        presenter = new HomePresenter(this, user.getToken());
-
-        // Init Dialog
+        presenter = new HomePresenter(this, user);
         dialog = new AlertDialog.Builder(getContext())
                 .setCancelable(true)
                 .create();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View    view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // Init UI Element
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
-        initSwipeRefreshLayout();
-        initRecyclerView(view);
-
-        return (view);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, view);
 
-        // Init ToolBar Title
+        initSwipeRefreshLayout();
+        initRecyclerView();
         getActivity().setTitle(getArguments().getInt("page"));
-
-        // Init News Model
+        presenter.initUserImage(imageUser);
         presenter.getNews(false);
     }
 
     private void initSwipeRefreshLayout() {
-        // Configure the refreshing colors
         swipeRefreshLayout.setColorSchemeResources(R.color.icons);
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
-
-        // Init Refresh Listener
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Get Friends Model
                 presenter.getNews(true);
             }
         });
     }
 
-    private void initRecyclerView(View view) {
-        // Init RecyclerView
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(new HomeRVAdapter());
-
-        // Init LayoutManager
+    private void initRecyclerView() {
+        adapter = new HomeRVAdapter(presenter);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
-        // Set Options to enable toolbar display/hide
         recyclerView.setNestedScrollingEnabled(true);
         ViewCompat.setNestedScrollingEnabled(recyclerView, true);
         recyclerView.setHasFixedSize(false);
+    }
+
+    @OnClick(R.id.image_user)
+    public void onClickImageUser() {
+        presenter.goToProfileView();
+    }
+
+    @OnClick(R.id.text_view_post_news)
+    public void onClickPostTextViewBtn() {
+        presenter.goToPostView();
     }
 
     @Override
@@ -136,7 +130,7 @@ public class HomeView extends Fragment implements IHomeView {
 
     @Override
     public void updateRecyclerViewData(List<News> newsList) {
-        ((HomeRVAdapter) recyclerView.getAdapter()).update(newsList);
+        adapter.update(newsList);
     }
 }
 

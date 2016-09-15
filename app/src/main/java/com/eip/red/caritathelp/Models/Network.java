@@ -3,14 +3,9 @@ package com.eip.red.caritathelp.Models;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.eip.red.caritathelp.R;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by pierr on 05/12/2015.
@@ -18,8 +13,10 @@ import java.util.List;
 
 public class Network implements Serializable {
 
-    static final public  String     API_LOCATION = "http://api.caritathelp.me/";
-    static final public  String     API_LOCATION_2 = "http://api.caritathelp.me";
+
+    static final public  String     API_LOCATION = "http://staging.caritathelp.me/";
+    static final public  String     API_LOCATION_2 = "http://staging.caritathelp.me";
+
     static final public  String     API_REQUEST_LOGIN = "login";
     static final public  String     API_REQUEST_ORGANISATION = "associations";
     static final public  String     API_REQUEST_ORGANISATION_BY_ID = "associations/";
@@ -29,8 +26,10 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_ORGANISATION_EVENTS_GUESTS = "/guests";
     static final public  String     API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS = "/events/";
     static final public  String     API_REQUEST_ORGANISATION_EVENT_MANAGEMENT = "/events/";
+    static final public  String     API_REQUEST_ORGANISATION_NEWS = "/news";
 
     static final public  String     API_REQUEST_VOLUNTEERS = "volunteers/";
+    static final public  String     API_REQUEST_VOLUNTEERS_2 = "/volunteers/";
     static final public  String     API_REQUEST_VOLUNTEERS_MAIN_PICTURE = "/main_picture";
 
     static final public  String     API_REQUEST_GET_MY_ORGANISATIONS = "/associations";
@@ -74,9 +73,14 @@ public class Network implements Serializable {
 
     /* NEWS */
     static final public  String     API_REQUEST_NEWS = "/news";
-    static final public  String     API_REQUEST_NEWS_WALL_MESSAGE = "/wall_message";
+    static final public  String     API_REQUEST_NEWS_WALL_MESSAGE = "/news/wall_message";
     static final public  String     API_REQUEST_NEWS_COMMENTS = "/comments";
 
+    /* COMMENT */
+    static final public  String     API_REQUEST_POST_COMMENTS = "/comments";
+    static final public  String     API_REQUEST_GET_COMMENTS = "/comments/";
+    static final public  String     API_REQUEST_PUT_COMMENTS = "/comments/";
+    static final public  String     API_REQUEST_DELETE_COMMENTS = "/comments/";
 
     /* PICTURE */
     static final public  String     API_REQUEST_PICTURES = "/pictures";

@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">Caritathelp</string>
 
+    <!-- Dialog Msg -->
+    <string name="connection_problem">Nos serveurs sont temporairement indisponibles où vous n\'êtes pas connecté à internet.</string>
+
     <!-- Views Names -->
     <string name="view_name_home">@string/app_name</string>
+    <string name="view_name_post">Publication</string>
+    <string name="view_name_comment">Commentaires</string>
 
     <string name="view_name_mailbox">@string/app_name</string>
 
@@ -82,6 +87,12 @@
     <string name="subscribe">S\'inscrire</string>
 
     <!-- OrganisationSearch View -->
+
+    <!-- Home View -->
+    <string name="post_news">Publier un message</string>
+    <string name="your_message">Votre message</string>
+    <string name="post">PUBLIER</string>
+    <string name="comment">Commenter</string>
 
     <!-- MailBox View -->
     <string name="mailbox_toolbar_title">Messagerie</string>

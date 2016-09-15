@@ -3,6 +3,7 @@ package com.eip.red.caritathelp.Views.Organisation;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,20 +26,27 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by pierr on 18/02/2016.
  */
 
 public class OrganisationView extends Fragment implements IOrganisationView, View.OnClickListener {
 
-    private OrganisationPresenter   presenter;
+    private OrganisationPresenter           presenter;
 
     private CircularImageView               logo;
     private HashMap<String, ImageButton>    membershipBtn;
-    private ImageButton                     managementBtn;
-    private RecyclerView                    recyclerView;
-    private ProgressBar                     progressBar;
+    private OrganisationRVAdapter           adapter;
+    private Unbinder                        unbinder;
     private AlertDialog                     dialog;
+
+    @BindView(R.id.btn_management) ImageButton managementBtn;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.progress_bar) ProgressBar         progressBar;
 
     public static OrganisationView newInstance(int id, String name) {
         OrganisationView    myFragment = new OrganisationView();
@@ -84,11 +92,6 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         membershipBtn.put(Organisation.ORGANISATION_INVITED_CONFIRM, (ImageButton) view.findViewById(R.id.btn_membership_confirm));
         membershipBtn.put(Organisation.ORGANISATION_INVITED_REMOVE, (ImageButton) view.findViewById(R.id.btn_membership_remove));
         membershipBtn.put(Organisation.ORGANISATION_WAITING, (ImageButton) view.findViewById(R.id.btn_membership_waiting));
-        managementBtn = (ImageButton) view.findViewById(R.id.btn_management);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
-        // Init RecyclerView
-        initRecyclerView(view);
 
         // Init Listener
         for (ImageButton imageButton : membershipBtn.values()) {
@@ -101,24 +104,35 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         view.findViewById(R.id.btn_events).setOnClickListener(this);
         view.findViewById(R.id.btn_informations).setOnClickListener(this);
 
+        unbinder = ButterKnife.bind(this, view);
         return (view);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Init ToolBar Title
         getActivity().setTitle(Tools.upperCaseFirstLetter(getArguments().getString("page")));
+        initRecyclerView(view);
+        initSwipeRefreshLayout();
+        presenter.getData();
+    }
 
-        // Get Organisation Model
-        presenter.getOrganisation();
+    private void initSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getNews(true);
+            }
+        });
     }
 
     private void initRecyclerView(View view) {
         // Init RecyclerView
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(new OrganisationRVAdapter(presenter));
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        adapter = new OrganisationRVAdapter(presenter);
+        recyclerView.setAdapter(adapter);
 
         // Init LayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -141,15 +155,7 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
     @Override
     public void setLogoPosition(String right) {
-        if (!right.equals("owner")) {
-            // Set Logo Position
-            logo.bringToFront();
-            logo.invalidate();
-
-            // Set Management Btn Visibility
-            managementBtn.setVisibility(View.INVISIBLE);
-        }
-        else {
+        if (right != null && right.equals("owner")) {
             // Set Logo Position
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) logo.getLayoutParams();
 
@@ -158,6 +164,14 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
             // Set Management Btn Visibility
             managementBtn.setVisibility(View.VISIBLE);
+        }
+        else {
+            // Set Logo Position
+            logo.bringToFront();
+            logo.invalidate();
+
+            // Set Management Btn Visibility
+            managementBtn.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -169,6 +183,7 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -180,9 +195,13 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
     @Override
     public void updateRV(List<News> newsList) {
-
+        adapter.update(newsList);
     }
 
+    @Override
+    public void addNews(News news) {
+        adapter.addNews(news);
+    }
 
     public CircularImageView getLogo() {
         return logo;

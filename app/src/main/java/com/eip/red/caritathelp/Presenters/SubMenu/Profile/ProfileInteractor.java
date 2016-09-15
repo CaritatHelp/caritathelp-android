@@ -7,14 +7,19 @@ import android.widget.ProgressBar;
 import com.eip.red.caritathelp.Models.Friends.FriendsJson;
 import com.eip.red.caritathelp.Models.Friendship;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.News.News;
+import com.eip.red.caritathelp.Models.News.NewsListJson;
 import com.eip.red.caritathelp.Models.Profile.MainPictureJson;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Models.User.UserJson;
+import com.eip.red.caritathelp.Presenters.Home.IOnHomeFinishedListener;
 import com.eip.red.caritathelp.R;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import java.util.List;
 
 /**
  * Created by pierr on 11/05/2016.
@@ -70,14 +75,13 @@ public class ProfileInteractor {
                 });
     }
 
-    public void getProfile(final IOnProfileFinishedListener listener, final ImageView imageView, final ProgressBar progressBar) {
+    public void getData(final IOnProfileFinishedListener listener) {
         JsonObject json = new JsonObject();
 
         json.addProperty("token", mainUser.getToken());
 
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + userId)
-                .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<UserJson>() {})
                 .setCallback(new FutureCallback<UserJson>() {
@@ -88,14 +92,8 @@ public class ProfileInteractor {
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialog("Statut 400", result.getMessage());
                             else {
-                                // Set User model
                                 user = result.getResponse();
-
-                                // Set User Profile Image
-                                Network.loadImage(context, imageView, Network.API_LOCATION_2 + user.getThumb_path(), R.drawable.profile_example);
-
-                                // Go to presenter
-                                listener.onSuccessGetProfile(user);
+                                getNews(listener, result.getResponse());
                             }
                         }
                         else
@@ -103,6 +101,57 @@ public class ProfileInteractor {
                     }
                 });
     }
+
+    public void getNews(final IOnProfileFinishedListener listener, final User user) {
+        JsonObject json = new JsonObject();
+
+        json.addProperty("token", mainUser.getToken());
+
+        Ion.with(context)
+                .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS_2 + userId + Network.API_REQUEST_NEWS)
+                .setJsonObjectBody(json)
+                .as(new TypeToken<NewsListJson>(){})
+                .setCallback(new FutureCallback<NewsListJson>() {
+                    @Override
+                    public void onCompleted(Exception error, NewsListJson result) {
+                        if (error == null) {
+                            // Status == 400 == error
+                            if (result.getStatus() == Network.API_STATUS_ERROR)
+                                listener.onDialog("Statut 400", result.getMessage());
+                            else
+                                listener.onSuccessGetData(user, result.getResponse());
+                        }
+                        else
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+                    }
+                });
+    }
+
+    public void getNews(final IOnProfileFinishedListener listener) {
+        JsonObject json = new JsonObject();
+
+        json.addProperty("token", mainUser.getToken());
+
+        Ion.with(context)
+                .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS_2 + userId + Network.API_REQUEST_NEWS)
+                .setJsonObjectBody(json)
+                .as(new TypeToken<NewsListJson>(){})
+                .setCallback(new FutureCallback<NewsListJson>() {
+                    @Override
+                    public void onCompleted(Exception error, NewsListJson result) {
+                        if (error == null) {
+                            // Status == 400 == error
+                            if (result.getStatus() == Network.API_STATUS_ERROR)
+                                listener.onDialog("Statut 400", result.getMessage());
+                            else
+                                listener.onSuccessGetNews(result.getResponse());
+                        }
+                        else
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+                    }
+                });
+    }
+
 
     public void addFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar) {
         JsonObject json = new JsonObject();
@@ -189,6 +238,10 @@ public class ProfileInteractor {
 
     public int getUserId() {
         return userId;
+    }
+
+    public User getMainUser() {
+        return mainUser;
     }
 
     public User getUser() {

@@ -4,22 +4,33 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.SubMenu.Profile.ProfilePresenter;
 import com.eip.red.caritathelp.R;
+import com.eip.red.caritathelp.Views.Home.HomeRVAdapter;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by pierr on 11/05/2016.
@@ -29,12 +40,18 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
 
     private ProfilePresenter    presenter;
 
-    private CircularImageView               profileImg;
-    private TextView                        name;
     private HashMap<String, ImageButton>    friendshipBtn;
-    private ImageButton                     messageBtn;
-    private ProgressBar                     progressBar;
+    private ProfileRVAdapter                adapter;
     private AlertDialog                     dialog;
+
+    @BindView(R.id.image) CircularImageView profileImg;
+    @BindView(R.id.image_user) ImageView imageUser;
+    @BindView(R.id.name) TextView name;
+    @BindView(R.id.btn_send_message) ImageButton messageBtn;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+
 
     public static ProfileView newInstance(int id) {
         ProfileView    myFragment = new ProfileView();
@@ -52,14 +69,10 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get User Model
         User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     id = getArguments().getInt("id");
-
-        // Init Presenter
         presenter = new ProfilePresenter(this, user, id);
 
-        // Init Dialog
         dialog = new AlertDialog.Builder(getContext())
                 .setCancelable(true)
                 .create();
@@ -69,18 +82,15 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_submenu_profile, container, false);
+        ButterKnife.bind(this, view);
 
         // Init UI Element
-        profileImg = (CircularImageView) view.findViewById(R.id.image);
-        name = (TextView) view.findViewById(R.id.name);
         friendshipBtn = new HashMap<>();
         friendshipBtn.put(User.FRIENDSHIP_FRIEND, (ImageButton) view.findViewById(R.id.btn_friendship_friend));
         friendshipBtn.put(User.FRIENDSHIP_NONE, (ImageButton) view.findViewById(R.id.btn_friendship_none));
         friendshipBtn.put(User.FRIENDSHIP_INVITATION_SENT, (ImageButton) view.findViewById(R.id.btn_friendship_invitation_sent));
         friendshipBtn.put(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM, (ImageButton) view.findViewById(R.id.btn_friendship_confirm));
         friendshipBtn.put(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE, (ImageButton) view.findViewById(R.id.btn_friendship_remove));
-        messageBtn = (ImageButton) view.findViewById(R.id.btn_send_message);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         // Init Listener
         profileImg.setOnClickListener(this);
@@ -88,9 +98,9 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
             imageButton.setOnClickListener(this);
         }
         messageBtn.setOnClickListener(this);
-        view.findViewById(R.id.btn_friends).setOnClickListener(this);
-        view.findViewById(R.id.btn_organisations).setOnClickListener(this);
-        view.findViewById(R.id.btn_events).setOnClickListener(this);
+        ButterKnife.findById(view, R.id.btn_friends).setOnClickListener(this);
+        ButterKnife.findById(view, R.id.btn_organisations).setOnClickListener(this);
+        ButterKnife.findById(view, R.id.btn_events).setOnClickListener(this);
 
         return (view);
     }
@@ -99,11 +109,10 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Init ToolBar Title
+        initSwipeRefreshLayout();
+        initRecyclerView();
         getActivity().setTitle(getArguments().getInt("page"));
-
-        // Get profile Model
-        presenter.getProfile(profileImg);
+        presenter.getData();
     }
 
     @Override
@@ -117,6 +126,26 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
             presenter.uploadProfileImg(profileImg, data);
     }
 
+    private void initSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getNews(true);
+            }
+        });
+    }
+
+    private void initRecyclerView() {
+        adapter = new ProfileRVAdapter(presenter);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setNestedScrollingEnabled(true);
+        ViewCompat.setNestedScrollingEnabled(recyclerView, true);
+        recyclerView.setHasFixedSize(false);
+    }
+
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
@@ -125,6 +154,7 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.INVISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -135,12 +165,31 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
     }
 
     @Override
+    public void updateRecyclerViewData(List<News> newsList) {
+        adapter.update(newsList);
+    }
+
+    @Override
     public void onClick(View v) {
         presenter.onClick(v.getId());
     }
 
+    @OnClick(R.id.image_user)
+    public void onClickImageUser() {
+        presenter.goToProfileView();
+    }
+
+    @OnClick(R.id.text_view_post_news)
+    public void onClickPostTextViewBtn() {
+        presenter.goToPostView();
+    }
+
     public CircularImageView getProfileImg() {
         return profileImg;
+    }
+
+    public ImageView getImageUser() {
+        return imageUser;
     }
 
     public TextView getName() {

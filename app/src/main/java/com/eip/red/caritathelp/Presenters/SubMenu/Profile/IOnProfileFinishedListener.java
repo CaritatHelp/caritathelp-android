@@ -1,6 +1,7 @@
 package com.eip.red.caritathelp.Presenters.SubMenu.Profile;
 
 import com.eip.red.caritathelp.Models.Friends.Friend;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Profile.MainPicture;
 import com.eip.red.caritathelp.Models.User.User;
 
@@ -16,9 +17,9 @@ public interface IOnProfileFinishedListener {
 
     void onSuccessUploadProfileImg();
 
-    void onSuccessGetProfile(User user);
+    void onSuccessGetData(User user, List<News> newsList);
 
-    void onSuccessGetNews();
+    void onSuccessGetNews(List<News> newsList);
 
     void onSuccessAddFriend();
 
