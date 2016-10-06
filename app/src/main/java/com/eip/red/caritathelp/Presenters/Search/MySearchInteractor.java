@@ -29,12 +29,13 @@ public class MySearchInteractor {
 
     public void search(String query, ProgressBar progressBar, final IOnMySearchFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
         json.addProperty("research", query);
 
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_SEARCH )
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<SearchJson>(){})
@@ -56,12 +57,13 @@ public class MySearchInteractor {
 
     public void addFriend(final Search search, final IOnMySearchFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
         json.addProperty("volunteer_id", String.valueOf(search.getId()));
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_ADD)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
                 .setCallback(new FutureCallback<Friendship>() {

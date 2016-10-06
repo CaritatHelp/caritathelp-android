@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Informations.OrganisationEventInformationsView;
 
@@ -24,11 +25,11 @@ public class OrganisationEventInformationsPresenter implements IOrganisationEven
     private DateTimeFormatter formatter;
     private DateTimeFormatter   newFormatter;
 
-    public OrganisationEventInformationsPresenter(OrganisationEventInformationsView view, String token, int eventId) {
+    public OrganisationEventInformationsPresenter(OrganisationEventInformationsView view, User user, int eventId) {
         this.view = view;
 
         // Init Interactor
-        interactor = new OrganisationEventInformationsInteractor(view.getActivity().getApplicationContext(), token, eventId);
+        interactor = new OrganisationEventInformationsInteractor(view.getActivity().getApplicationContext(), user, eventId);
 
         // Init DateTimeFormatter
 //        "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"

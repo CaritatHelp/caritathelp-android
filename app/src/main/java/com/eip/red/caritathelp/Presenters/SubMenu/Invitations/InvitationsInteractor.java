@@ -10,6 +10,7 @@ import com.eip.red.caritathelp.Models.User.EventInvitation;
 import com.eip.red.caritathelp.Models.User.EventsInvitationsJson;
 import com.eip.red.caritathelp.Models.User.OrganisationInvitation;
 import com.eip.red.caritathelp.Models.User.OrganisationsInvitationsJson;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -22,21 +23,22 @@ import com.koushikdutta.ion.Ion;
 public class InvitationsInteractor {
 
     private Context context;
-    private String  token;
+    private User    user;
 
-    public InvitationsInteractor(Context context, String token) {
+    public InvitationsInteractor(Context context, User user) {
         this.context = context;
-        this.token = token;
+        this.user = user;
     }
 
     public void getFriendsInvitations(final IOnInvitationsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("sent", "default");
 
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_FRIEND_REQUESTS)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<FriendsInvitationsJson>(){})
                 .setCallback(new FutureCallback<FriendsInvitationsJson>() {
@@ -55,13 +57,11 @@ public class InvitationsInteractor {
     }
 
     public void getOrganisationsInvitations(final IOnInvitationsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATIONS_INVITED)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<OrganisationsInvitationsJson>(){})
                 .setCallback(new FutureCallback<OrganisationsInvitationsJson>() {
                     @Override
@@ -79,13 +79,11 @@ public class InvitationsInteractor {
     }
 
     public void getEventsInvitations(final IOnInvitationsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_EVENTS_INVITED)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<EventsInvitationsJson>(){})
                 .setCallback(new FutureCallback<EventsInvitationsJson>() {
                     @Override
@@ -105,12 +103,14 @@ public class InvitationsInteractor {
     public void friendInvitationReply(final FriendInvitation friendInvitation, final String acceptance, final IOnInvitationsFinishedListener listener) {
         JsonObject json = new JsonObject();
 
-        json.addProperty("token", token);
         json.addProperty("notif_id", String.valueOf(friendInvitation.getNotif_id()));
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REPLY)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
                 .setCallback(new FutureCallback<Friendship>() {
@@ -131,13 +131,15 @@ public class InvitationsInteractor {
 
     public void organisationInvitationReply(final OrganisationInvitation organisationInvitation, final String acceptance, final IOnInvitationsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("notif_id", organisationInvitation.getNotif_id());
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_MEMBERSHIP_REPLY_INVITE)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .setJsonObjectBody(json)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -156,13 +158,15 @@ public class InvitationsInteractor {
 
     public void eventsInvitationReply(final EventInvitation eventInvitation, final String acceptance, final IOnInvitationsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("notif_id", eventInvitation.getNotif_id());
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_GUESTS_REPLY_INVITE)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .setJsonObjectBody(json)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override

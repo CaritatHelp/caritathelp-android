@@ -6,6 +6,7 @@ import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
@@ -28,11 +29,11 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
     private OrganisationView        view;
     private OrganisationInteractor  interactor;
 
-    public OrganisationPresenter(OrganisationView view, String token, int id) {
+    public OrganisationPresenter(OrganisationView view, User user, int id) {
         this.view = view;
 
         // Init Interactor
-        interactor = new OrganisationInteractor(view.getActivity().getApplicationContext(), token, id);
+        interactor = new OrganisationInteractor(view.getActivity().getApplicationContext(), user, id);
     }
 
     @Override

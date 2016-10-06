@@ -42,7 +42,7 @@ public class OrganisationSearchView extends Fragment implements IOrganisationSea
         User user = ((MainActivity) getActivity()).getModelManager().getUser();
 
         // Init Presenter
-        presenter = new OrganisationSearchPresenter(this, user.getToken());
+        presenter = new OrganisationSearchPresenter(this, user);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())

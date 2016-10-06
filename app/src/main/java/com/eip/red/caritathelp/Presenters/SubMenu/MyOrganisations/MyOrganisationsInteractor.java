@@ -32,14 +32,12 @@ public class MyOrganisationsInteractor {
     }
 
     public void getMyOrganisations(ProgressBar progressBar, final IOnMyOrganisationsFinishedListener listener, final boolean isSwipeRefresh) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + userId + Network.API_REQUEST_GET_MY_ORGANISATIONS)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .progressBar(progressBar)
-                .setJsonObjectBody(json)
                 .as(new TypeToken<Organisations>() {
                 })
                 .setCallback(new FutureCallback<Organisations>() {

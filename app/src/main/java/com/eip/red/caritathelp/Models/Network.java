@@ -17,7 +17,6 @@ public class Network implements Serializable {
     static final public  String     API_LOCATION = "http://staging.caritathelp.me/";
     static final public  String     API_LOCATION_2 = "http://staging.caritathelp.me";
 
-    static final public  String     API_REQUEST_LOGIN = "login";
     static final public  String     API_REQUEST_ORGANISATION = "associations";
     static final public  String     API_REQUEST_ORGANISATION_BY_ID = "associations/";
     static final public  String     API_REQUEST_ORGANISATION_MEMBERS = "/members";
@@ -38,6 +37,10 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_SUBSCRIBE = "volunteers";
     static final public  String     API_REQUEST_ACCOUNT_SETTINGS_MODIFICATION = "volunteers";
     static final public  String     API_REQUEST_VOLUNTEER_DELETE_ACCOUNT = "volunteers/";
+
+    /* Sessions */
+    static final public  String     SESSIONS_SIGN_IN = "/auth/sign_in";
+    static final public  String     SESSIONS_SIGN_OUT = "/auth/sign_out";
 
     /* NOTIFICATIONS */
     static final public  String     API_REQUEST_NOTIFICATIONS = "/notifications";
@@ -93,6 +96,7 @@ public class Network implements Serializable {
 
     /* API STATUS */
     static final public int     API_STATUS_ERROR = 400;
+    static final public int     API_STATUS_ERROR_401 = 401;
     static final public int     API_STATUS_SUCCESS = 200;
 
     /* API MSG */

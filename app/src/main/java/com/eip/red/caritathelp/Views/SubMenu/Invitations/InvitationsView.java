@@ -66,7 +66,7 @@ public class InvitationsView extends Fragment implements IInvitationView, View.O
         User user = ((MainActivity) getActivity()).getModelManager().getUser();
 
         // Init Presenter
-        presenter = new InvitationsPresenter(this, user.getToken());
+        presenter = new InvitationsPresenter(this, user);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())

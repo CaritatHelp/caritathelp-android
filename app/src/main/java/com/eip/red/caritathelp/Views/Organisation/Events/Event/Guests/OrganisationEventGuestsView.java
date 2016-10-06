@@ -53,7 +53,7 @@ public class OrganisationEventGuestsView extends Fragment implements IOrganisati
         int     eventId = getArguments().getInt("event id");
 
         // Init Presenter
-        presenter = new OrganisationEventGuestsPresenter(this, user.getToken(), eventId);
+        presenter = new OrganisationEventGuestsPresenter(this, user, eventId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())

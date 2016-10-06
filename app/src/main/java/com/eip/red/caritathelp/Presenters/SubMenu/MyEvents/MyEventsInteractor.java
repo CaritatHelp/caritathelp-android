@@ -36,12 +36,13 @@ public class MyEventsInteractor {
 
     public void getMyEvents(final IOnMyEventsFinishedListener listener, final boolean init, String range, final boolean swipeRefresh) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("range", range);
 
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_MY_EVENTS + userId + Network.API_REQUEST_ORGANISATION_EVENTS)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Events>(){})
                 .setCallback(new FutureCallback<Events>() {
@@ -81,15 +82,12 @@ public class MyEventsInteractor {
     }
 
     public void getMyOrganisations(final IOnMyEventsFinishedListener listener, final List<Event> events) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + userId + Network.API_REQUEST_GET_MY_ORGANISATIONS)
-                .setJsonObjectBody(json)
-                .as(new TypeToken<Organisations>() {
-                })
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
+                .as(new TypeToken<Organisations>() {})
                 .setCallback(new FutureCallback<Organisations>() {
                     @Override
                     public void onCompleted(Exception error, Organisations result) {
@@ -109,13 +107,11 @@ public class MyEventsInteractor {
     }
 
     public void getMyOrganisations(final IOnMyEventsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + userId + Network.API_REQUEST_GET_MY_ORGANISATIONS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .as(new TypeToken<Organisations>() {
                 })
                 .setCallback(new FutureCallback<Organisations>() {

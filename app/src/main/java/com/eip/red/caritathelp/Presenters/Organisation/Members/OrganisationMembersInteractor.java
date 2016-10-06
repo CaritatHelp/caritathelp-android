@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.eip.red.caritathelp.Models.Organisation.Members;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -16,36 +17,30 @@ import com.koushikdutta.ion.Ion;
 public class OrganisationMembersInteractor {
 
     private Context context;
-//    private Members members;
-    private String token;
+    private User    user;
     private int     organisationId;
 
-    public OrganisationMembersInteractor(Context context, String token, int organisationId) {
+    public OrganisationMembersInteractor(Context context, User user, int organisationId) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         this.organisationId = organisationId;
     }
 
     public void getMembers(final IOnOrganisationMembersFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION + "/" + organisationId + Network.API_REQUEST_ORGANISATION_MEMBERS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<Members>(){})
                 .setCallback(new FutureCallback<Members>() {
                     @Override
                     public void onCompleted(Exception error, Members result) {
                         if (error == null) {
-                            // Status == 400 == error
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialogError("Statut 400", result.getMessage());
-                            else {
-//                                members = result;
+                            else
                                 listener.onSuccess(result.getResponse());
-                            }
                         }
                         else
                             listener.onDialogError("Problème de connection", "Vérifiez votre connexion Internet");

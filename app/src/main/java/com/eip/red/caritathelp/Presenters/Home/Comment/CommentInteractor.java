@@ -5,6 +5,7 @@ import android.content.Context;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.comment.CommentJson;
 import com.eip.red.caritathelp.Models.News.comment.CommentsJson;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -18,23 +19,21 @@ import com.koushikdutta.ion.Ion;
 public class CommentInteractor {
 
     private Context context;
-    private String  token;
+    private User    user;
     private int     newsId;
 
-    public CommentInteractor(Context context, String token, int newsId) {
+    public CommentInteractor(Context context, User user, int newsId) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         this.newsId = newsId;
     }
 
     public void getComments(final IOnCommentFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_NEWS + "/" + newsId + "/" + Network.API_REQUEST_NEWS_COMMENTS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<CommentsJson>(){})
                 .setCallback(new FutureCallback<CommentsJson>() {
                     @Override
@@ -54,13 +53,14 @@ public class CommentInteractor {
 
     public void sendComment(final IOnCommentFinishedListener listener, final String content) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("content", content);
         json.addProperty("new_id", newsId);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_POST_COMMENTS)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<CommentJson>(){})
                 .setCallback(new FutureCallback<CommentJson>() {

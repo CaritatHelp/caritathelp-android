@@ -61,7 +61,7 @@ public class CommentView extends Fragment implements ICommentView {
         super.onCreate(savedInstanceState);
 
         User user = ((MainActivity) getActivity()).getModelManager().getUser();
-        presenter = new CommentPresenter(this, user.getToken(), getArguments().getInt("news id"));
+        presenter = new CommentPresenter(this, user, getArguments().getInt("news id"));
 
         dialog = new AlertDialog.Builder(getContext())
                 .setCancelable(true)

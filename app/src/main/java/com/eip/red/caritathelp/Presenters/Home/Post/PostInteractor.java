@@ -36,8 +36,6 @@ public class PostInteractor {
 
     public void postNews(final IOnPostFinishedListener listener, String content, boolean asGroup) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
         json.addProperty("content", content);
         json.addProperty("group_id", groupId);
         json.addProperty("group_type", groupType);
@@ -48,13 +46,15 @@ public class PostInteractor {
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_NEWS_WALL_MESSAGE)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<NewsJson>(){})
                 .setCallback(new FutureCallback<NewsJson>() {
                     @Override
                     public void onCompleted(Exception error, NewsJson result) {
                         if (error == null) {
-                            // Status == 400 == error
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialog("Statut 400", result.getMessage());
                             else

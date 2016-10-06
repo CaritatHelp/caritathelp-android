@@ -19,24 +19,22 @@ import com.koushikdutta.ion.Ion;
 public class OrganisationEventGuestsInteractor {
 
     private Context context;
-    private String  token;
+    private User    user;
     private int     eventId;
 
-    public OrganisationEventGuestsInteractor(Context context, String token, int eventId) {
+    public OrganisationEventGuestsInteractor(Context context, User user, int eventId) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         this.eventId = eventId;
     }
 
     public void getGuests(final IOnOrganisationEventGuestsFinishedListener listener, ProgressBar progressBar) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT + eventId + Network.API_REQUEST_ORGANISATION_EVENTS_GUESTS)
                 .progressBar(progressBar)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<Guests>(){})
                 .setCallback(new FutureCallback<Guests>() {
                     @Override

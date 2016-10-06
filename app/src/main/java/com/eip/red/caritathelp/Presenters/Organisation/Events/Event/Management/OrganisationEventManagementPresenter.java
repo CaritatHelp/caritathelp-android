@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.OrganisationEventManagementView;
 
@@ -18,10 +19,10 @@ public class OrganisationEventManagementPresenter implements IOrganisationEventM
     private OrganisationEventManagementView         view;
     private OrganisationEventManagementInteractor   interactor;
 
-    public OrganisationEventManagementPresenter(OrganisationEventManagementView view, String token, int eventId) {
+    public OrganisationEventManagementPresenter(OrganisationEventManagementView view, User user, int eventId) {
         this.view = view;
 
-        interactor = new OrganisationEventManagementInteractor(view.getContext(), token, eventId);
+        interactor = new OrganisationEventManagementInteractor(view.getContext(), user, eventId);
     }
 
 

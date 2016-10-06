@@ -30,13 +30,11 @@ public class AccountSettingsInteractor {
     }
 
     public void getUser(final IOnAccountSettingsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + user.getId())
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<UserJson>() {})
                 .setCallback(new FutureCallback<UserJson>() {
                     @Override
@@ -94,8 +92,6 @@ public class AccountSettingsInteractor {
         final String        mail = modification.get(AccountSettingsView.MAIL).getText().toString();
         final String        password = modification.get(AccountSettingsView.PASSWORD_NEW).getText().toString();
 
-        json.addProperty("token", user.getToken());
-
         if (!TextUtils.isEmpty(mail) && !mail.equals(user.getMail()))
             json.addProperty("mail", mail);
 
@@ -110,6 +106,9 @@ public class AccountSettingsInteractor {
 
         Ion.with(context)
                 .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ACCOUNT_SETTINGS_MODIFICATION)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<UserJson>() {
                 })
@@ -128,23 +127,4 @@ public class AccountSettingsInteractor {
                     }
                 });
     }
-
-//    if (error != null) {
-//        if (result.get(Network.API_PARAMETER_STATUS).getAsInt() == Network.API_STATUS_ERROR)
-//            listener.onEmailError(result.get("message").getAsString());
-//        else {
-//            // Update User Model
-//            if (!TextUtils.isEmpty(mail) && !mail.equals(user.getMail()))
-//                user.setMail(mail);
-//
-//            if (!TextUtils.isEmpty(firstname) && !firstname.equals(user.getFirstname()))
-//                user.setFirstname(firstname);
-//
-//            if (!TextUtils.isEmpty(lastname) && !lastname.equals(user.getLastname()))
-//                user.setLastname(lastname);
-//
-//            listener.onSuccess();
-//        }
-//    }
-
 }

@@ -50,7 +50,7 @@ public class FriendsView extends Fragment implements IFriendsView {
         int     profileId = getArguments().getInt("profile id");
 
         // Init Presenter
-        presenter = new FriendsPresenter(this, profileId, user.getToken());
+        presenter = new FriendsPresenter(this, profileId, user);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())

@@ -28,14 +28,12 @@ public class NotificationsInteractor {
     }
 
     public void getNotifications(ProgressBar progressBar, final IOnNotificationsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_NOTIFICATIONS)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .progressBar(progressBar)
-                .setJsonObjectBody(json)
                 .as(new TypeToken<NotificationsJson>(){})
                 .setCallback(new FutureCallback<NotificationsJson>() {
                     @Override
@@ -55,13 +53,14 @@ public class NotificationsInteractor {
 
     public void friendshipReply(final Notification notification, final String acceptance, final IOnNotificationsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
         json.addProperty("notif_id", String.valueOf(notification.getId()));
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REPLY)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
                 .setCallback(new FutureCallback<Friendship>() {

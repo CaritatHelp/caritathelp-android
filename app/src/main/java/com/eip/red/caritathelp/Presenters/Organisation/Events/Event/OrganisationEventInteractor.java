@@ -8,6 +8,7 @@ import com.eip.red.caritathelp.Models.News.NewsListJson;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
 import com.eip.red.caritathelp.Models.Organisation.Events;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.IOnOrganisationEventsFinishedListener;
 import com.eip.red.caritathelp.R;
 import com.google.gson.JsonObject;
@@ -24,24 +25,22 @@ import java.util.List;
 public class OrganisationEventInteractor {
 
     private Context context;
-    private String  token;
+    private User    user;
     private Event   event;
     private int     eventId;
 
-    public OrganisationEventInteractor(Context context, String token, int eventId) {
+    public OrganisationEventInteractor(Context context, User user, int eventId) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         this.eventId = eventId;
     }
 
     public void getData(final IOnOrganisationEventFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS + eventId)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<EventInformations>(){})
                 .setCallback(new FutureCallback<EventInformations>() {
                     @Override
@@ -61,13 +60,11 @@ public class OrganisationEventInteractor {
     }
 
     public void getNews(final IOnOrganisationEventFinishedListener listener, final Event event) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT+ eventId + Network.API_REQUEST_ORGANISATION_NEWS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<NewsListJson>(){})
                 .setCallback(new FutureCallback<NewsListJson>() {
                     @Override
@@ -86,13 +83,11 @@ public class OrganisationEventInteractor {
     }
 
     public void getNews(final IOnOrganisationEventFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT+ eventId + Network.API_REQUEST_ORGANISATION_NEWS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<NewsListJson>(){})
                 .setCallback(new FutureCallback<NewsListJson>() {
                     @Override

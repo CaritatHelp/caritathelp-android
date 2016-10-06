@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.WindowManager;
 
@@ -18,6 +19,7 @@ import com.eip.red.caritathelp.Models.ModelManager;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Search.MySearchView;
+import com.koushikdutta.ion.Ion;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // ION DEBUG
-//        Ion.getDefault(getApplicationContext()).configure().setLogging("MyLogs", Log.DEBUG);
+        Ion.getDefault(getApplicationContext()).configure().setLogging("MyLogs", Log.DEBUG);
 
         // Set View
         setContentView(R.layout.activity_main);

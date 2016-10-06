@@ -9,6 +9,7 @@ import com.eip.red.caritathelp.Activities.Main.ViewPager.MyFirstPage;
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
@@ -25,9 +26,9 @@ public class OrganisationSearchPresenter implements IOrganisationSearchPresenter
     private OrganisationSearchView          view;
     private OrganisationSearchInteractor    interactor;
 
-    public OrganisationSearchPresenter(OrganisationSearchView view, String token) {
+    public OrganisationSearchPresenter(OrganisationSearchView view, User user) {
         this.view = view;
-        this.interactor = new OrganisationSearchInteractor(view.getContext(), token);
+        this.interactor = new OrganisationSearchInteractor(view.getContext(), user);
     }
 
     @Override

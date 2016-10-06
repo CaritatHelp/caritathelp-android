@@ -96,36 +96,13 @@ public class PostView extends Fragment implements IPostView {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 nestedScrollView.requestFocusFromTouch();
-//                post.setScrollX(nestedScrollView.getScrollX());
-//                post.setScrollY(nestedScrollView.getScrollY());
-//                nestedScrollView.requestDisallowInterceptTouchEvent(true);
-//                v.getParent().requestDisallowInterceptTouchEvent(true);
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_UP:
-//                        nestedScrollView.requestFocusFromTouch();
-//                        nestedScrollView.requestDisallowInterceptTouchEvent(false);
-//                        v.getParent().requestDisallowInterceptTouchEvent(false);
                         break;
                 }
                 return false;
             }
         });
-
-//        post.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                nestedScrollView.setScrollX(scrollX);
-//                nestedScrollView.setScrollY(scrollY);
-//            }
-//        });
-//
-//        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                post.setScrollX(scrollX);
-//                post.setScrollY(scrollY);
-//            }
-//        });
 
         getActivity().setTitle(getArguments().getInt("page"));
         presenter.initUserProfile(userImg, userName);

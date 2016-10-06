@@ -40,8 +40,6 @@ public class ProfileInteractor {
 
     public void uploadProfileImg(String file, String filename, String originFilename, int assocId, int eventId, String isMain, final IOnProfileFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("file", file);
         json.addProperty("filename", filename);
         json.addProperty("original_filename", originFilename);
@@ -55,6 +53,9 @@ public class ProfileInteractor {
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION_2 + Network.API_REQUEST_PICTURES)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<MainPictureJson>() {})
                 .setCallback(new FutureCallback<MainPictureJson>() {
@@ -76,13 +77,11 @@ public class ProfileInteractor {
     }
 
     public void getData(final IOnProfileFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + userId)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .as(new TypeToken<UserJson>() {})
                 .setCallback(new FutureCallback<UserJson>() {
                     @Override
@@ -103,13 +102,11 @@ public class ProfileInteractor {
     }
 
     public void getNews(final IOnProfileFinishedListener listener, final User user) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS_2 + userId + Network.API_REQUEST_NEWS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .as(new TypeToken<NewsListJson>(){})
                 .setCallback(new FutureCallback<NewsListJson>() {
                     @Override
@@ -128,13 +125,11 @@ public class ProfileInteractor {
     }
 
     public void getNews(final IOnProfileFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS_2 + userId + Network.API_REQUEST_NEWS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .as(new TypeToken<NewsListJson>(){})
                 .setCallback(new FutureCallback<NewsListJson>() {
                     @Override
@@ -155,12 +150,13 @@ public class ProfileInteractor {
 
     public void addFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("volunteer_id", String.valueOf(userId));
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_ADD )
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
@@ -181,12 +177,13 @@ public class ProfileInteractor {
 
     public void removeFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("id", String.valueOf(userId));
 
         Ion.with(context)
                 .load("DELETE", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REMOVE )
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
@@ -207,13 +204,14 @@ public class ProfileInteractor {
 
     public void replyFriend(final IOnProfileFinishedListener listener, ProgressBar progressBar, final String acceptance) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("notif_id", String.valueOf(user.getNotif_id()));
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REPLY )
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})

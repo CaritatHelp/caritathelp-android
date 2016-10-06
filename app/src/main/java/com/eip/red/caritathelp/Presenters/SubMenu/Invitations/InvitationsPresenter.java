@@ -6,6 +6,7 @@ import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Friends.FriendInvitation;
 import com.eip.red.caritathelp.Models.User.EventInvitation;
 import com.eip.red.caritathelp.Models.User.OrganisationInvitation;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
@@ -24,9 +25,9 @@ public class InvitationsPresenter implements IInvitationsPresenter, IOnInvitatio
     private InvitationsView         view;
     private InvitationsInteractor   interactor;
 
-    public InvitationsPresenter(InvitationsView view, String token) {
+    public InvitationsPresenter(InvitationsView view, User user) {
         this.view = view;
-        interactor = new InvitationsInteractor(view.getContext(), token);
+        interactor = new InvitationsInteractor(view.getContext(), user);
     }
 
     @Override

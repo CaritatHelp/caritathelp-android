@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
@@ -36,9 +37,9 @@ public class OrganisationCreationPresenter implements IOrganisationCreationPrese
 
     private AlertDialog     dialog;
 
-    public OrganisationCreationPresenter(final OrganisationCreationView view, String token) {
+    public OrganisationCreationPresenter(final OrganisationCreationView view, User user) {
         this.view = view;
-        interactor = new OrganisationCreationInteractor(view.getContext(), token);
+        interactor = new OrganisationCreationInteractor(view.getContext(), user);
 
         // Init Dialog
         CharSequence[] items = {"Prendre une photo", "Accéder à mes photos"};

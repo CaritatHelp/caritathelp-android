@@ -2,6 +2,7 @@ package com.eip.red.caritathelp.Presenters.Home.Comment;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.News.comment.Comment;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
@@ -17,9 +18,9 @@ public class CommentPresenter implements ICommentPresenter, IOnCommentFinishedLi
     private CommentView         view;
     private CommentInteractor   interactor;
 
-    public CommentPresenter(CommentView view, String token, int newsId) {
+    public CommentPresenter(CommentView view, User user, int newsId) {
         this.view = view;
-        interactor = new CommentInteractor(view.getContext(), token, newsId);
+        interactor = new CommentInteractor(view.getContext(), user, newsId);
     }
 
     @Override

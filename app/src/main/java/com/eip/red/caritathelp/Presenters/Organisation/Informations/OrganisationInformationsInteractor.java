@@ -6,6 +6,7 @@ import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.OrganisationJson;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -19,24 +20,22 @@ import com.koushikdutta.ion.Ion;
 public class OrganisationInformationsInteractor {
 
     private Context context;
-    private String  token;
+    private User    user;
     private int     id;
 
-    public OrganisationInformationsInteractor(Context context, String token, int id) {
+    public OrganisationInformationsInteractor(Context context, User user, int id) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         this.id = id;
     }
 
     public void getOrganisationInformations(final IOnOrganisationInformationsFinishedListener listener, final ImageView imageView, ProgressBar progressBar) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_BY_ID + id)
                 .progressBar(progressBar)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<OrganisationJson>(){})
                 .setCallback(new FutureCallback<OrganisationJson>() {
                     @Override

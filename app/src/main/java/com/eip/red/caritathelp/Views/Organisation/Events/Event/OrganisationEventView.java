@@ -67,7 +67,7 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
         int     eventId = getArguments().getInt("event id");
 
         // Init Presenter
-        presenter = new OrganisationEventPresenter(this, user.getToken(), eventId);
+        presenter = new OrganisationEventPresenter(this, user, eventId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())

@@ -5,6 +5,7 @@ import android.view.View;
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
@@ -27,11 +28,11 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
     private OrganisationEventView           view;
     private OrganisationEventInteractor     interactor;
 
-    public OrganisationEventPresenter(OrganisationEventView view, String token, int eventId) {
+    public OrganisationEventPresenter(OrganisationEventView view, User user, int eventId) {
         this.view = view;
 
         // Init Interactor
-        interactor = new OrganisationEventInteractor(view.getContext(), token, eventId);
+        interactor = new OrganisationEventInteractor(view.getContext(), user, eventId);
     }
 
     @Override

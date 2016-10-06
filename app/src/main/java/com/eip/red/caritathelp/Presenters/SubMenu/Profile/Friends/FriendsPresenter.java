@@ -2,6 +2,7 @@ package com.eip.red.caritathelp.Presenters.SubMenu.Profile.Friends;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Friends.Friend;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.Friends.FriendsView;
@@ -17,9 +18,9 @@ public class FriendsPresenter implements IFriendsPresenter, IOnFriendsFinishedLi
     private FriendsView         view;
     private FriendsInteractor   interactor;
 
-    public FriendsPresenter(FriendsView view, int profileId, String token) {
+    public FriendsPresenter(FriendsView view, int profileId, User user) {
         this.view = view;
-        interactor = new FriendsInteractor(view.getContext(), profileId, token);
+        interactor = new FriendsInteractor(view.getContext(), profileId, user);
     }
 
     @Override

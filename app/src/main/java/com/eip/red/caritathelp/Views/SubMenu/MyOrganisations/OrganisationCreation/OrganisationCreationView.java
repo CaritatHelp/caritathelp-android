@@ -52,7 +52,7 @@ public class OrganisationCreationView extends Fragment implements IOrganisationC
         User user = ((MainActivity) getActivity()).getModelManager().getUser();
 
         // Init Presenter
-        presenter = new OrganisationCreationPresenter(this, user.getToken());
+        presenter = new OrganisationCreationPresenter(this, user);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())

@@ -7,6 +7,7 @@ import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.Organisation.OrganisationJson;
 import com.eip.red.caritathelp.Models.Profile.MainPictureJson;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -20,13 +21,13 @@ public class OrganisationCreationInteractor {
 
     static final private String     ERROR_MANDATORY = "Ce champ est obligatoire";
 
-    private Context     context;
-    private String      token;
-    private String      encodedImg;
+    private Context context;
+    private User    user;
+    private String  encodedImg;
 
-    public OrganisationCreationInteractor(Context context, String token) {
+    public OrganisationCreationInteractor(Context context, User user) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         encodedImg = null;
     }
 
@@ -67,8 +68,6 @@ public class OrganisationCreationInteractor {
 
     private void apiRequest(final String name, String theme, String city, String description, final IOnOrganisationCreationsFinishedListener listener) {
         JsonObject          json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("name", name);
         json.addProperty("city", city);
 
@@ -77,6 +76,9 @@ public class OrganisationCreationInteractor {
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<OrganisationJson>() {})
                 .setCallback(new FutureCallback<OrganisationJson>() {
@@ -102,8 +104,6 @@ public class OrganisationCreationInteractor {
 
     public void uploadProfileImg(final Organisation organisation, String file, String filename, String originFilename, int assocId, int eventId, String isMain, final IOnOrganisationCreationsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("file", file);
         json.addProperty("filename", filename);
         json.addProperty("original_filename", originFilename);
@@ -117,6 +117,9 @@ public class OrganisationCreationInteractor {
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION_2 + Network.API_REQUEST_PICTURES)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<MainPictureJson>() {})
                 .setCallback(new FutureCallback<MainPictureJson>() {

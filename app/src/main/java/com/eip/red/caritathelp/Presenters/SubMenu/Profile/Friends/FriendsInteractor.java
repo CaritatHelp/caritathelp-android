@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.eip.red.caritathelp.Models.Friends.FriendsJson;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -17,22 +18,20 @@ public class FriendsInteractor {
 
     private Context context;
     private int     profileId;
-    private String  token;
+    private User    user;
 
-    public FriendsInteractor(Context context, int profileId, String token) {
+    public FriendsInteractor(Context context, int profileId, User user) {
         this.context = context;
         this.profileId = profileId;
-        this.token = token;
+        this.user = user;
     }
 
     public void getFriends(final IOnFriendsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_VOLUNTEER + profileId + Network.API_REQUEST_FRIENDSHIP)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<FriendsJson>(){})
                 .setCallback(new FutureCallback<FriendsJson>() {
                     @Override

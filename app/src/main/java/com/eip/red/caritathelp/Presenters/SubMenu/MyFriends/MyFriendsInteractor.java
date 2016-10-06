@@ -31,13 +31,11 @@ public class MyFriendsInteractor {
     }
 
     public void getMyFriends(final IOnMyFriendsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_VOLUNTEER + userId + Network.API_REQUEST_FRIENDSHIP)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .as(new TypeToken<FriendsJson>(){})
                 .setCallback(new FutureCallback<FriendsJson>() {
                     @Override
@@ -57,12 +55,13 @@ public class MyFriendsInteractor {
 
     public void getInvitations(final String sent, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("sent", sent);
 
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_FRIEND_REQUESTS)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<FriendsInvitationsJson>(){})
                 .setCallback(new FutureCallback<FriendsInvitationsJson>() {
@@ -87,12 +86,13 @@ public class MyFriendsInteractor {
 
     public void removeFriend(int unfriendId, ProgressBar progressBar, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("id", unfriendId);
 
         Ion.with(context)
                 .load("DELETE", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REMOVE)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
@@ -114,13 +114,14 @@ public class MyFriendsInteractor {
 
     public void invitationReply(final FriendInvitation friendInvitation, final String acceptance, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", mainUser.getToken());
         json.addProperty("notif_id", String.valueOf(friendInvitation.getNotif_id()));
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REPLY)
+                .setHeader("access-token", mainUser.getToken())
+                .setHeader("client", mainUser.getClient())
+                .setHeader("uid", mainUser.getUid())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<Friendship>(){})
                 .setCallback(new FutureCallback<Friendship>() {
@@ -138,10 +139,6 @@ public class MyFriendsInteractor {
                     }
                 });
 
-    }
-
-    public int getMainUserId() {
-        return mainUser.getId();
     }
 
     public int getUserId() {

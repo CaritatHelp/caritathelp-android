@@ -30,13 +30,11 @@ public class HomeInteractor {
     }
 
     public void getNews(final IOnHomeFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", user.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_NEWS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<NewsListJson>(){})
                 .setCallback(new FutureCallback<NewsListJson>() {
                     @Override

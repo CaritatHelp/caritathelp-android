@@ -46,7 +46,7 @@
                 android:paddingLeft="@dimen/_20sdp"
                 android:paddingRight="@dimen/_60sdp"
 
-                android:text="root"
+                android:text="root1234"
 
                 android:background="@android:color/transparent"
                 android:hint="Password"

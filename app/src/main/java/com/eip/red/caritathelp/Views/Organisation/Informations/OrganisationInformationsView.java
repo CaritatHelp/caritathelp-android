@@ -53,7 +53,7 @@ public class OrganisationInformationsView extends Fragment implements IOrganisat
         int     id = getArguments().getInt("id");
 
         // Init Presenter
-        presenter = new OrganisationInformationsPresenter(this, user.getToken(), id);
+        presenter = new OrganisationInformationsPresenter(this, user, id);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())

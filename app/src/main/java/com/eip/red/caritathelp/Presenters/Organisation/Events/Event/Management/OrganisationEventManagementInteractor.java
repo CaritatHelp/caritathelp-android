@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation.IOnOrganisationEventCreationFinishedListener;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -24,24 +25,22 @@ public class OrganisationEventManagementInteractor {
     static final private String     ERROR_MANDATORY = "Ce champ est obligatoire";
 
     private Context context;
-    private String  token;
+    private User    user;
     private int     eventId;
 
-    public OrganisationEventManagementInteractor(Context context, String token, int eventId) {
+    public OrganisationEventManagementInteractor(Context context, User user, int eventId) {
         this.context = context;
-        this.token = token;
+        this.user = user;
         this.eventId = eventId;
     }
 
     public void getEvent(ProgressBar progressBar, final IOnOrganisationEventManagementFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS + eventId)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .progressBar(progressBar)
-                .setJsonObjectBody(json)
                 .as(new TypeToken<EventInformations>(){})
                 .setCallback(new FutureCallback<EventInformations>() {
                     @Override
@@ -61,8 +60,6 @@ public class OrganisationEventManagementInteractor {
 
     public void saveEventModifications(final IOnOrganisationEventManagementFinishedListener listener, ProgressBar progressBar, HashMap<String, String> data) {
         JsonObject json = new JsonObject();
-
-        json.addProperty("token", token);
         json.addProperty("title", data.get("title"));
         json.addProperty("description", data.get("description"));
         json.addProperty("place", data.get("location"));
@@ -71,6 +68,9 @@ public class OrganisationEventManagementInteractor {
 
         Ion.with(context)
                 .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT_MANAGEMENT + eventId)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .progressBar(progressBar)
                 .setJsonObjectBody(json)
                 .as(new TypeToken<EventInformations>(){})

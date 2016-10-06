@@ -16,10 +16,10 @@ public class OrganisationEventGuestsPresenter implements IOrganisationEventGuest
     private OrganisationEventGuestsView         view;
     private OrganisationEventGuestsInteractor   interactor;
 
-    public OrganisationEventGuestsPresenter(OrganisationEventGuestsView view, String token, int eventId) {
+    public OrganisationEventGuestsPresenter(OrganisationEventGuestsView view, User user, int eventId) {
         this.view = view;
 
-        interactor = new OrganisationEventGuestsInteractor(view.getContext(), token, eventId);
+        interactor = new OrganisationEventGuestsInteractor(view.getContext(), user, eventId);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Views.Organisation.Informations.OrganisationInformationsView;
 
 import java.util.List;
@@ -17,9 +18,9 @@ public class OrganisationInformationsPresenter implements IOrganisationInformati
     OrganisationInformationsView        view;
     OrganisationInformationsInteractor  interactor;
 
-    public OrganisationInformationsPresenter(OrganisationInformationsView view, String token, int id) {
+    public OrganisationInformationsPresenter(OrganisationInformationsView view, User user, int id) {
         this.view = view;
-        interactor = new OrganisationInformationsInteractor(view.getContext(), token, id);
+        interactor = new OrganisationInformationsInteractor(view.getContext(), user, id);
     }
 
     @Override
