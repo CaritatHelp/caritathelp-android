@@ -104,6 +104,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.aurelhubert/ahbottomnavigation/1.0.3/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.beardedhen/androidbootstrap/2.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.bluejamesbond/textjustify-android/2.1.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.mabbas007/TagsEditText/v1.0.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.intuit.sdp/sdp-android/1.0.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.jakewharton/butterknife/8.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.koushikdutta.async/androidasync/2.1.9/jars" />
@@ -134,6 +135,7 @@
     <orderEntry type="library" exported="" name="support-compat-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.6.2" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.9.3" level="project" />
     <orderEntry type="library" exported="" name="androidasync-2.1.9" level="project" />
     <orderEntry type="library" exported="" name="androidbootstrap-2.0.0" level="project" />
@@ -150,7 +152,6 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.1" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-v13-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="Java-WebSocket-1.3.0" level="project" />
@@ -159,6 +160,7 @@
     <orderEntry type="library" exported="" name="support-annotations-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="textjustify-android-2.1.1" level="project" />
+    <orderEntry type="library" exported="" name="TagsEditText-v1.0.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" name="ion-2.1.9" level="project" />

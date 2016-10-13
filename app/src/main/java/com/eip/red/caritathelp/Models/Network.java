@@ -88,6 +88,9 @@ public class Network implements Serializable {
     /* PICTURE */
     static final public  String     API_REQUEST_PICTURES = "/pictures";
 
+    /* MESSAGES*/
+    static final public  String     API_REQUEST_MESSAGE_CHATROOMS = "/chatrooms";
+    static final public  String     API_REQUEST_MESSAGE_NEW_MESSAGE = "/new_message";
 
     /* API PARAMETERS */
     static final public  String     API_PARAMETER_STATUS = "status";
@@ -107,6 +110,8 @@ public class Network implements Serializable {
     /* SUBSCRIBE */
     static final public  String     API_MSG_INVALID_MAIL = "Validation failed: Mail is invalid";
     static final public  String     API_MSG_UNAVAILABLE_MAIL = "Unavailable mail";
+    /* SEARCH */
+    static final public  String     API_MSG_SEARCH_FIELD_EMPTY = "Research field is missing";
 
     private String  token;
 

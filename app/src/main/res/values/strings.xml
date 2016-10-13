@@ -4,12 +4,16 @@
     <!-- Dialog Msg -->
     <string name="connection_problem">Nos serveurs sont temporairement indisponibles où vous n\'êtes pas connecté à internet.</string>
 
+    <!-- Verbs -->
+    <string name="verb_create">Créer</string>
+
     <!-- Views Names -->
     <string name="view_name_home">@string/app_name</string>
     <string name="view_name_post">Publication</string>
     <string name="view_name_comment">Commentaires</string>
 
     <string name="view_name_mailbox">@string/app_name</string>
+    <string name="view_name_mailbox_chatroom_creation">Envoyer un message</string>
 
     <string name="view_name_notifications">@string/app_name</string>
 
@@ -96,6 +100,13 @@
 
     <!-- MailBox View -->
     <string name="mailbox_toolbar_title">Messagerie</string>
+    <string name="mailbox_chatrooms_information" formatted="false">%d pers - %d msg</string>
+
+    <!-- MailBox Chatroom Creation -->
+    <string name="mailbox_chatroom_creation_search_hint" >Entrez un nom</string>
+
+    <!-- MailBox Chatroom -->
+    <string name="mailbox_chatroom_name_date" formatted="false">%s - %s</string>
 
     <!-- Notifications View -->
     <string name="notifications_toolbar_title">Notifications</string>

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 //        System.setProperty("java.net.preferIPv6Addresses", "false");
 //        System.setProperty("java.net.preferIPv4Stack", "true");
         myWebSocket = new MyWebSocket(myPagerAdapter);
-        myWebSocket.connectWebSocket(modelManager.getUser().getToken());
+        myWebSocket.connectWebSocket(modelManager.getUser().getUid());
         myWebSocket.sendMessage();
 
         // Init ViewPager Listener

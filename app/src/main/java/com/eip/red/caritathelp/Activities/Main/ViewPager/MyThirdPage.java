@@ -30,20 +30,16 @@ public class MyThirdPage extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return (inflater.inflate(R.layout.fragment_view_pager_third_page, container, false));
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Init Fragment
         initFragment();
     }
 
     private void initFragment() {
-        // Set Fragment View (Check BackStack)
         Fragment    fragment = Tools.getLastFragment(getChildFragmentManager());
         if (fragment != null)
             Tools.replaceView(this, fragment, Animation.FADE_IN_OUT, true);

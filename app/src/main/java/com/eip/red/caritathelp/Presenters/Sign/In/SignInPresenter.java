@@ -58,13 +58,14 @@ public class SignInPresenter implements ISignInPresenter, IOnSignInFinishedListe
     public void onSuccess(User user) {
         view.hideProgress();
 
+        /* DEBUG TOKEN */
+        System.out.println("********************Token : " + user.getToken());
+        System.out.println("********************client : " + user.getClient());
+        System.out.println("********************Uid : " + user.getUid());
+
         // Navigate To MainActivity
         SignActivity activity = (SignActivity) view.getActivity();
         Intent intent = new Intent(activity, MainActivity.class);
-
-        /* DEBUG TOKEN */
-        System.out.println("***************************************ID : " + user.getId());
-        System.out.println("***************************************TOKEN : " + user.getToken());
         intent.putExtra("user", user);
         view.startActivity(intent);
         activity.finish();

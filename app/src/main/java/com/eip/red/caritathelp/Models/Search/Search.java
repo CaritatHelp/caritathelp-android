@@ -21,15 +21,21 @@ public class Search {
     public static final String  RIGHTS_EVENT_MEMBER = "member";
     public static final String  RIGHTS_EVENT_NOT_MEMBER = null;
 
-    private int     id;
+    private Integer id;
     private String  thumb_path;
     private String  name;
     private String  rights;
     private String  result_type;
 
-    private String  result = null;
+    private String  result;
+    private Boolean added;
 
-    public int getId() {
+    public Search() {
+        result = null;
+        added = false;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -55,5 +61,13 @@ public class Search {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public Boolean isAdded() {
+        return added;
+    }
+
+    public void setAdded(Boolean added) {
+        this.added = added;
     }
 }
