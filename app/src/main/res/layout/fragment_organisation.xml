@@ -24,8 +24,10 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp"
-                    android:background="@color/background">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/background_gradient"
+                    android:elevation="4dp">
 
                     <!-- Logo -->
                     <com.mikhaellopez.circularimageview.CircularImageView
@@ -185,17 +187,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_alignParentBottom="true"
-                        android:elevation="4dp">
+                        android:layout_alignParentBottom="true">
 
                         <!-- DIVIDER -->
-                        <View style="@style/Divider"/>
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:orientation="horizontal"
-                            android:background="@color/icons"
                             android:weightSum="6">
 
                             <ImageButton
@@ -256,11 +254,22 @@
 
                         </LinearLayout>
 
-                        <!-- DIVIDER -->
-                        <View style="@style/Divider"/>
-
                     </LinearLayout>
+
                 </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btn_shelters"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+
+                    android:gravity="center"
+                    android:text="Voir les centres d'hébergements"
+                    android:textSize="14sp"
+                    android:maxLines="1"
+                    android:textAllCaps="false"
+                    android:background="@color/icons" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"

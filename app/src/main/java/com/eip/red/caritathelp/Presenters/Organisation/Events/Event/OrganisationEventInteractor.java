@@ -5,6 +5,7 @@ import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.NewsListJson;
+import com.eip.red.caritathelp.Models.Organisation.EmergencyJson;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
 import com.eip.red.caritathelp.Models.Organisation.Events;
@@ -100,6 +101,32 @@ public class OrganisationEventInteractor {
                                 listener.onSuccessGetNews(result.getResponse());
                         }
                         else
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+                    }
+                });
+    }
+
+    public void raiseEmergency(final IOnOrganisationEventFinishedListener listener, String volunteers, String zone) {
+        JsonObject json = new JsonObject();
+        json.addProperty("number_volunteers", Integer.valueOf(volunteers));
+        json.addProperty("zone", Integer.valueOf(zone.replaceAll("km", "").trim()));
+
+        Ion.with(context)
+                .load("POST", Network.API_LOCATION_2 + Network.API_REQUEST_ORGANISATION_EVENT + eventId + Network.API_REQUEST_ORGANISATION_EVENT_EMERGENCY + "?number_volunteers=17&zone=50")
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+//                .addQuery("number_volunteers", volunteers)
+//                .addQuery("zone", zone.replaceAll("km", "").trim())
+//                .setJsonObjectBody(json)
+                .as(new TypeToken<EmergencyJson>(){})
+                .setCallback(new FutureCallback<EmergencyJson>() {
+                    @Override
+                    public void onCompleted(Exception error, EmergencyJson result) {
+                        if (error == null) {
+                            if (result.getStatus() == Network.API_STATUS_ERROR)
+                                listener.onDialog("Statut 400", result.getMessage());
+                        } else
                             listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
                     }
                 });

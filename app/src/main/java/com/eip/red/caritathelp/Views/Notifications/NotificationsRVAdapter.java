@@ -1,6 +1,9 @@
 package com.eip.red.caritathelp.Views.Notifications;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +16,15 @@ import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Notifications.Notification;
 import com.eip.red.caritathelp.Presenters.Notifications.NotificationsPresenter;
 import com.eip.red.caritathelp.R;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,8 +39,6 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
     private List<Notification>      volunteerNotifs;
     private List<Notification>      ownerNotifs;
 
-    private DateTimeFormatter   formatter;
-    private DateTimeFormatter   newFormatter;
     private boolean             showVolunteerNotifs;
 
     public NotificationsRVAdapter(NotificationsPresenter presenter) {
@@ -42,10 +46,6 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
         volunteerNotifs = new ArrayList<>();
         ownerNotifs = new ArrayList<>();
         showVolunteerNotifs = true;
-
-        // Init Date Formatter
-        formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS+02:00");
-        newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm").withLocale(Locale.FRANCE);
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -154,11 +154,24 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
                 holder.confirm.setVisibility(View.GONE);
                 holder.delete.setVisibility(View.GONE);
                 break;
+            case Notification.NOTIF_TYPE_EMERGENCY:
+                // Set Msg
+                msg ="Urgence : l'événement <b>" + notification.getEvent_name() + "</b> a besoin de vous.";
+                holder.message.setText(Html.fromHtml(msg));
+
+                // Set Buttons Visibility
+                holder.confirm.setVisibility(View.VISIBLE);
+                holder.delete.setVisibility(View.VISIBLE);
+                break;
         }
 
         // Set Date
-        DateTime    date = formatter.parseDateTime(notification.getCreated_at());
-        holder.date.setText(newFormatter.print(date));
+        try {
+            long now = ISO8601Utils.parse(notification.getCreated_at(), new ParsePosition(0)).getTime();
+            holder.date.setText(String.format("%s", DateUtils.getRelativeTimeSpanString(now)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Set Result Msg (Friend Invitation confirmed...)
         String  result = notification.getResult();

@@ -17,4 +17,6 @@ public interface IOrganisationPresenter {
     void goToProfileView(News news);
 
     void goToCommentView(News news);
+
+    void goToSheltersView();
 }

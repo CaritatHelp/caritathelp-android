@@ -7,12 +7,16 @@ import android.view.View;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Activities.Main.MyNavigationBottomBar;
+import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Notifications.Notification;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
+import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Notifications.NotificationsRVAdapter;
 import com.eip.red.caritathelp.Views.Notifications.NotificationsView;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -96,6 +100,16 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
                         break;
                 }
                 break;
+            default:
+                switch (notification.getNotif_type()) {
+                    case Notification.NOTIF_TYPE_ADD_FRIEND:
+                        Tools.replaceView(view, ProfileView.newInstance(notification.getSender_id()), Animation.FADE_IN_OUT, false);
+                        break;
+                    case Notification.NOTIF_TYPE_EMERGENCY:
+                        Tools.replaceView(view, OrganisationEventView.newInstance(notification.getEvent_id(), notification.getEvent_name()), Animation.FADE_IN_OUT, false);
+                        break;
+                }
+            break;
         }
     }
 

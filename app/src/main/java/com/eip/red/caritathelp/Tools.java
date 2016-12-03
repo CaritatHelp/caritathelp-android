@@ -40,7 +40,7 @@ public class Tools {
 
         if (!storageDir.exists()) {
             System.out.println("PASSERRRRRRRRRRRRRRRRR22222222222222222222222");
-            if (!storageDir.mkdir()) {
+            if (!storageDir.mkdirs()) {
                 System.out.println("PASSERRRRRRRRRRRRRRRRR");
                 Log.d("Pics Files directory", "failed to create directory");
                 return null;

@@ -1,19 +1,16 @@
-<!--<android.support.v4.widget.SwipeRefreshLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:id="@+id/refresh_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginBottom="56dp">-->
+ <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="56dp">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.CoordinatorLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -22,26 +19,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_create"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_margin="16dp"
-                android:src="@drawable/btn_plus"
-                app:layout_anchor="@id/recycler_view"
-                app:layout_anchorGravity="bottom|right|end"
-                app:layout_behavior="com.eip.red.caritathelp.MyWidgets.ScrollAwareFABBehavior"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-        </android.support.design.widget.CoordinatorLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/btn_plus"
+            app:layout_anchor="@id/recycler_view"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_behavior="com.eip.red.caritathelp.MyWidgets.ScrollAwareFABBehavior"/>
 
-    </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
-<!--</android.support.v4.widget.SwipeRefreshLayout>-->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

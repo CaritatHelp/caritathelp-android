@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -152,6 +153,11 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         presenter.onClick(v.getId());
     }
 
+
+    @OnClick(R.id.btn_shelters)
+    public void onClickSheltersBtn() {
+        presenter.goToSheltersView();
+    }
 
     @Override
     public void setLogoPosition(String right) {

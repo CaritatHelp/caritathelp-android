@@ -19,6 +19,7 @@ import com.eip.red.caritathelp.Models.ModelManager;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Search.MySearchView;
+import com.karumi.dexter.Dexter;
 import com.koushikdutta.ion.Ion;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Dexter.initialize(this);
         // ION DEBUG
         Ion.getDefault(getApplicationContext()).configure().setLogging("MyLogs", Log.DEBUG);
 
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 //        System.setProperty("java.net.preferIPv4Stack", "true");
         myWebSocket = new MyWebSocket(myPagerAdapter);
         myWebSocket.connectWebSocket(modelManager.getUser().getUid());
-        myWebSocket.sendMessage();
 
         // Init ViewPager Listener
         initViewPagerListener();

@@ -34,6 +34,7 @@
     <string name="view_name_organisation_events">Événement</string>
     <string name="view_name_organisation_informations">Informations</string>
     <string name="view_name_organisation_management">Gestion de l\'association</string>
+    <string name="view_name_organisation_shelters">Centres d\'hébergements</string>
 
     <string name="view_name_organisation_event_guests">Participants</string>
     <string name="view_name_organisation_event_management">Gestion de l\'événement</string>

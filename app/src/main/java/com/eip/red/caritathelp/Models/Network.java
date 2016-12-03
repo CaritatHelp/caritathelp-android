@@ -17,16 +17,6 @@ public class Network implements Serializable {
     static final public  String     API_LOCATION = "http://staging.caritathelp.me/";
     static final public  String     API_LOCATION_2 = "http://staging.caritathelp.me";
 
-    static final public  String     API_REQUEST_ORGANISATION = "associations";
-    static final public  String     API_REQUEST_ORGANISATION_BY_ID = "associations/";
-    static final public  String     API_REQUEST_ORGANISATION_MEMBERS = "/members";
-    static final public  String     API_REQUEST_ORGANISATION_EVENTS = "/events";
-    static final public  String     API_REQUEST_ORGANISATION_EVENT = "/events/";
-    static final public  String     API_REQUEST_ORGANISATION_EVENTS_GUESTS = "/guests";
-    static final public  String     API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS = "/events/";
-    static final public  String     API_REQUEST_ORGANISATION_EVENT_MANAGEMENT = "/events/";
-    static final public  String     API_REQUEST_ORGANISATION_NEWS = "/news";
-
     static final public  String     API_REQUEST_VOLUNTEERS = "volunteers/";
     static final public  String     API_REQUEST_VOLUNTEERS_2 = "/volunteers/";
     static final public  String     API_REQUEST_VOLUNTEERS_MAIN_PICTURE = "/main_picture";
@@ -65,6 +55,19 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_MEMBERSHIP_INVITED = "/membership/invited";
     static final public  String     API_REQUEST_MEMBERSHIP_UNINVITE = "/membership/uninvite";
     static final public  String     API_REQUEST_MEMBERSHIP_WAITING = "/membership/waiting";
+
+    /* ORGANISATION */
+    static final public  String     API_REQUEST_ORGANISATION = "associations";
+    static final public  String     API_REQUEST_ORGANISATION_BY_ID = "associations/";
+    static final public  String     API_REQUEST_ORGANISATION_MEMBERS = "/members";
+    static final public  String     API_REQUEST_ORGANISATION_EVENTS = "/events";
+    static final public  String     API_REQUEST_ORGANISATION_EVENT = "/events/";
+    static final public  String     API_REQUEST_ORGANISATION_EVENTS_GUESTS = "/guests";
+    static final public  String     API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS = "/events/";
+    static final public  String     API_REQUEST_ORGANISATION_EVENT_EMERGENCY = "/raise_emergency";
+    static final public  String     API_REQUEST_ORGANISATION_EVENT_MANAGEMENT = "/events/";
+    static final public  String     API_REQUEST_ORGANISATION_NEWS = "/news";
+    static final public  String     API_REQUEST_ORGANISATION_SHELTERS = "/shelters";
 
     /* GUESTS */
     static final public  String     API_REQUEST_GUESTS_REPLY_INVITE = "/guests/reply_invite";

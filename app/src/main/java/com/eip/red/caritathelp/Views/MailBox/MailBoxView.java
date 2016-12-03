@@ -29,7 +29,7 @@ import butterknife.OnClick;
 
 public class MailBoxView extends Fragment implements MailBox.View {
 
-//    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     private AlertDialog dialog;
 
@@ -61,21 +61,6 @@ public class MailBoxView extends Fragment implements MailBox.View {
         View view = inflater.inflate(R.layout.fragment_mailbox, container, false);
         ButterKnife.bind(this, view);
 
-//        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
-//        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                presenter.getChatrooms(true);
-//            }
-//        });
-
-        RecyclerView recyclerView = ButterKnife.findById(view, R.id.recycler_view);
-        adapter = new MailBoxRvAdapter(getResources(), presenter);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(false);
-
         return (view);
     }
 
@@ -83,6 +68,23 @@ public class MailBoxView extends Fragment implements MailBox.View {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(getArguments().getInt("page"));
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getChatrooms(true);
+            }
+        });
+
+        RecyclerView recyclerView = ButterKnife.findById(view, R.id.recycler_view);
+        adapter = new MailBoxRvAdapter(getResources(), presenter);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setNestedScrollingEnabled(true);
+
         presenter.getChatrooms(false);
     }
 
@@ -94,7 +96,7 @@ public class MailBoxView extends Fragment implements MailBox.View {
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.INVISIBLE);
-//        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

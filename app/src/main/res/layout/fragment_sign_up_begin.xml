@@ -59,8 +59,7 @@
                 android:textColor="@color/primary_text"
                 android:textOn="Oui"
                 android:textOff="Non"
-                android:background="@color/bootstrap_gray_lightest"
-                />
+                android:background="@android:color/transparent" />
 
             <!-- DIVIDER -->
             <View
@@ -77,8 +76,7 @@
                 android:textColor="@color/primary_text"
                 android:textOn="Oui"
                 android:textOff="Non"
-                android:background="@color/bootstrap_gray_lightest"
-                />
+                android:background="@android:color/transparent" />
 
         </LinearLayout>
 

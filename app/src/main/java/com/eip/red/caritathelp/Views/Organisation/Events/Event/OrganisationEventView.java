@@ -43,6 +43,7 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @BindView(R.id.btn_informations) ImageButton informationsBtn;
     @BindView(R.id.btn_join) ImageButton joinBtn;
     @BindView(R.id.btn_quit) ImageButton quitBtn;
+    @BindView(R.id.btn_emergency) ImageButton emergencyBtn;
     @BindView(R.id.btn_management) ImageButton managementBtn;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -61,15 +62,10 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Get Network Model & Id Organisation
         User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     eventId = getArguments().getInt("event id");
 
-        // Init Presenter
         presenter = new OrganisationEventPresenter(this, user, eventId);
-
-        // Init Dialog
         dialog = new AlertDialog.Builder(getContext())
                 .setCancelable(true)
                 .create();
@@ -97,15 +93,14 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
         initSwipeRefreshLayout();
         initRecyclerView();
 
-        // Init Listener
         postBtn.setOnClickListener(this);
         joinBtn.setOnClickListener(this);
         quitBtn.setOnClickListener(this);
         guestBtn.setOnClickListener(this);
         informationsBtn.setOnClickListener(this);
         managementBtn.setOnClickListener(this);
+        emergencyBtn.setOnClickListener(this);
 
-        // Init Event Model
         presenter.getData();
     }
 
@@ -121,18 +116,11 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     }
 
     private void initRecyclerView() {
-        // Init RecyclerView
         adapter = new OrganisationEventRVAdapter(presenter);
         recyclerView.setAdapter(adapter);
-
-        // Init LayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Set Options to enable toolbar display/hide
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(false);
-
-        // Init Divider (between items)
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this.getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
     }
@@ -173,6 +161,10 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
 
     public ImageButton getQuitBtn() {
         return quitBtn;
+    }
+
+    public ImageButton getEmergencyBtn() {
+        return emergencyBtn;
     }
 
     public ImageButton getManagementBtn() {

@@ -65,18 +65,19 @@ public class ChatroomPresenter implements IChatroom.Presenter {
                 .setHeader("client", user.getClient())
                 .setHeader("uid", user.getUid())
                 .setBodyParameter("content", message)
-                .as(new TypeToken<ChatroomMessageJson>() {
-                })
+                .as(new TypeToken<ChatroomMessageJson>() {})
                 .setCallback(new FutureCallback<ChatroomMessageJson>() {
                     @Override
                     public void onCompleted(Exception error, ChatroomMessageJson result) {
                         view.hideProgress();
-                        if (error == null) {
-                            if (result.getStatus() != Network.API_STATUS_ERROR)
-                                getMessages();
-                        }
-                        else
+                        if (error != null)
                             view.setDialog("Problème de connection", view.getString(R.string.connection_problem));
+//                        if (error == null) {
+////                            if (result.getStatus() != Network.API_STATUS_ERROR)
+////                                getMessages();
+//                        }
+//                        else
+//                            view.setDialog("Problème de connection", view.getString(R.string.connection_problem));
                     }
                 });
     }

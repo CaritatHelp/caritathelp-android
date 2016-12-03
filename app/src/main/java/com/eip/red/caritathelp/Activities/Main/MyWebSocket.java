@@ -51,9 +51,9 @@ public class MyWebSocket {
 
             @Override
             public void onMessage(String s) {
-                System.out.println("****************************************** MSG : " + s);
+//                System.out.println("****************************************** MSG : " + s);
                 ((MyThirdPage) pagerAdapter.getFragment(2)).getNotificationsView().getPresenter().onMessage();
-                ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().getChatrooms(false);
+                ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().onMessage(s);
 
                 /* DEBUG */
 //                System.out.println("Websocket MSG : " + s);

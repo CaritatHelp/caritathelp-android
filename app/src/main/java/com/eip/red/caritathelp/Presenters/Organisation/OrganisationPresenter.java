@@ -7,6 +7,7 @@ import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Views.Organisation.Shelters.SheltersView;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
@@ -109,6 +110,11 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
     @Override
     public void goToCommentView(News news) {
         Tools.replaceView(view, CommentView.newInstance(news.getId()), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
+    public void goToSheltersView() {
+        Tools.replaceView(view, SheltersView.newInstance(interactor.getOrganisation().getId()), Animation.FADE_IN_OUT, false);
     }
 
     @Override
