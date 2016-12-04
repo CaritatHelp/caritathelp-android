@@ -114,7 +114,7 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
 
     @Override
     public void goToSheltersView() {
-        Tools.replaceView(view, SheltersView.newInstance(interactor.getOrganisation().getId()), Animation.FADE_IN_OUT, false);
+        Tools.replaceView(view, SheltersView.newInstance(interactor.getOrganisation().getId(), false), Animation.FADE_IN_OUT, false);
     }
 
     @Override

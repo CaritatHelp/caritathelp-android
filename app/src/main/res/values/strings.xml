@@ -175,6 +175,7 @@
     <string name="organisation_management_settings">Modifier les paramètres</string>
     <string name="organisation_management_emergency_system">Système d\'urgence</string>
     <string name="organisation_management_delete">Supprimer l\'association</string>
+    <string name="organisation_management_shelters">Gérer les centres d\'hébergements</string>
 
     <!-- OrganisationManagement Event Creation View -->
     <string name="organisation_management_event_title">Titre de l\'événement</string>

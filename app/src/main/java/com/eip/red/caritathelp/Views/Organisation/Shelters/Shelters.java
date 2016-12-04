@@ -22,5 +22,11 @@ public interface Shelters {
 
     interface Presenter {
         void getShelters();
+
+        void createShelter();
+
+        void updateShelter(Integer shelterId);
+
+        void deleteShelter(Integer shelterId, String shelterName);
     }
 }

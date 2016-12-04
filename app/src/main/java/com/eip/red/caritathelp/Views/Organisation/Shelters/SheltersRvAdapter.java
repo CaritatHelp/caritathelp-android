@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by pierr on 03/12/2016.
@@ -35,11 +37,13 @@ public class SheltersRvAdapter extends RecyclerView.Adapter<SheltersRvAdapter.Da
     private Context context;
     private SheltersPresenter presenter;
     private List<Shelter> shelters;
+    private boolean owner;
 
     public SheltersRvAdapter(Context context, SheltersPresenter presenter) {
         this.context = context;
         this.presenter = presenter;
         shelters = new ArrayList<>();
+        owner = presenter.isOwner();
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -47,6 +51,8 @@ public class SheltersRvAdapter extends RecyclerView.Adapter<SheltersRvAdapter.Da
         @BindView(R.id.name) TextView name;
         @BindView(R.id.address) TextView address;
         @BindView(R.id.city) TextView city;
+        @BindView(R.id.btn_update) ImageButton update;
+        @BindView(R.id.btn_delete) ImageButton delete;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
@@ -110,6 +116,23 @@ public class SheltersRvAdapter extends RecyclerView.Adapter<SheltersRvAdapter.Da
                 dialog.show();
             }
         }
+
+        @OnClick(R.id.btn_update)
+        public void onClickUpdateBtn() {
+            Shelter shelter = shelters.get(getAdapterPosition());
+
+            if (shelter != null)
+                presenter.updateShelter(shelter.getId());
+        }
+
+        @OnClick(R.id.btn_delete)
+        public void onClickDeleteBtn() {
+                Shelter shelter = shelters.get(getAdapterPosition());
+
+                if (shelter != null)
+                    presenter.deleteShelter(shelter.getId(), shelter.getName());
+
+        }
     }
 
     @Override
@@ -130,6 +153,15 @@ public class SheltersRvAdapter extends RecyclerView.Adapter<SheltersRvAdapter.Da
         holder.name.setText(shelter.getName());
         holder.address.setText(shelter.getAddress());
         holder.city.setText(city);
+
+        if (owner) {
+            holder.update.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.update.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
     }
 
     @Override

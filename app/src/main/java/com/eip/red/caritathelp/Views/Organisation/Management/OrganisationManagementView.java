@@ -6,19 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
-import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
 import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
+import com.eip.red.caritathelp.Views.Organisation.Shelters.SheltersView;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by pierr on 24/02/2016.
  */
-public class OrganisationManagementView extends Fragment implements View.OnClickListener{
+public class OrganisationManagementView extends Fragment {
 
     private int organisationId;
 
@@ -36,44 +36,36 @@ public class OrganisationManagementView extends Fragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Get User Model & Id Organisation
-        User    user = ((MainActivity) getActivity()).getModelManager().getUser();
-        int     organisationId = getArguments().getInt("organisation id");
-
-        this.organisationId = organisationId;
-        // Init Presenter
-//        presenter = new OrganisationMembersPresenter(this, network, organisationId);
+        this.organisationId = getArguments().getInt("organisation id");
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_management, container, false);
-
-        // Init Listener
-        view.findViewById(R.id.organisation_management_create_event).setOnClickListener(this);
-
-        return (view);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Init ToolBar Title
         getActivity().setTitle(getArguments().getInt("page"));
     }
 
+    @OnClick(R.id.btn_create_event)
+    public void onClickCreateEventBtn() {
+        Tools.replaceView(this, OrganisationEventCreationView.newInstance(organisationId), Animation.FADE_IN_OUT, false);
+    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.organisation_management_create_event:
-                Tools.replaceView(this, OrganisationEventCreationView.newInstance(organisationId), Animation.FADE_IN_OUT, false);
-                break;
-        }
+    @OnClick(R.id.btn_manage_member)
+    public void onClickManageMember() {
+
+    }
+
+    @OnClick(R.id.btn_manage_shelters)
+    public void onClickMangerSheltersBtn() {
+        Tools.replaceView(this, SheltersView.newInstance(organisationId, true), Animation.FADE_IN_OUT, false);
     }
 
 }
