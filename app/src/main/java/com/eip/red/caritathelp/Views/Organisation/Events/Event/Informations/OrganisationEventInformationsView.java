@@ -1,8 +1,8 @@
 package com.eip.red.caritathelp.Views.Organisation.Events.Event.Informations;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Informations.OrganisationEventInformationsPresenter;
 import com.eip.red.caritathelp.R;
 
@@ -34,6 +35,7 @@ public class OrganisationEventInformationsView extends Fragment implements IOrga
         OrganisationEventInformationsView    myFragment = new OrganisationEventInformationsView();
 
         Bundle args = new Bundle();
+        args.putInt("page", R.string.view_name_organisation_informations);
         args.putInt("event id", eventId);
         myFragment.setArguments(args);
 
@@ -44,12 +46,12 @@ public class OrganisationEventInformationsView extends Fragment implements IOrga
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get Network Model & Id Organisation
-        Network network = ((MainActivity) getActivity()).getModelManager().getNetwork();
+        // Get User Model & Id Organisation
+        User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     eventId = getArguments().getInt("event id");
 
         // Init Presenter
-        presenter = new OrganisationEventInformationsPresenter(this, network, eventId);
+        presenter = new OrganisationEventInformationsPresenter(this, user, eventId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())
@@ -63,12 +65,6 @@ public class OrganisationEventInformationsView extends Fragment implements IOrga
         // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_event_informations, container, false);
 
-        // Set ToolBar
-        ((MainActivity) getActivity()).getToolBar().update("Informations", true);
-
-        // Init SearchBar
-        ((MainActivity) getActivity()).getToolBar().getSearchBar().setVisibility(View.GONE);
-
         // Init UI Element
         dateBegin = (TextView) view.findViewById(R.id.date_begin);
         dateEnd = (TextView) view.findViewById(R.id.date_end);
@@ -76,10 +72,18 @@ public class OrganisationEventInformationsView extends Fragment implements IOrga
         description = (TextView) view.findViewById(R.id.description);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
-        // Init Event Model
-        presenter.getEventInformations();
-
         return (view);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Init ToolBar Title
+        getActivity().setTitle(getArguments().getInt("page"));
+
+        // Init Event Model
+        presenter.getEvent();
     }
 
     @Override
@@ -105,7 +109,6 @@ public class OrganisationEventInformationsView extends Fragment implements IOrga
         this.dateEnd.setText(dateEnd);
         this.location.setText(location);
         this.description.setText(description);
-
     }
 
 }

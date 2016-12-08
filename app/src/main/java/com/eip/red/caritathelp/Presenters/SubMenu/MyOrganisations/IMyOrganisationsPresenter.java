@@ -8,9 +8,11 @@ import com.eip.red.caritathelp.Models.Organisation.Organisation;
 
 public interface IMyOrganisationsPresenter {
 
+    boolean isMainUser();
+
     void onClick(int viewId);
 
-    void getMyOrganisations();
+    void getMyOrganisations(boolean isSwipeRefresh);
 
     void goToOrganisationView(Organisation organisation);
 }

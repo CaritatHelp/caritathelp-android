@@ -6,44 +6,19 @@ package com.eip.red.caritathelp.Models.Organisation;
 
 public class EventInformations {
 
-    private int         id;
-    private String      title;
-    private String      description;
-    private String      place;
-    private String      begin;
-    private String      end;
-    private int         assoc_id;
-    private String      rights;
+    public int      status;
+    public String   message;
+    public Event    response;
 
-    public int getId() {
-        return id;
+    public int getStatus() {
+        return status;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMessage() {
+        return message;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public String getBegin() {
-        return begin;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public int getAssoc_id() {
-        return assoc_id;
-    }
-
-    public String getRights() {
-        return rights;
+    public Event getResponse() {
+        return response;
     }
 }

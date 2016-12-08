@@ -3,7 +3,8 @@ package com.eip.red.caritathelp.Presenters.SubMenu.AccountSettings;
 import android.widget.EditText;
 
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.SubMenu.AccountSettings.AccountSettingsView;
 
 import java.util.HashMap;
@@ -17,15 +18,29 @@ public class AccountSettingsPresenter implements IAccountSettingsPresenter, IOnA
     private AccountSettingsView         view;
     private AccountSettingsInteractor   interactor;
 
-    public AccountSettingsPresenter(AccountSettingsView view, User user, Network network) {
+    public AccountSettingsPresenter(AccountSettingsView view, User user) {
         this.view = view;
-        interactor = new AccountSettingsInteractor(view.getActivity().getApplicationContext(), user, network);
+        interactor = new AccountSettingsInteractor(view.getContext(), user);
     }
 
     @Override
-    public void saveModification(HashMap<Integer, EditText> modification) {
+    public void getUser() {
         view.showProgress();
-        interactor.saveModification(modification, this);
+        interactor.getUser(this);
+    }
+
+    @Override
+    public void onClick(int viewId) {
+        if (viewId == R.id.btn_save) {
+            view.showProgress();
+            interactor.saveModification(view.getForm(), this);
+        }
+    }
+
+    @Override
+    public void onDialog(String title, String msg) {
+        view.hideProgress();
+        view.setDialog(title, msg);
     }
 
     @Override
@@ -53,8 +68,33 @@ public class AccountSettingsPresenter implements IAccountSettingsPresenter, IOnA
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccessGetUser(User user) {
+        updateViewData(user);
         view.hideProgress();
-        view.navigateToPreviousFragment();
     }
+
+    @Override
+    public void onSuccessSaveModification(User user) {
+        updateViewData(user);
+        view.hideProgress();
+    }
+
+    private void updateViewData(User user) {
+        HashMap<Integer, EditText>  form = view.getForm();
+
+        // Invalidate && Clear Form Text
+        for (EditText editText : form.values()) {
+            editText.invalidate();
+            editText.getText().clear();
+        }
+
+        // Update Text
+        form.get(AccountSettingsView.FIRSTNAME).setHint(user.getFirstname());
+        form.get(AccountSettingsView.LASTNAME).setHint(user.getLastname());
+        form.get(AccountSettingsView.MAIL).setHint(user.getMail());
+        form.get(AccountSettingsView.PASSWORD_CURRENT).setHint("Mot de passe actuel");
+        form.get(AccountSettingsView.PASSWORD_NEW).setHint("Nouveau mot de passe");
+        form.get(AccountSettingsView.PASSWORD_NEW_CHECKING).setHint("Retapez le nouveau mot de passe");
+    }
+
 }

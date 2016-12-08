@@ -1,10 +1,52 @@
 <resources>
     <string name="app_name">Caritathelp</string>
 
+    <!-- Dialog Msg -->
+    <string name="connection_problem">Nos serveurs sont temporairement indisponibles où vous n\'êtes pas connecté à internet.</string>
+
+    <!-- Verbs -->
+    <string name="verb_create">Créer</string>
+
+    <!-- Views Names -->
+    <string name="view_name_home">@string/app_name</string>
+    <string name="view_name_post">Publication</string>
+    <string name="view_name_comment">Commentaires</string>
+
+    <string name="view_name_mailbox">@string/app_name</string>
+    <string name="view_name_mailbox_chatroom_creation">Envoyer un message</string>
+
+    <string name="view_name_notifications">@string/app_name</string>
+
+    <string name="view_name_submenu">@string/app_name</string>
+    <string name="view_name_submenu_profile">Profil</string>
+    <string name="view_name_submenu_my_organisations">Mes associations</string>
+    <string name="view_name_submenu_my_organisations_creation">Créer une association</string>
+    <string name="view_name_submenu_my_events">Mes événements</string>
+    <string name="view_name_submenu_my_events_creation">Créer un événement</string>
+    <string name="view_name_submenu_account_management">Gestion de compte</string>
+    <string name="view_name_submenu_friends">Amis</string>
+    <string name="view_name_submenu_friends_add">Rechercher des amis</string>
+    <string name="view_name_submenu_invitations">Invitations</string>
+
+    <string name="view_name_organisation">Association</string>
+    <string name="view_name_organisation_post">Poster</string>
+    <string name="view_name_organisation_members">Membres</string>
+    <string name="view_name_organisation_events">Événement</string>
+    <string name="view_name_organisation_informations">Informations</string>
+    <string name="view_name_organisation_management">Gestion de l\'association</string>
+    <string name="view_name_organisation_shelters">Centres d\'hébergements</string>
+
+    <string name="view_name_organisation_event_guests">Participants</string>
+    <string name="view_name_organisation_event_management">Gestion de l\'événement</string>
+
     <!-- Search Bar -->
-    <string name="search_bar_organisation">Rechercher une association</string>
-    <string name="search_bar_event">Rechercher un événement</string>
-    <string name="search_bar_member">Rechercher un membre</string>
+    <string name="search_bar_btn_search">Search</string>
+
+    <!-- Bottom Navigation Bar -->
+    <string name="bottom_navigation_bar_news">Actualités</string>
+    <string name="bottom_navigation_bar_mailbox">Messages</string>
+    <string name="bottom_navigation_bar_notifications">Notifications</string>
+    <string name="bottom_navigation_bar_profile">Mon profil</string>
 
     <!-- Connection View -->
     <string name="connectionview_title">Connexion</string>
@@ -51,31 +93,70 @@
 
     <!-- OrganisationSearch View -->
 
+    <!-- Home View -->
+    <string name="post_news">Publier un message</string>
+    <string name="your_message">Votre message</string>
+    <string name="post">PUBLIER</string>
+    <string name="comment">Commenter</string>
+
     <!-- MailBox View -->
     <string name="mailbox_toolbar_title">Messagerie</string>
+    <string name="mailbox_chatrooms_information" formatted="false">%d pers - %d msg</string>
+
+    <!-- MailBox Chatroom Creation -->
+    <string name="mailbox_chatroom_creation_search_hint" >Entrez un nom</string>
+
+    <!-- MailBox Chatroom -->
+    <string name="mailbox_chatroom_name_date" formatted="false">%s - %s</string>
 
     <!-- Notifications View -->
     <string name="notifications_toolbar_title">Notifications</string>
 
     <!-- SubMenu View -->
-    <string name="submenu_my_events">Mes événements</string>
+    <string name="submenu_my_profile">Mon profil</string>
     <string name="submenu_my_organisations">Mes associations</string>
+    <string name="submenu_my_events">Mes événements</string>
     <string name="submenu_friends">Amis</string>
+    <string name="submenu_invitations">Invitations</string>
     <string name="submenu_account_settings">Gestion de compte</string>
     <string name="submenu_security">Confidentialités</string>
     <string name="submenu_help">Aide</string>
     <string name="submenu_logout">Déconnexion</string>
     <string name="submenu_delete_account">Supprimer mon compte</string>
 
+    <!-- Profile View -->
+    <string name="profile_friends">Amis</string>
+    <string name="profile_organisations">Associations</string>
+    <string name="profile_events">Événements</string>
+
     <!-- MyOrganisations View -->
     <string name="my_organisations_title">Mes associations</string>
+
+    <!-- MyEvents View -->
+    <!-- Spinner -->
+    <string-array name="my_events_spinner">
+        <item>En ce moment</item>
+        <item>A venir</item>
+        <item>Passé</item>
+        <item>Organisateur</item>
+    </string-array>
+
+    <!-- MyFriends View -->
+    <string name="friends_my_friends">Mes amis</string>
+    <string name="friends_invitations">Invitations</string>
+    <string name="friends_sent">Envoyées</string>
+
+    <!-- Invitations View -->
+    <string name="invitations_friends">Amis</string>
+    <string name="invitations_organisations">Associations</string>
+    <string name="invitations_events">Événement</string>
 
     <!-- OrganisationCreation View -->
     <string name="organisation_creation_bar_title">Créer une association</string>
 
     <!-- Organisation View -->
     <string name="organisation_members">Membres</string>
-    <string name="organisation_events">Evénements</string>
+    <string name="organisation_events">Événement</string>
     <string name="organisation_informations">Informations</string>
 
     <!-- Organisation Members View -->
@@ -94,12 +175,26 @@
     <string name="organisation_management_settings">Modifier les paramètres</string>
     <string name="organisation_management_emergency_system">Système d\'urgence</string>
     <string name="organisation_management_delete">Supprimer l\'association</string>
+    <string name="organisation_management_shelters">Gérer les centres d\'hébergements</string>
+
+    <!-- OrganisationManagement Event Creation View -->
+    <string name="organisation_management_event_title">Titre de l\'événement</string>
+    <string name="organisation_management_event_begin">Début de l\'événement</string>
+    <string name="organisation_management_event_end">Fin de l\'événement</string>
+    <string name="organisation_management_event_date">Date</string>
+    <string name="organisation_management_event_time">Heure</string>
+    <string name="organisation_management_event_location">Lieu</string>
+    <string name="organisation_management_event_description">Description</string>
+    <string name="organisation_management_event_create">Créer</string>
+
+    <!-- EventManagement Event Creation View -->
+    <string name="organisation_event_management_save">Sauvegarder les changements</string>
 
     <!-- Account Settings View -->
-    <string name="account_settings_toolbar_title">Gestion de compte</string>
+    <string name="account_settings_name">Prénom &amp; Nom</string>
     <string name="account_settings_current_password">Mot de passe actuel</string>
     <string name="account_settings_new_password">Nouveau mot de passe</string>
-    <string name="account_settings_new_password_checking">Retaper le nouveau mot de passe</string>
+    <string name="account_settings_new_password_checking">Retaper votre nouveau mot de passe</string>
     <string name="account_settings_save_changes">Sauvegarder les changements</string>
 
 

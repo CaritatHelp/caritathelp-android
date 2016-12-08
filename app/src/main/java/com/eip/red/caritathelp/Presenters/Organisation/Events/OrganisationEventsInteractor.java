@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Events;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -16,23 +17,21 @@ import com.koushikdutta.ion.Ion;
 public class OrganisationEventsInteractor {
 
     private Context context;
-    private Network network;
+    private User    user;
     private int     organisationId;
 
-    public OrganisationEventsInteractor(Context context, Network network, int organisationId) {
+    public OrganisationEventsInteractor(Context context, User user, int organisationId) {
         this.context = context;
-        this.network = network;
+        this.user = user;
         this.organisationId = organisationId;
     }
 
     public void getEvents(final IOnOrganisationEventsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", network.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION + "/" + organisationId + Network.API_REQUEST_ORGANISATION_EVENTS)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<Events>(){})
                 .setCallback(new FutureCallback<Events>() {
                     @Override

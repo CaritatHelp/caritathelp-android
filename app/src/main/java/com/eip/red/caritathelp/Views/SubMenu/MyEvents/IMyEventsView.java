@@ -15,6 +15,4 @@ public interface IMyEventsView {
     void hideProgress();
 
     void setDialogError(String title, String msg);
-
-    void updateRecyclerView(List<Event> events);
 }

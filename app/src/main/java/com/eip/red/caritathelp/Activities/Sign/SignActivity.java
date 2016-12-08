@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Sign.In.SignInView;
 import com.eip.red.caritathelp.Views.Splash.SplashScreen;

@@ -2,7 +2,7 @@ package com.eip.red.caritathelp.Presenters.Sign.Up.Person;
 
 import android.text.TextUtils;
 
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 
 import java.util.HashMap;
 
@@ -38,8 +38,8 @@ public class SignUpPersonInteractor {
 
         if (!error) {
             // Set User Model
-            user.setFirstName(data.get("firstname"));
-            user.setLastName(data.get("lastname"));
+            user.setFirstname(data.get("firstname"));
+            user.setLastname(data.get("lastname"));
             user.setBirthday(data.get("birthday"));
             user.setGender(data.get("gender"));
 

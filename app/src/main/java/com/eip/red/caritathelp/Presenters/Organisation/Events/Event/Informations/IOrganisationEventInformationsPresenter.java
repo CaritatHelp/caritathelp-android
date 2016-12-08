@@ -6,5 +6,5 @@ package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Information
 
 public interface IOrganisationEventInformationsPresenter {
 
-    void getEventInformations();
+    void getEvent();
 }

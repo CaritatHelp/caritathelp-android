@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
 import com.eip.red.caritathelp.Activities.Sign.SignActivityToolbar;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Sign.In.SignInPresenter;
 import com.eip.red.caritathelp.R;
 

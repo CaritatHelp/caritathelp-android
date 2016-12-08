@@ -1,86 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/my_organisations_owner_profile"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:weightSum="4"
-                android:background="@color/primary"
-                android:orientation="horizontal">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:paddingLeft="@dimen/_20sdp"
+                <LinearLayout
+                    android:id="@+id/my_organisations_owner_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    android:gravity="left|center"
-                    android:text="En tant que Propriétaire"
-                    android:textSize="@dimen/_18sdp"
-                    android:textColor="@color/icons"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_margin="@dimen/_4sdp">
 
-                <Button
-                    android:id="@+id/btn_create"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="@dimen/_10sdp"
 
-                    android:gravity="center"
-                    android:text="Créer"
-                    android:textSize="@dimen/_18sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/icons"
-                    android:background="@android:color/transparent"
-                    android:textAllCaps="false"/>
+                            android:gravity="center"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:text="En tant que Propriétaire"
+                            android:textSize="@dimen/_16sdp"
+                            android:textColor="@color/secondary_text"/>
 
-            </LinearLayout>
+                        <!-- Divider -->
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_toStartOf="@id/btn_create"
+                            android:layout_toLeftOf="@id/btn_create"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:layout_marginEnd="@dimen/_4sdp"
+                            android:layout_marginRight="@dimen/_4sdp"
+                            android:layout_centerHorizontal="true"
+                            android:background="?android:attr/listDivider"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/my_organisations_owner_profile_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                        <Button
+                            android:id="@+id/btn_create"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
 
-        </LinearLayout>
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:text="Créer"
+                            android:textSize="@dimen/_18sdp"
+                            android:textStyle="bold"
+                            android:textColor="@color/secondary_text"
+                            android:background="@android:color/transparent"
+                            android:textAllCaps="false" />
 
-        <LinearLayout
-            android:id="@+id/my_organisations_member_profile"
-            android:layout_below="@+id/my_organisations_owner_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/primary">
+                    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_40sdp"
-                android:paddingLeft="@dimen/_20sdp"
+                    <TextView
+                        android:id="@+id/tv_no_owner_organisations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
 
-                android:gravity="left|center"
-                android:text="En tant que Membre"
-                android:textSize="@dimen/_18sdp"
-                android:textColor="@color/icons"/>
+                        android:layout_gravity="center"
+                        android:text="Vous n'êtes propriétaire d'aucune association."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_13sdp"
+                        android:visibility="gone"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/my_organisations_member_profile_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/my_organisations_owner_profile_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
 
-        </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_below="@+id/my_organisations_owner_profile"
+                    android:layout_margin="@dimen/_6sdp"
+                    style="@style/Divider">
+                </View>
+
+                <LinearLayout
+                    android:id="@+id/my_organisations_member_profile"
+                    android:layout_below="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:paddingLeft="@dimen/_10sdp"
+
+                        android:gravity="left|center"
+                        android:text="En tant que Membre"
+                        android:textSize="@dimen/_16sdp"
+                        android:textColor="@color/secondary_text"/>
+
+                    <TextView
+                        android:id="@+id/tv_no_members_organisations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+
+                        android:layout_gravity="center"
+                        android:text="Vous n'êtes membre d'aucune association."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_13sdp"
+                        android:visibility="gone"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/my_organisations_member_profile_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -89,5 +145,6 @@
             android:layout_centerInParent="true"
             android:visibility="gone" />
 
-        </RelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

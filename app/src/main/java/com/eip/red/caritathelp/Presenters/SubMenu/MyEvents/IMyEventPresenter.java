@@ -8,7 +8,11 @@ import com.eip.red.caritathelp.Models.Organisation.Event;
 
 public interface IMyEventPresenter {
 
-    void getMyEvents();
+    boolean isMainUser();
+
+    void onClick(int viewId);
+
+    void getMyEvents(boolean init, String range, boolean isSwipeRefresh);
 
     void navigateToEventView(Event event);
 }

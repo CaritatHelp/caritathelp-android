@@ -59,6 +59,31 @@
         <item name="android:textColorPrimary">@color/primary_text</item>
         <item name="android:colorBackground">@color/primary</item>
         <item name="android:textColorSecondary">@color/secondary_text</item>
+
+        <!-- For the resting Spinner style -->
+        <item name="android:spinnerItemStyle">
+            @style/spinnerItemStyle
+        </item>
+
+        <!-- For each individual Spinner list item once clicked on -->
+        <item name="android:spinnerDropDownItemStyle">
+            @style/spinnerDropDownItemStyle
+        </item>
+    </style>
+
+    <!-- SPINNER -->
+    <style name="spinnerItemStyle">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle">
+        <item name="android:padding">20dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- DIVIDER -->
@@ -70,11 +95,15 @@
 
     <!-- My Custom Table Layout -->
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">168dp</item>
         <item name="tabIndicatorColor">@color/bootstrap_gray_lighter</item>
         <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/accent</item>
+        <item name="tabBackground">@color/primary</item>
     </style>
     <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/icons</item>
         <item name="textAllCaps">false</item>
     </style>
 

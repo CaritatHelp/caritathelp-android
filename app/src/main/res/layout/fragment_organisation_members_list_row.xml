@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_50sdp"
-
+    android:layout_height="wrap_content"
     android:background="@color/icons">
 
-    <ImageView
+    <!-- Image -->
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/organisation_members_list_row_image"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_margin="@dimen/_6sdp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="6dp"
 
         android:layout_gravity="center"
         android:src="@drawable/profile_example"
-        />
+        app:civ_border_color="#EEEEEE"
+        app:civ_border_width="2dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="2" />
 
     <TextView
         android:id="@+id/organisation_members_list_row_name"

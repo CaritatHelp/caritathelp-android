@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Sign.Up.SignUpCredentialsView;
 import com.eip.red.caritathelp.Views.Sign.Up.SignUpPersonView;
@@ -51,8 +51,8 @@ public class SignUpPersonPresenter implements ISignUpPersonPresenter, IOnSignUpP
     @Override
     public void init() {
         User    user = interactor.getUser();
-        String  firstName = user.getFirstName();
-        String  lastName = user.getLastName();
+        String  firstName = user.getFirstname();
+        String  lastName = user.getLastname();
         String  birthday = user.getBirthday();
         String  gender = user.getGender();
 

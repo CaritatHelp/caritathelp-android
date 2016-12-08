@@ -1,6 +1,6 @@
 package com.eip.red.caritathelp.Views.Organisation.Events.Event;
 
-import com.eip.red.caritathelp.Models.Home.News;
+import com.eip.red.caritathelp.Models.News.News;
 
 import java.util.List;
 
@@ -14,7 +14,8 @@ public interface IOrganisationEventView {
 
     void hideProgress();
 
-    void setDialogError(String title, String msg);
+    void setDialog(String title, String msg);
 
-    void updateRecyclerView(List<News> news);
+    void updateRV(List<News> newsList);
+
 }

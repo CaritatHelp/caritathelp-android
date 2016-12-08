@@ -4,10 +4,21 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.Profile.MainPicture;
+import com.eip.red.caritathelp.Models.Profile.MainPictureJson;
+import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Models.User.UserJson;
+import com.eip.red.caritathelp.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by pierr on 22/03/2016.
@@ -44,32 +55,87 @@ public class SignInInteractor {
     private void apiRequest(String email, String password, final IOnSignInFinishedListener listener) {
         JsonObject json = new JsonObject();
 
-        json.addProperty("mail", email);
+        json.addProperty("email", email);
         json.addProperty("password", password);
 
         Ion.with(context)
-                .load(Network.API_LOCATION + Network.API_REQUEST_LOGIN)
+                .load("POST", Network.API_LOCATION + Network.SESSIONS_SIGN_IN)
                 .setJsonObjectBody(json)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
                     @Override
-                    public void onCompleted(Exception error, JsonObject result) {
+                    public void onCompleted(Exception error, Response<String> result) {
+//                        System.out.println(result.getHeaders().getHeaders().get("Access-Token"));
+//                        System.out.println(result.getResult());
 
-                        if (error != null)
-                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
-                        else {
-                            if (result.get(Network.API_PARAMETER_STATUS).getAsInt() == Network.API_STATUS_ERROR) {
-                                if (result.get(Network.API_PARAMETER_MSG).getAsString().equals(Network.API_MSG_UNKNOWN_MAIL))
-                                    listener.onEmailError("Mail inconnu");
-                                else
-                                    listener.onPasswordError("Mauvais mot de passe");
-                            } else {
-                                // Init User & Token Model
-                                listener.onSuccess(new User(result), new Network(result));
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(result.getResult());
+//                            User user = new Gson().fromJson(jsonObject.getString("response"), User.class);
+//                            user.setToken(result.getHeaders().getHeaders().get("Access-Token"));
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+
+                        if (error == null) {
+                            try {
+                                final JSONObject jsonObject = new JSONObject(result.getResult());
+
+                                switch (result.getHeaders().code()) {
+                                    case Network.API_STATUS_ERROR:
+                                        final String message = jsonObject.getString("message");
+                                        if (message.equals(Network.API_MSG_UNKNOWN_MAIL))
+                                            listener.onEmailError("Mail inconnu");
+                                        break;
+                                    case Network.API_STATUS_ERROR_401:
+                                        listener.onPasswordError("Mauvais mot de passe");
+                                        break;
+                                    default:
+                                        User user = new Gson().fromJson(jsonObject.getString("response"), User.class);
+                                        user.setToken(result.getHeaders().getHeaders().get("Access-Token"));
+                                        user.setClient(result.getHeaders().getHeaders().get("Client"));
+                                        listener.onSuccess(user);
+                                        break;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         }
+                    else
+                        listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
                     }
                 });
     }
+
+//    private void apiRequest(String email, String password, final IOnSignInFinishedListener listener) {
+//        JsonObject json = new JsonObject();
+//
+//        json.addProperty("mail", email);
+//        json.addProperty("password", password);
+//
+//        Ion.with(context)
+//                .load(Network.API_LOCATION + Network.API_REQUEST_LOGIN)
+//                .setJsonObjectBody(json)
+//                .as(new TypeToken<UserJson>() {})
+//                .setCallback(new FutureCallback<UserJson>() {
+//                    @Override
+//                    public void onCompleted(Exception error, UserJson result) {
+//
+//                        if (error != null)
+//                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+//                        else {
+//                            if (result.getStatus() == Network.API_STATUS_ERROR) {
+//                                if (result.getMessage().equals(Network.API_MSG_UNKNOWN_MAIL))
+//                                    listener.onEmailError("Mail inconnu");
+//                                else
+//                                    listener.onPasswordError("Mauvais mot de passe");
+//                            }
+//                            else
+//                                listener.onSuccess(result.getResponse());
+//                        }
+//                    }
+//                });
+//    }
+
 }
 

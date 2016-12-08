@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog;
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Sign.In.SignInView;
 import com.eip.red.caritathelp.Views.Sign.Up.SignUpCredentialsView;
@@ -63,7 +63,7 @@ public class SignUpCredentialsPresenter implements ISignUpCredentialsPresenter, 
     }
 
     @Override
-    public void onSuccess(final User user, final Network network) {
+    public void onSuccess(final User user) {
         view.hideProgress();
         new AlertDialog.Builder(view.getActivity())
                 .setTitle("Inscription réussie!")
@@ -71,7 +71,7 @@ public class SignUpCredentialsPresenter implements ISignUpCredentialsPresenter, 
                 .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        goToMainActivity(user, network);
+                        goToMainActivity(user);
                     }
                 })
                 .setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -83,12 +83,11 @@ public class SignUpCredentialsPresenter implements ISignUpCredentialsPresenter, 
                 .show();
     }
 
-    private void goToMainActivity(User user, Network network) {
+    private void goToMainActivity(User user) {
         SignActivity    activity = (SignActivity) view.getActivity();
         Intent          intent = new Intent(activity, MainActivity.class);
 
         intent.putExtra("user", user);
-        intent.putExtra("network", network);
         view.startActivity(intent);
         activity.finish();
     }

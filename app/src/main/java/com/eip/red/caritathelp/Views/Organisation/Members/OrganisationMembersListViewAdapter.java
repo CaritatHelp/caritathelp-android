@@ -5,9 +5,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Member;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,8 @@ public class OrganisationMembersListViewAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView    memberName;
+        CircularImageView   image;
+        TextView            memberName;
     }
 
     @Override
@@ -56,14 +59,21 @@ public class OrganisationMembersListViewAdapter extends BaseAdapter {
         if (view == null) {
             holder = new ViewHolder();
             view = fragment.getActivity().getLayoutInflater().inflate(R.layout.fragment_organisation_members_list_row, null);
+            holder.image = (CircularImageView) view.findViewById(R.id.organisation_members_list_row_image);
             holder.memberName = (TextView) view.findViewById(R.id.organisation_members_list_row_name);
             view.setTag(holder);
         }
         else
             holder = (ViewHolder) view.getTag();
 
-        // Set Members Name
+        // Get Member model
         Member      member = visibleObjects.get(position);
+
+        // Set Members Picture
+        System.out.println(member.getThumb_path());
+        Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION_2 + member.getThumb_path(), R.drawable.profile_example);
+
+        // Set Members Name
         String      name = Tools.upperCaseFirstLetter(member.getFirstname()) + " " + Tools.upperCaseFirstLetter(member.getLastname());
         holder.memberName.setText(name);
 

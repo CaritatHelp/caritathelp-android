@@ -4,8 +4,10 @@ import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.R;
+import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
 import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
+import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationManagementView;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -16,21 +18,27 @@ public class OrganisationEventCreationPresenter implements IOrganisationEventCre
     private OrganisationEventCreationView       view;
     private OrganisationEventCreationInteractor interactor;
 
-    public OrganisationEventCreationPresenter(OrganisationEventCreationView view, Network network, int organisationId) {
+    public OrganisationEventCreationPresenter(OrganisationEventCreationView view, String token, int organisationId) {
         this.view = view;
 
-        interactor = new OrganisationEventCreationInteractor(view.getActivity().getApplicationContext(), network, organisationId);
+        interactor = new OrganisationEventCreationInteractor(view.getActivity().getApplicationContext(), token, organisationId);
     }
 
 
     @Override
     public void onClick(int viewId) {
         switch (viewId) {
-            case R.id.date_begin:
+            case R.id.begin_date:
                 view.getDateBeginDialog().show();
                 break;
-            case R.id.date_end:
+            case R.id.begin_time:
+                view.getTimeBeginDialog().show();
+                break;
+            case R.id.end_date:
                 view.getDateEndDialog().show();
+                break;
+            case R.id.end_time:
+                view.getTimeEndDialog().show();
                 break;
             case R.id.btn_create:
                 view.showProgress();
@@ -87,6 +95,6 @@ public class OrganisationEventCreationPresenter implements IOrganisationEventCre
         view.setDialogError("Création réussie", "Bienvenue sur la page d'accueil de l'événement " + eventTitle);
 
         /* Go To Event Page */
-        ((MainActivity) view.getActivity()).replaceView(OrganisationEventView.newInstance(eventId, eventTitle), Animation.FADE_IN_OUT);
+        Tools.replaceView(view, OrganisationEventView.newInstance(eventId, eventTitle), Animation.FADE_IN_OUT, false);
     }
 }

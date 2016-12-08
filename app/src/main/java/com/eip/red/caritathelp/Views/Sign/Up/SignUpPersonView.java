@@ -3,7 +3,6 @@ package com.eip.red.caritathelp.Views.Sign.Up;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Sign.Up.Person.SignUpPersonPresenter;
 import com.eip.red.caritathelp.R;
 

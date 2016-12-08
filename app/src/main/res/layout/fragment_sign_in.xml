@@ -20,17 +20,17 @@
             <EditText
                 android:id="@+id/mail"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_height="50dp"
                 android:paddingLeft="@dimen/_20sdp"
                 android:paddingRight="@dimen/_60sdp"
 
-                android:text="test@test.com"
+                android:text="robin@root.com"
 
                 android:background="@android:color/transparent"
                 android:hint="E-mail"
                 android:textColorHint="@color/secondary_text"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/_16sdp"
+                android:textSize="15sp"
                 android:singleLine="true"
                 android:inputType="textEmailAddress"/>
 
@@ -42,17 +42,17 @@
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_height="50dp"
                 android:paddingLeft="@dimen/_20sdp"
                 android:paddingRight="@dimen/_60sdp"
 
-                android:text="test"
+                android:text="root1234"
 
                 android:background="@android:color/transparent"
                 android:hint="Password"
                 android:textColorHint="@color/secondary_text"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/_16sdp"
+                android:textSize="15sp"
                 android:singleLine="true"
                 android:inputType="textPassword"/>
 
@@ -61,15 +61,15 @@
         <Button
             android:id="@+id/btn_sign_in"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
 
             android:background="@color/primary"
             android:text="Connection"
             android:textColor="@color/icons"
-            android:textSize="@dimen/_18sdp"
+            android:textSize="16sp"
             android:textAllCaps="false"/>
 
         <Button
@@ -83,7 +83,7 @@
             android:background="@android:color/transparent"
             android:text="Mot de passe oublié ?"
             android:textColor="@color/secondary_text"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="14sp"
             android:singleLine="true"
             android:textAllCaps="false"/>
 

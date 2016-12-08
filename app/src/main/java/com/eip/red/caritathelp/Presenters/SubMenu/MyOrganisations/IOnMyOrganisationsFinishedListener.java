@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IOnMyOrganisationsFinishedListener {
 
-    void onDialogError(String title, String msg);
+    void onDialog(String title, String msg, boolean isSwipeRefresh);
 
-    void onSuccess(List<Organisation> myOrganisationsOwner, List<Organisation> myOrganisationsMember);
+    void onSuccess(List<Organisation> myOrganisationsOwner, List<Organisation> myOrganisationsMember, boolean isSwipeRefresh);
 }

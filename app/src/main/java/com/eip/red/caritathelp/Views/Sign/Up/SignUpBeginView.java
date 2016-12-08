@@ -2,15 +2,13 @@ package com.eip.red.caritathelp.Views.Sign.Up;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
-import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Sign.Up.Begin.SignUpBeginPresenter;
 import com.eip.red.caritathelp.R;
 

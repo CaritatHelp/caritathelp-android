@@ -19,7 +19,7 @@ import java.util.Locale;
  * Created by pierr on 17/03/2016.
  */
 
-public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<OrganisationEventsRVAdapter.EventObjectHolder> {
+public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<OrganisationEventsRVAdapter.DataObjectHolder> {
 
     private final OrganisationEventsPresenter presenter;
 
@@ -34,12 +34,12 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
 
     }
 
-    public class EventObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView   image;
         TextView    title;
         TextView    date;
 
-        public EventObjectHolder(View itemView) {
+        public DataObjectHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.organisation_events_image);
             title = (TextView) itemView.findViewById(R.id.organisation_events_title);
@@ -58,15 +58,15 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
 
 
     @Override
-    public EventObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_organisation_events_rv_row, parent, false);
-        EventObjectHolder   holder = new EventObjectHolder(view);
+        DataObjectHolder    holder = new DataObjectHolder(view);
 
         return (holder);
     }
 
     @Override
-    public void onBindViewHolder(EventObjectHolder holder, int position) {
+    public void onBindViewHolder(DataObjectHolder holder, int position) {
 //        holder.image.setText();
         holder.title.setText(visibleObjects.get(position).getTitle());
 //        holder.date.setText();

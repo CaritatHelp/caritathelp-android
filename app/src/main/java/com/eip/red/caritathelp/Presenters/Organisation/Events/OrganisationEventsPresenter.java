@@ -4,6 +4,8 @@ import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
 import com.eip.red.caritathelp.Views.Organisation.Events.OrganisationEventsView;
 
@@ -17,9 +19,9 @@ public class OrganisationEventsPresenter implements IOrganisationEventsPresenter
     private OrganisationEventsView          view;
     private OrganisationEventsInteractor    interactor;
 
-    public OrganisationEventsPresenter(OrganisationEventsView view, Network network, int organisationId) {
+    public OrganisationEventsPresenter(OrganisationEventsView view, User user, int organisationId) {
         this.view = view;
-        interactor = new OrganisationEventsInteractor(view.getActivity().getApplicationContext(), network, organisationId);
+        interactor = new OrganisationEventsInteractor(view.getContext(), user, organisationId);
     }
 
     @Override
@@ -30,18 +32,18 @@ public class OrganisationEventsPresenter implements IOrganisationEventsPresenter
 
     @Override
     public void navigateToEventView(Event event) {
-        ((MainActivity) view.getActivity()).replaceView(OrganisationEventView.newInstance(event.getId(), event.getTitle()), Animation.FADE_IN_OUT);
+        Tools.replaceView(view, OrganisationEventView.newInstance(event.getId(), event.getTitle()), Animation.FADE_IN_OUT, false);
     }
 
     @Override
     public void onDialogError(String title, String msg) {
         view.hideProgress();
-        view.setDialogError(title, msg);
+        view.setDialog(title, msg);
     }
 
     @Override
     public void onSuccess(List<Event> events) {
-        view.updateRecyclerView(events);
+        view.getAdapter().update(events);
         view.hideProgress();
     }
 }

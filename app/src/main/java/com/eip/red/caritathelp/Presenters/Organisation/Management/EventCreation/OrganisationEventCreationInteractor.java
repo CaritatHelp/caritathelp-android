@@ -4,8 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
-import com.eip.red.caritathelp.Models.Organisation.EventsInformations;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -21,12 +21,12 @@ public class OrganisationEventCreationInteractor {
     static final private String     ERROR_MANDATORY = "Ce champ est obligatoire";
 
     private Context context;
-    private Network network;
+    private String  token;
     private int     organisationId;
 
-    public OrganisationEventCreationInteractor(Context context, Network network, int organisationId) {
+    public OrganisationEventCreationInteractor(Context context, String token, int organisationId) {
         this.context = context;
-        this.network = network;
+        this.token = token;
         this.organisationId = organisationId;
     }
 
@@ -57,7 +57,7 @@ public class OrganisationEventCreationInteractor {
     private void requestAPI(final IOnOrganisationEventCreationFinishedListener listener, HashMap<String, String> data) {
         JsonObject json = new JsonObject();
 
-        json.addProperty("token", network.getToken());
+        json.addProperty("token", token);
         json.addProperty("assoc_id", organisationId);
         json.addProperty("title", data.get("title"));
         json.addProperty("description", data.get("description"));
@@ -68,17 +68,17 @@ public class OrganisationEventCreationInteractor {
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENTS)
                 .setJsonObjectBody(json)
-                .as(new TypeToken<EventsInformations>(){})
-                .setCallback(new FutureCallback<EventsInformations>() {
+                .as(new TypeToken<EventInformations>(){})
+                .setCallback(new FutureCallback<EventInformations>() {
                     @Override
-                    public void onCompleted(Exception error, EventsInformations result) {
+                    public void onCompleted(Exception error, EventInformations result) {
                         if (error == null) {
                             // Status == 400 == error
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialogError("Statut 400", result.getMessage());
                             else {
-                                EventInformations eventInformations = result.getResponse();
-                                listener.onSuccess(eventInformations.getId(), eventInformations.getTitle());
+                                Event event = result.getResponse();
+                                listener.onSuccess(event.getId(), event.getTitle());
                             }
                         }
                         else

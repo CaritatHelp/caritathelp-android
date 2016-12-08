@@ -1,7 +1,6 @@
 package com.eip.red.caritathelp.Presenters.Sign.In;
 
-import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 
 /**
  * Created by pierr on 22/03/2016.
@@ -15,5 +14,5 @@ public interface IOnSignInFinishedListener {
 
     void onDialog(String title, String msg);
 
-    void onSuccess(User user, Network network);
+    void onSuccess(User user);
 }

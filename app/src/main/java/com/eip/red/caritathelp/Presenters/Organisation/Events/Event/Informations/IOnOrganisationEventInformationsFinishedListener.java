@@ -1,8 +1,6 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Informations;
 
-import com.eip.red.caritathelp.Models.Organisation.EventInformations;
-
-import java.util.List;
+import com.eip.red.caritathelp.Models.Organisation.Event;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -11,5 +9,5 @@ public interface IOnOrganisationEventInformationsFinishedListener {
 
     void onDialogError(String title, String msg);
 
-    void onSuccess(EventInformations event);
+    void onSuccess(Event event);
 }

@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Sign.Up.Credentials.SignUpCredentialsPresenter;
 import com.eip.red.caritathelp.R;
 

@@ -2,6 +2,7 @@ package com.eip.red.caritathelp.Presenters.Organisation.Members;
 
 import com.eip.red.caritathelp.Models.Organisation.Member;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Views.Organisation.Members.OrganisationMembersView;
 
 import java.util.List;
@@ -15,21 +16,10 @@ public class OrganisationMembersPresenter implements IOrganisationMembersPresent
     private OrganisationMembersView         view;
     private OrganisationMembersInteractor   interactor;
 
-    public OrganisationMembersPresenter(OrganisationMembersView view, Network network, int organisationId) {
+    public OrganisationMembersPresenter(OrganisationMembersView view, User user, int organisationId) {
         this.view = view;
-        interactor = new OrganisationMembersInteractor(view.getActivity().getApplicationContext(), network, organisationId);
+        interactor = new OrganisationMembersInteractor(view.getActivity().getApplicationContext(), user, organisationId);
     }
-
-
-//    @Override
-//    public void onClick(int viewId) {
-//        switch (viewId) {
-//            case R.id.top_bar_organisation_members_return:
-//                ((MainActivity) view.getActivity()).goToPreviousPage();
-//                break;
-//        }
-//
-//    }
 
     @Override
     public void getMembers() {

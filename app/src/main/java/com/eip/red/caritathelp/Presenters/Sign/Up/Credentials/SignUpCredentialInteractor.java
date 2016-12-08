@@ -4,8 +4,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Models.User.UserJson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -68,8 +70,8 @@ public class SignUpCredentialInteractor {
 
         json.addProperty("mail", user.getMail());
         json.addProperty("password", user.getPassword());
-        json.addProperty("firstname", user.getFirstName());
-        json.addProperty("lastname", user.getLastName());
+        json.addProperty("firstname", user.getFirstname());
+        json.addProperty("lastname", user.getLastname());
         json.addProperty("birthday", user.getBirthday());
         json.addProperty("gender", user.getGender());
         json.addProperty("allowgps", user.isGeolocation());
@@ -77,18 +79,18 @@ public class SignUpCredentialInteractor {
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_SUBSCRIBE)
                 .setJsonObjectBody(json)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+                .as(new TypeToken<UserJson>() {})
+                .setCallback(new FutureCallback<UserJson>() {
                     @Override
-                    public void onCompleted(Exception error, JsonObject result) {
+                    public void onCompleted(Exception error, UserJson result) {
                         if (error == null) {
-                            if (result.get(Network.API_PARAMETER_STATUS).getAsInt() == Network.API_STATUS_ERROR) {
-                                if (result.get(Network.API_PARAMETER_MSG).getAsString().equals(Network.API_MSG_INVALID_MAIL))
+                            if (result.getStatus() == Network.API_STATUS_ERROR) {
+                                if (result.getMessage().equals(Network.API_MSG_INVALID_MAIL))
                                     listener.onMailError("Mail invalide");
-                                else if (result.get(Network.API_PARAMETER_MSG).getAsString().equals(Network.API_MSG_UNAVAILABLE_MAIL))
+                                else if (result.getMessage().equals(Network.API_MSG_UNAVAILABLE_MAIL))
                                     listener.onMailError("Mail déjà utilisé");
                             } else
-                                listener.onSuccess(user, new Network(result));
+                                listener.onSuccess(result.getResponse());
                         }
                     }
                 });

@@ -1,6 +1,7 @@
 package com.eip.red.caritathelp.Presenters.SubMenu.MyEvents;
 
 import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.Organisation.Organisation;
 
 import java.util.List;
 
@@ -10,7 +11,11 @@ import java.util.List;
 
 public interface IOnMyEventsFinishedListener {
 
-    void onDialogError(String title, String msg);
+    void onDialog(String title, String msg, boolean isSwipeRefresh);
 
-    void onSuccess(List<Event> events);
+    void onSuccessGetMyEventsInit(List<Event> events, boolean owner);
+
+    void onSuccessGetMyEvents(List<Event> events, boolean swipeRefresh);
+
+    void onSuccessGetMyOrganisations(List<Organisation> organisations);
 }

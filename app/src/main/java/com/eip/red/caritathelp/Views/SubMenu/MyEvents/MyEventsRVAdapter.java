@@ -1,15 +1,23 @@
 package com.eip.red.caritathelp.Views.SubMenu.MyEvents;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Presenters.SubMenu.MyEvents.MyEventsPresenter;
 import com.eip.red.caritathelp.R;
+import com.eip.red.caritathelp.Tools;
+import com.mikhaellopez.circularimageview.CircularImageView;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,24 +34,34 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
     private List<Event> visibleObjects;
     private List<Event> allObjects;
 
+    private DateTimeFormatter   formatter;
+    private DateTimeFormatter   newFormatter;
+
     public MyEventsRVAdapter(MyEventsPresenter presenter) {
         this.presenter = presenter;
 
+        // Init Objects
         visibleObjects = new ArrayList<>();
         allObjects = new ArrayList<>();
 
+        // Init DateTimeFormatter
+//        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");//.withZone(timeZone);
+        formatter = DateTimeFormat.forPattern("yyyy-MM-dd' 'HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
+        newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView   image;
-        TextView    title;
-        TextView    date;
+        CircularImageView   image;
+        TextView            title;
+        TextView            date;
+        TextView            location;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.submenu_my_events_image);
-            title = (TextView) itemView.findViewById(R.id.submenu_my_events_title);
-            date = (TextView) itemView.findViewById(R.id.submenu_my_events_date);
+            image = (CircularImageView) itemView.findViewById(R.id.image);
+            title = (TextView) itemView.findViewById(R.id.title);
+            date = (TextView) itemView.findViewById(R.id.date);
+            location = (TextView) itemView.findViewById(R.id.location);
             itemView.setOnClickListener(this);
         }
 
@@ -67,9 +85,31 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-//        holder.image.setText();
-            holder.title.setText(visibleObjects.get(position).getTitle());
-//        holder.date.setText();
+        Event   event = visibleObjects.get(position);
+        String  title = event.getTitle();
+        String  date = event.getBegin();
+        String  location = event.getPlace();
+
+        // Set Image
+        Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION_2 + event.getThumb_path(), R.drawable.logo_caritathelp_2017_picture_only_normal);
+
+        // Set Title
+        holder.title.setText(Tools.upperCaseFirstLetter(title));
+
+        // Set date
+        System.out.println("Date : " + date);
+        if (date != null && !TextUtils.isEmpty(date)) {
+            DateTime    dt = formatter.parseDateTime(date);
+            holder.date.setText(newFormatter.print(dt));
+        }
+        else
+            holder.date.setVisibility(View.GONE);
+
+        // Set Location
+        if (date != null && !TextUtils.isEmpty(location))
+            holder.location.setText(location);
+        else
+            holder.location.setVisibility(View.GONE);
     }
 
     @Override

@@ -3,8 +3,8 @@ package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Information
 import android.content.Context;
 
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.Organisation.Events;
-import com.eip.red.caritathelp.Models.Organisation.EventsInformations;
+import com.eip.red.caritathelp.Models.Organisation.EventInformations;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -17,27 +17,25 @@ import com.koushikdutta.ion.Ion;
 public class OrganisationEventInformationsInteractor {
 
     private Context context;
-    private Network network;
+    private User    user;
     private int     eventId;
 
-    public OrganisationEventInformationsInteractor(Context context, Network network, int eventId) {
+    public OrganisationEventInformationsInteractor(Context context, User user, int eventId) {
         this.context = context;
-        this.network = network;
+        this.user = user;
         this.eventId = eventId;
     }
 
     public void getEventInformations(final IOnOrganisationEventInformationsFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", network.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS + eventId)
-                .setJsonObjectBody(json)
-                .as(new TypeToken<EventsInformations>(){})
-                .setCallback(new FutureCallback<EventsInformations>() {
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .as(new TypeToken<EventInformations>(){})
+                .setCallback(new FutureCallback<EventInformations>() {
                     @Override
-                    public void onCompleted(Exception error, EventsInformations result) {
+                    public void onCompleted(Exception error, EventInformations result) {
                         if (error == null) {
                             // Status == 400 == error
                             if (result.getStatus() == Network.API_STATUS_ERROR)

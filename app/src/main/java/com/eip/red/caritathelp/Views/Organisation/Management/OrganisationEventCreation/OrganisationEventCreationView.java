@@ -1,9 +1,13 @@
 package com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Fragment;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +15,18 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation.OrganisationEventCreationPresenter;
 import com.eip.red.caritathelp.R;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -32,19 +40,24 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
 
     private EditText        title;
     private TextView        beginDate;
+    private TextView        beginTime;
     private TextView        endDate;
+    private TextView        endTime;
     private EditText        location;
     private EditText        description;
     private ProgressBar     progressBar;
 
     private DatePickerDialog    dateBeginDialog;
+    private TimePickerDialog    timeBeginDialog;
     private DatePickerDialog    dateEndDialog;
+    private TimePickerDialog    timeEndDialog;
     private AlertDialog         dialog;
 
     public static OrganisationEventCreationView newInstance(int idOrganisation) {
         OrganisationEventCreationView    myFragment = new OrganisationEventCreationView();
 
         Bundle args = new Bundle();
+        args.putInt("page", R.string.view_name_submenu_my_organisations_creation);
         args.putInt("organisation id", idOrganisation);
         myFragment.setArguments(args);
 
@@ -55,12 +68,12 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get Network Model & Id Organisation
-        Network network = ((MainActivity) getActivity()).getModelManager().getNetwork();
+        // Get User Model & Id Organisation
+        User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     organisationId = getArguments().getInt("organisation id");
 
         // Init Presenter
-        presenter = new OrganisationEventCreationPresenter(this, network, organisationId);
+        presenter = new OrganisationEventCreationPresenter(this, user.getToken(), organisationId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())
@@ -68,60 +81,106 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
                 .create();
 
         // Init Date Picker Dialog
-        final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.FRANCE);
-        Calendar newCalendar = Calendar.getInstance();
+        initDateDialogs();
+    }
 
-        dateBeginDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+    private void initDateDialogs() {
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.FRANCE);
+        final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.FRANCE);
+        Calendar calendar = Calendar.getInstance();
+
+        // Init Date Begin Dialog
+        dateBeginDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
 
-                String date = "Début : " + dateFormatter.format(newDate.getTime());
+                String date = "Le " + dateFormatter.format(newDate.getTime());
                 beginDate.setText(date);
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dateBeginDialog.setCancelable(true);
+        dateBeginDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
-        dateEndDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+        // Init Time Begin Dialog
+        timeBeginDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                newDate.set(Calendar.MINUTE, minute);
+
+                String time = "à " + timeFormatter.format(newDate.getTime());
+                beginTime.setText(time);
+            }
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+        timeBeginDialog.setCancelable(true);
+
+
+        // Init Date End Dialog
+        dateEndDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
 
-                String date = "Fin : " + dateFormatter.format(newDate.getTime());
+                String date = "Le " + dateFormatter.format(newDate.getTime());
                 endDate.setText(date);
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
+        },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dateEndDialog.setCancelable(true);
+        dateEndDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
+        // Init Time End Dialog
+        timeEndDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                newDate.set(Calendar.MINUTE, minute);
+
+                String time = "à " + timeFormatter.format(newDate.getTime());
+                endTime.setText(time);
+            }
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+        timeEndDialog.setCancelable(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_management_event_creation, container, false);
 
-        // Set ToolBar
-        ((MainActivity) getActivity()).getToolBar().update("Création événement", true);
-
-        // Init SearchBar
-        ((MainActivity) getActivity()).getToolBar().getSearchBar().setVisibility(View.GONE);
-
         // Init UI Elements
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         title = (EditText) view.findViewById(R.id.title);
-        beginDate = (TextView) view.findViewById(R.id.date_begin);
-        endDate = (TextView) view.findViewById(R.id.date_end);
+        beginDate = (TextView) view.findViewById(R.id.begin_date);
+        beginTime = (TextView) view.findViewById(R.id.begin_time);
+        endDate = (TextView) view.findViewById(R.id.end_date);
+        endTime = (TextView) view.findViewById(R.id.end_time);
         location = (EditText) view.findViewById(R.id.location);
         description = (EditText) view.findViewById(R.id.description);
 
         // Init Listener
         view.findViewById(R.id.btn_create).setOnClickListener(this);
         beginDate.setOnClickListener(this);
+        beginTime.setOnClickListener(this);
         endDate.setOnClickListener(this);
+        endTime.setOnClickListener(this);
 
         return (view);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Init ToolBar Title
+        getActivity().setTitle(getArguments().getInt("page"));
     }
 
     @Override
@@ -176,23 +235,31 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
         dialog.show();
     }
 
-    public DatePickerDialog getDateEndDialog() {
-        return dateEndDialog;
+    public HashMap<String, String>  getData() {
+        HashMap<String, String> data = new HashMap<>();
+
+        data.put("title", title.getText().toString());
+        data.put("date begin", beginDate.getText().toString() + " " + beginTime.getText().toString());
+        data.put("date end", endDate.getText().toString() + " " + endTime.getText().toString());
+        data.put("location", location.getText().toString());
+        data.put("description", description.getText().toString());
+
+        return (data);
     }
 
     public DatePickerDialog getDateBeginDialog() {
         return dateBeginDialog;
     }
 
-    public HashMap<String, String>  getData() {
-        HashMap<String, String> data = new HashMap<>();
+    public TimePickerDialog getTimeBeginDialog() {
+        return timeBeginDialog;
+    }
 
-        data.put("title", title.getText().toString());
-        data.put("date begin", beginDate.getText().toString());
-        data.put("date end", endDate.getText().toString());
-        data.put("location", location.getText().toString());
-        data.put("description", description.getText().toString());
+    public DatePickerDialog getDateEndDialog() {
+        return dateEndDialog;
+    }
 
-        return (data);
+    public TimePickerDialog getTimeEndDialog() {
+        return timeEndDialog;
     }
 }

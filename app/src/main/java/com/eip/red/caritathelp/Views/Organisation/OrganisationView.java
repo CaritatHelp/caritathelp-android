@@ -1,33 +1,35 @@
 package com.eip.red.caritathelp.Views.Organisation;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
-import com.eip.red.caritathelp.Models.Home.News;
-import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
 import com.eip.red.caritathelp.Presenters.Organisation.OrganisationPresenter;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
-import com.eip.red.caritathelp.Views.Organisation.Events.OrganisationEventsRVAdapter;
-import com.pkmmte.view.CircularImageView;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.HashMap;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by pierr on 18/02/2016.
@@ -35,19 +37,25 @@ import java.util.List;
 
 public class OrganisationView extends Fragment implements IOrganisationView, View.OnClickListener {
 
-    private OrganisationPresenter   presenter;
+    private OrganisationPresenter           presenter;
 
-    private View            view;
-    private RecyclerView    recyclerView;
-    private ProgressBar     progressBar;
-    private AlertDialog     dialog;
+    private CircularImageView               logo;
+    private HashMap<String, ImageButton>    membershipBtn;
+    private OrganisationRVAdapter           adapter;
+    private Unbinder                        unbinder;
+    private AlertDialog                     dialog;
 
-    public static OrganisationView newInstance(Organisation organisation) {
+    @BindView(R.id.btn_management) ImageButton managementBtn;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.progress_bar) ProgressBar         progressBar;
+
+    public static OrganisationView newInstance(int id, String name) {
         OrganisationView    myFragment = new OrganisationView();
 
         Bundle args = new Bundle();
 
-        args.putSerializable("organisation", organisation);
+        args.putString("page", name);
+        args.putInt("id", id);
         myFragment.setArguments(args);
 
         return (myFragment);
@@ -57,16 +65,15 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get Network & Organisation Model
-//        Network         network = ((SecondContainer) getActivity()).getModelManager().getNetwork();
-        Network         network = ((MainActivity) getActivity()).getModelManager().getNetwork();
-        Organisation    organisation = (Organisation) getArguments().getSerializable("organisation");
+        // Get User & Organisation Model
+        User    user = ((MainActivity) getActivity()).getModelManager().getUser();
+        int     id = getArguments().getInt("id");
 
         // Init Presenter
-        presenter = new OrganisationPresenter(this, network, organisation);
+        presenter = new OrganisationPresenter(this, user, id);
 
         // Init Dialog
-        dialog = new AlertDialog.Builder(getActivity())
+        dialog = new AlertDialog.Builder(getContext())
                 .setCancelable(true)
                 .create();
     }
@@ -74,25 +81,23 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_organisation, container, false);
-
-        // Get Organisation Name
-        String organisation = presenter.getOrganisationName();
-
-        // Set ToolBar
-        ((MainActivity) getActivity()).getToolBar().update(organisation, true);
-
-        // Init SearchBar
-        ((MainActivity) getActivity()).getToolBar().getSearchBar().setVisibility(View.GONE);
+        View    view = inflater.inflate(R.layout.fragment_organisation, container, false);
 
         // Init UI Element
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
-        // Init RecyclerView
-        initRecyclerView();
+        logo = (CircularImageView) view.findViewById(R.id.logo);
+        membershipBtn = new HashMap<>();
+        membershipBtn.put(Organisation.ORGANISATION_OWNER, (ImageButton) view.findViewById(R.id.btn_membership_owner));
+        membershipBtn.put(Organisation.ORGANISATION_ADMIN, (ImageButton) view.findViewById(R.id.btn_membership_admin));
+        membershipBtn.put(Organisation.ORGANISATION_MEMBER, (ImageButton) view.findViewById(R.id.btn_membership_member));
+        membershipBtn.put(Organisation.ORGANISATION_NONE, (ImageButton) view.findViewById(R.id.btn_membership_none));
+        membershipBtn.put(Organisation.ORGANISATION_INVITED_CONFIRM, (ImageButton) view.findViewById(R.id.btn_membership_confirm));
+        membershipBtn.put(Organisation.ORGANISATION_INVITED_REMOVE, (ImageButton) view.findViewById(R.id.btn_membership_remove));
+        membershipBtn.put(Organisation.ORGANISATION_WAITING, (ImageButton) view.findViewById(R.id.btn_membership_waiting));
 
         // Init Listener
-        view.findViewById(R.id.btn_join).setOnClickListener(this);
+        for (ImageButton imageButton : membershipBtn.values()) {
+            imageButton.setOnClickListener(this);
+        }
         view.findViewById(R.id.btn_follow).setOnClickListener(this);
         view.findViewById(R.id.btn_post).setOnClickListener(this);
         view.findViewById(R.id.btn_members).setOnClickListener(this);
@@ -100,46 +105,38 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         view.findViewById(R.id.btn_events).setOnClickListener(this);
         view.findViewById(R.id.btn_informations).setOnClickListener(this);
 
-        // Get Organisation Model
-        presenter.getOrganisation();
-
-        // Init News Model
-//        presenter.getEvents();
-
-
-/*
-        // Init TextView Organisation Name
-        TextView textView = (TextView) view.findViewById(R.id.organisation_name);
-        textView.setText(organisation);
-
-        // Init Image Filter (Darken the image)
-        ImageView               imageView = (ImageView) view.findViewById(R.id.organisation_image);
-        LightingColorFilter     lcf = new LightingColorFilter(0xFF888888, 0x00222222);
-        imageView.setColorFilter(lcf);
-
-        // Init ListView & Listener & Adapter
-        listView = (ListView) view.findViewById(R.id.organisation_list_view);
-        listView.setAdapter(new OrganisationListViewAdapter(this));
-        Tools.setListViewHeightBasedOnChildren(listView);
-        initListener();
-
-        // Init Listener
-        view.findViewById(R.id.organisation_btn_join).setOnClickListener(this);
-        view.findViewById(R.id.organisation_btn_management).setOnClickListener(this);
-        view.findViewById(R.id.organisation_btn_members).setOnClickListener(this);
-        view.findViewById(R.id.organisation_btn_events).setOnClickListener(this);
-*/
-
+        unbinder = ButterKnife.bind(this, view);
         return (view);
     }
 
-    private void initRecyclerView() {
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle(Tools.upperCaseFirstLetter(getArguments().getString("page")));
+        initRecyclerView(view);
+        initSwipeRefreshLayout();
+        presenter.getData();
+    }
+
+    private void initSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getNews(true);
+            }
+        });
+    }
+
+    private void initRecyclerView(View view) {
         // Init RecyclerView
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(new OrganisationRVAdapter(presenter));
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        adapter = new OrganisationRVAdapter(presenter);
+        recyclerView.setAdapter(adapter);
 
         // Init LayoutManager
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Set Options to enable toolbar display/hide
         recyclerView.setNestedScrollingEnabled(false);
@@ -157,27 +154,30 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     }
 
 
-    @Override
-    public void initView(String right) {
-        if (!right.equals("owner")) {
-            // Set Logo Position
-            CircularImageView logo = (CircularImageView) view.findViewById(R.id.logo);
-            logo.bringToFront();
-            logo.invalidate();
+    @OnClick(R.id.btn_shelters)
+    public void onClickSheltersBtn() {
+        presenter.goToSheltersView();
+    }
 
-            // Set Management Btn Visibility
-            view.findViewById(R.id.btn_management).setVisibility(View.INVISIBLE);
-        }
-        else {
+    @Override
+    public void setLogoPosition(String right) {
+        if (right != null && right.equals("owner")) {
             // Set Logo Position
-            CircularImageView logo = (CircularImageView) view.findViewById(R.id.logo);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) logo.getLayoutParams();
 
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
             logo.setLayoutParams(layoutParams);
 
             // Set Management Btn Visibility
-            view.findViewById(R.id.btn_management).setVisibility(View.VISIBLE);
+            managementBtn.setVisibility(View.VISIBLE);
+        }
+        else {
+            // Set Logo Position
+            logo.bringToFront();
+            logo.invalidate();
+
+            // Set Management Btn Visibility
+            managementBtn.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -189,6 +189,7 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -200,6 +201,20 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
 
     @Override
     public void updateRV(List<News> newsList) {
-
+        adapter.update(newsList);
     }
+
+    @Override
+    public void addNews(News news) {
+        adapter.addNews(news);
+    }
+
+    public CircularImageView getLogo() {
+        return logo;
+    }
+
+    public ImageButton getMembershipBtn(String key) {
+        return membershipBtn.get(key);
+    }
+
 }

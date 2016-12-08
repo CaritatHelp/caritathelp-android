@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,40 +14,62 @@
             android:id="@+id/card_view_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            card_view:cardCornerRadius="@dimen/_2sdp"
-            card_view:contentPadding="@dimen/_10sdp">
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="10dp"
+            android:layout_alignParentTop="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="5">
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_60sdp"
-                    android:layout_weight="4"
-
-                    android:nextFocusDown="@+id/theme"
-                    android:hint="Nom de l'association"
-                    android:textSize="@dimen/_22sdp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textColor="@color/primary_text"
-                    android:singleLine="true"
-                    android:background="@android:color/transparent" />
-
-                <ImageButton
-                    android:id="@+id/btn_photo"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_weight="1"
+                <!-- Logo -->
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/image"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
 
                     android:layout_gravity="center"
-                    android:src="@android:drawable/ic_menu_camera"
-                    android:scaleType="centerInside"
-                    android:background="@android:color/transparent" />
+                    android:src="@drawable/profile_example"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="2dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_radius="2"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:layout_weight="4"
+
+                        android:nextFocusDown="@+id/theme"
+                        android:hint="Nom de l'association"
+                        android:textSize="22sp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textColor="@color/primary_text"
+                        android:singleLine="true"
+                        android:background="@android:color/transparent" />
+
+                    <ImageButton
+                        android:id="@+id/btn_photo"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="1"
+
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -57,9 +80,9 @@
             android:layout_below="@+id/card_view_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            card_view:cardCornerRadius="@dimen/_2sdp"
-            card_view:contentPadding="@dimen/_10sdp">
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,11 +92,11 @@
                 <EditText
                     android:id="@+id/theme"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="20dp"
 
                     android:nextFocusDown="@+id/location"
                     android:hint="Thème (mot clés)"
-                    android:textSize="@dimen/_18sdp"
+                    android:textSize="20sp"
                     android:textColorHint="@color/secondary_text"
                     android:textColor="@color/primary_text"
                     android:background="@android:color/transparent"/>
@@ -86,11 +109,11 @@
                 <EditText
                     android:id="@+id/location"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="20dp"
 
                     android:nextFocusDown="@+id/description"
                     android:hint="Ville"
-                    android:textSize="@dimen/_18sdp"
+                    android:textSize="20sp"
                     android:textColorHint="@color/secondary_text"
                     android:textColor="@color/primary_text"
                     android:background="@android:color/transparent"/>
@@ -104,19 +127,19 @@
             android:layout_below="@+id/card_view_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            card_view:cardCornerRadius="@dimen/_2sdp"
-            card_view:contentPadding="@dimen/_10sdp">
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="10dp">
 
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_height="40dp"
 
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:hint="Description"
-                android:textSize="@dimen/_16sdp"
+                android:textSize="20sp"
                 android:textColorHint="@color/secondary_text"
                 android:textColor="@color/primary_text"/>
 
@@ -126,16 +149,15 @@
             android:id="@+id/btn_create"
             android:layout_below="@+id/card_view_3"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:layout_marginLeft="@dimen/_60sdp"
-            android:layout_marginRight="@dimen/_60sdp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
 
-            android:alpha="0.8"
-            android:background="@color/primary_dark"
+            android:background="@color/primary"
             android:text="Créer"
-            android:textSize="@dimen/_22sdp"
+            android:textSize="20sp"
             android:textColor="@color/icons"
             android:textAllCaps="false" />
 

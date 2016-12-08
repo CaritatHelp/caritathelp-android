@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Organisations;
+import com.eip.red.caritathelp.Models.User.User;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -15,22 +16,20 @@ import com.koushikdutta.ion.Ion;
 
 public class OrganisationSearchInteractor {
 
-    private Context         context;
-    private Network         network;
+    private Context context;
+    private User    user;
 
-    public OrganisationSearchInteractor(Context context, Network network) {
+    public OrganisationSearchInteractor(Context context, User user) {
         this.context = context;
-        this.network = network;
+        this.user = user;
     }
 
     public void getAllOrganisations(final IOnOrganisationSearchFinishedListener listener) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", network.getToken());
-
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION)
-                .setJsonObjectBody(json)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
                 .as(new TypeToken<Organisations>(){})
                 .setCallback(new FutureCallback<Organisations>() {
                     @Override
@@ -47,15 +46,5 @@ public class OrganisationSearchInteractor {
                     }
                 });
     }
-
-//    private List<String>    getOrganisationsNames(List<Organisation> organisations) {
-//        List<String>    organisationsNames = new ArrayList<>();
-//
-//        for (Organisation organisation : organisations) {
-//            organisationsNames.add(organisation.getName());
-//        }
-//
-//        return (organisationsNames);
-//    }
 
 }

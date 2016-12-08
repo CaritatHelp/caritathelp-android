@@ -1,5 +1,8 @@
 package com.eip.red.caritathelp;
 
+import com.eip.red.caritathelp.Presenters.SubMenu.Profile.ProfilePresenter;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,4 +15,5 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
 }

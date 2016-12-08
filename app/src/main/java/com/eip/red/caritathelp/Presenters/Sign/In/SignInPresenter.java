@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
 import com.eip.red.caritathelp.Models.Network;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Sign.In.SignInView;
 
@@ -55,15 +55,18 @@ public class SignInPresenter implements ISignInPresenter, IOnSignInFinishedListe
     }
 
     @Override
-    public void onSuccess(User user, Network network) {
+    public void onSuccess(User user) {
         view.hideProgress();
+
+        /* DEBUG TOKEN */
+        System.out.println("********************Token : " + user.getToken());
+        System.out.println("********************client : " + user.getClient());
+        System.out.println("********************Uid : " + user.getUid());
 
         // Navigate To MainActivity
         SignActivity activity = (SignActivity) view.getActivity();
         Intent intent = new Intent(activity, MainActivity.class);
-
         intent.putExtra("user", user);
-        intent.putExtra("network", network);
         view.startActivity(intent);
         activity.finish();
     }

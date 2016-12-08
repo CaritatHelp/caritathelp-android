@@ -2,7 +2,7 @@ package com.eip.red.caritathelp.Presenters.Sign.Up.Begin;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.User;
+import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Sign.Up.SignUpBeginView;
 import com.eip.red.caritathelp.Views.Sign.Up.SignUpPersonView;
@@ -26,8 +26,8 @@ public class SignUpBeginPresenter implements ISignUpBeginPresenter {
     @Override
     public void init() {
         User    user  = interactor.getUser();
-        String  geolocation = user.isGeolocation();
-        boolean notifications = user.isNotifications();
+        String  geolocation = "true";//user.isGeolocation();
+        boolean notifications = false;//user.isNotifications();
 
         if (geolocation != null && geolocation.equals("true"))
             view.getGeolocation().setChecked(true);
