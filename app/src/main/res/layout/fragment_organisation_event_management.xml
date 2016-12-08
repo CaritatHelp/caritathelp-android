@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <EditText
+                        android:id="@+id/title"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="4"
+
+                        android:nextFocusDown="@id/date_begin"
+                        android:hint="@string/organisation_management_event_title"
+                        android:textSize="28sp"
+                        android:textColorHint="@color/secondary_text"
+                        android:textColor="@color/primary_text"
+                        android:singleLine="true"
+                        android:background="@android:color/transparent" />
+
+                    <ImageButton
+                        android:id="@+id/btn_photo"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- Event Date Form Starts -->
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+
+                        android:layout_gravity="center"
+                        android:text="@string/organisation_management_event_begin"
+                        android:textSize="20sp"
+                        android:textColor="@color/primary_text"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/begin_date"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+
+                            android:gravity="start|center"
+                            android:hint="@string/organisation_management_event_date"
+                            android:textSize="20sp"
+                            android:textColorHint="@color/secondary_text"
+                            android:textColor="@color/primary_text" />
+
+                        <TextView
+                            android:id="@+id/begin_time"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+
+                            android:gravity="start|center"
+                            android:hint="@string/organisation_management_event_time"
+                            android:textSize="20sp"
+                            android:textColorHint="@color/secondary_text"
+                            android:textColor="@color/primary_text" />
+
+
+                    </LinearLayout>
+
+                    <!-- DIVIDER -->
+                    <View
+                        style="@style/Divider"
+                        android:layout_margin="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+
+                        android:layout_gravity="center"
+                        android:text="Fin de l'événement"
+                        android:textSize="20sp"
+                        android:textColor="@color/primary_text"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/end_date"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+
+                            android:gravity="start|center"
+                            android:hint="@string/organisation_management_event_date"
+                            android:textSize="20sp"
+                            android:textColorHint="@color/secondary_text"
+                            android:textColor="@color/primary_text" />
+
+                        <TextView
+                            android:id="@+id/end_time"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+
+                            android:gravity="start|center"
+                            android:hint="@string/organisation_management_event_time"
+                            android:textSize="20sp"
+                            android:textColorHint="@color/secondary_text"
+                            android:textColor="@color/primary_text" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <!-- Event Date Form Ends -->
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="10dp">
+
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+
+                    android:nextFocusDown="@id/description"
+                    android:hint="@string/organisation_management_event_location"
+                    android:textSize="20sp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textColor="@color/primary_text"
+                    android:background="@android:color/transparent" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="140dp"
+                android:layout_margin="5dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="10dp"
+
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+
+                    android:layout_gravity="top|start"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/organisation_management_event_description"
+                    android:textSize="20sp"
+                    android:textColorHint="@color/secondary_text"
+                    android:textColor="@color/primary_text"/>
+
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+
+                android:background="@color/primary"
+                android:text="@string/organisation_event_management_save"
+                android:textSize="22sp"
+                android:textColor="@color/icons"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+
+        android:visibility="gone" />
+
+</RelativeLayout>

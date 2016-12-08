@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:padding="4dp"
+                        android:orientation="horizontal"
+                        android:background="@color/icons">
+
+                        <TextView
+                            android:id="@+id/my_friends"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/friends_my_friends"
+                            android:textSize="16sp"
+                            android:textColor="@color/primary_text"
+                            android:textStyle="bold"
+                            android:singleLine="true" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:layout_gravity="center"
+                            android:background="?android:attr/listDivider" />
+
+                        <TextView
+                            android:id="@+id/invitations"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/friends_invitations"
+                            android:textSize="16sp"
+                            android:textColor="@color/primary_text"
+                            android:singleLine="true" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:layout_gravity="center"
+                            android:background="?android:attr/listDivider" />
+
+                        <TextView
+                            android:id="@+id/sent"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/friends_sent"
+                            android:textSize="16sp"
+                            android:textColor="@color/primary_text"
+                            android:singleLine="true" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:layout_gravity="center"
+                            android:background="?android:attr/listDivider" />
+
+                        <ImageButton
+                            android:id="@+id/btn_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:src="@drawable/ic_person_add_black_36dp"
+                            android:background="@android:color/transparent" />
+
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_gravity="center"
+                        style="@style/Divider"/>
+
+<!--
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:padding="4dp"
+                        android:background="@color/icons">
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spinner"
+                            android:layout_width="120dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:entries="@array/my_friends_spinner"
+                            android:popupBackground="@color/icons"
+                            android:spinnerMode="dropdown"
+                            android:spinnerItemStyle="@style/spinnerItemStyle"
+                            android:spinnerDropDownItemStyle="@style/spinnerDropDownItemStyle"
+                            android:popupElevation="2dp" />
+
+                        &lt;!&ndash; Divider &ndash;&gt;
+                        <View
+                            android:id="@+id/divider_vertical"
+                            android:layout_toStartOf="@+id/btn_add"
+                            android:layout_toLeftOf="@+id/btn_add"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:layout_marginEnd="@dimen/_4sdp"
+                            android:layout_marginRight="@dimen/_4sdp"
+                            android:layout_centerHorizontal="true"
+                            android:background="?android:attr/listDivider" />
+
+                        <Button
+                            android:id="@+id/btn_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/submenu_friends_btn_add"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/secondary_text"
+                            android:background="@android:color/transparent"
+                            android:textAllCaps="false" />
+
+                    </RelativeLayout>
+
+                    &lt;!&ndash; Divider &ndash;&gt;
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_gravity="center"
+                        style="@style/Divider"/>
+-->
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_my_friends"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_invitations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_sent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

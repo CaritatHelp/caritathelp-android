@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <!-- Logo -->
+    <!-- Logo -->
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/logo"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+
+        android:layout_gravity="center"
+        android:src="@drawable/logo_caritathelp_2017_picture_only_normal"
+        app:civ_border_color="#EEEEEE"
+        app:civ_border_width="2dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="2" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Name"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold"
+        android:singleLine="false" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Lieu"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_14sdp"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/friends"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Friends"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/_14sdp"
+        android:singleLine="true" />
+
+</LinearLayout>

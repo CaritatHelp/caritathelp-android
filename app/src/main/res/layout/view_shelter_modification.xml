@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Name"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/address"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Adresse"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/zipcode"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/zipcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Code postal"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="5"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/city"/>
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Ville"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/places"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/places_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Nombre de places totales"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/phone"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/places_free"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Nombre de places disponibles"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/phone"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Téléphone"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/mail"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="E-mail"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:maxLength="40"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/description"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:hint="Description"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:maxLength="120"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+
+                android:text="Annuler"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/btn_modify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+
+                android:text="Modifier"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

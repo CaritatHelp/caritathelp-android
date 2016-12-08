@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:background="@color/primary_dark">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+
+                android:src="@drawable/find_user"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Need Volunteers"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/icons"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:background="@color/primary">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+
+                android:src="@drawable/receive_cash"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_4sdp"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Need Donations"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/icons"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<ProgressBar-->
+        <!--android:id="@+id/ProgressBar"-->
+        <!--style="?android:attr/progressBarStyleHorizontal"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="@dimen/_30sdp"-->
+        <!--android:layout_margin="@dimen/_10sdp"-->
+        <!--android:indeterminate="false"-->
+        <!--android:maxHeight="10dip"-->
+        <!--android:minHeight="10dip"-->
+        <!--android:progress="30"-->
+        <!--android:progressDrawable="@drawable/test_progress_bar" />-->
+
+    <SeekBar
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:progress="30"
+        android:progressDrawable="@drawable/red_scrubber_progress"
+        android:thumb="@drawable/red_scrubber_control" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginLeft="@dimen/_65sdp"
+
+        android:text="22 volunteers"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_14sdp"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+
+        android:layout_gravity="center"
+        android:src="@drawable/test_btn_emergency_system" />
+
+
+</LinearLayout>
