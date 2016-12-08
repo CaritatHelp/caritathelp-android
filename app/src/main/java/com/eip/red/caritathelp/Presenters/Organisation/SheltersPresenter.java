@@ -10,8 +10,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.Shelter.Shelter;
 import com.eip.red.caritathelp.Models.Shelter.ShelterJson;
 import com.eip.red.caritathelp.Models.Shelter.SheltersJson;
 import com.eip.red.caritathelp.Models.User.User;
@@ -187,8 +190,151 @@ public class SheltersPresenter implements Shelters.Presenter {
     }
 
     @Override
-    public void updateShelter(Integer shelterId) {
+    public void updateShelter(final Shelter shelter) {
+        final Dialog dialog = new Dialog(view.getContext());
+        dialog.setContentView(R.layout.view_shelter_modification);
+        final EditText name = ButterKnife.findById(dialog, R.id.name);
+        final EditText address = ButterKnife.findById(dialog, R.id.address);
+        final EditText zipcode = ButterKnife.findById(dialog, R.id.zipcode);
+        final EditText city = ButterKnife.findById(dialog, R.id.city);
+        final EditText totalPlaces = ButterKnife.findById(dialog, R.id.places_total);
+        final EditText freePlaces = ButterKnife.findById(dialog, R.id.places_free);
+        final EditText phone = ButterKnife.findById(dialog, R.id.phone);
+        final EditText mail = ButterKnife.findById(dialog, R.id.mail);
+        final EditText description = ButterKnife.findById(dialog, R.id.description);
+        Button cancel = ButterKnife.findById(dialog, R.id.btn_cancel);
+        Button modify = ButterKnife.findById(dialog, R.id.btn_modify);
 
+        name.setText(shelter.getName());
+        address.setText(shelter.getAddress());
+        zipcode.setText(String.valueOf(shelter.getZipcode()));
+        city.setText(shelter.getCity());
+        totalPlaces.setText(String.valueOf(shelter.getTotalPlaces()));
+        freePlaces.setText(String.valueOf(shelter.getFreePlaces()));
+
+        if (!TextUtils.isEmpty(shelter.getPhone()))
+            phone.setText(shelter.getPhone());
+        if (!TextUtils.isEmpty(shelter.getMail()))
+            mail.setText(shelter.getMail());
+        if (!TextUtils.isEmpty(shelter.getDescription()))
+            description.setText(shelter.getDescription());
+
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                boolean error = false;
+                String errorStr = "Champ obligatoire";
+
+                InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(button.getWindowToken(), 0);
+
+                if (TextUtils.isEmpty(name.getText())) {
+                    error = true;
+                    name.setError(errorStr);
+                }
+                if (TextUtils.isEmpty(address.getText())) {
+                    error = true;
+                    address.setError(errorStr);
+                }
+                if (TextUtils.isEmpty(zipcode.getText())) {
+                    error = true;
+                    zipcode.setError(errorStr);
+                }
+                if (TextUtils.isEmpty(city.getText())) {
+                    error = true;
+                    city.setError(errorStr);
+                }
+                if (TextUtils.isEmpty(totalPlaces.getText())) {
+                    error = true;
+                    totalPlaces.setError(errorStr);
+                }
+                if (TextUtils.isEmpty(freePlaces.getText())) {
+                    error = true;
+                    freePlaces.setError(errorStr);
+                }
+
+                if (!TextUtils.isEmpty(totalPlaces.getText()) && !TextUtils.isEmpty(freePlaces.getText())) {
+                    if (Integer.valueOf(totalPlaces.getText().toString()) < Integer.valueOf(freePlaces.getText().toString())) {
+                        error = true;
+                        freePlaces.setError("Le nombre de places disponibles ne peut pas être supérieures au nombre de places totales.");
+                    }
+                }
+
+                if (!error) {
+                    JsonObject json = new JsonObject();
+                    json.addProperty("assoc_id", organisationId);
+                    if (!TextUtils.isEmpty(name.getText()))
+                        json.addProperty("name", name.getText().toString());
+                    if (!TextUtils.isEmpty(address.getText()))
+                        json.addProperty("address", address.getText().toString());
+                    if (!TextUtils.isEmpty(zipcode.getText()))
+                        json.addProperty("zipcode", Integer.valueOf(zipcode.getText().toString()));
+                    if (!TextUtils.isEmpty(city.getText()))
+                        json.addProperty("city", city.getText().toString());
+                    if (!TextUtils.isEmpty(totalPlaces.getText()))
+                        json.addProperty("total_places", Integer.valueOf(totalPlaces.getText().toString()));
+                    if (!TextUtils.isEmpty(freePlaces.getText()))
+                        json.addProperty("free_places", Integer.valueOf(freePlaces.getText().toString()));
+                    if (!TextUtils.isEmpty(phone.getText()))
+                        json.addProperty("phone", phone.getText().toString());
+                    if (!TextUtils.isEmpty(mail.getText()))
+                        json.addProperty("mail", mail.getText().toString());
+                    if (!TextUtils.isEmpty(description.getText()))
+                        json.addProperty("description", description.getText().toString());
+
+                    Ion.with(view.getContext())
+                            .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_SHELTERS_UPDATE + shelter.getId())
+                            .setHeader("access-token", user.getToken())
+                            .setHeader("client", user.getClient())
+                            .setHeader("uid", user.getUid())
+                            .setJsonObjectBody(json)
+                            .as(new TypeToken<ShelterJson>() {
+                            })
+                            .setCallback(new FutureCallback<ShelterJson>() {
+                                @Override
+                                public void onCompleted(Exception error, ShelterJson result) {
+                                    if (error == null) {
+                                        if (result.getStatus() == Network.API_STATUS_ERROR)
+                                            view.setDialog("Statut 400", result.getMessage());
+                                        else {
+                                            dialog.dismiss();
+                                            dialog.cancel();
+
+                                            new AlertDialog.Builder(view.getContext())
+                                                    .setCancelable(true)
+                                                    .setMessage("Le centre d'hebergement \"" + result.getResponse().getName() + "\" a bien été modifié.")
+                                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                                        @Override
+                                                        public void onCancel(DialogInterface dialogInterface) {
+                                                            getShelters();
+                                                            dialogInterface.dismiss();
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    } else
+                                        view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                                }
+                            });
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                dialog.dismiss();
+            }
+        });
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     @Override

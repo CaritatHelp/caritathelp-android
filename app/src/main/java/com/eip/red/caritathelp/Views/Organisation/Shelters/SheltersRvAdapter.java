@@ -65,8 +65,6 @@ public class SheltersRvAdapter extends RecyclerView.Adapter<SheltersRvAdapter.Da
             Shelter shelter = shelters.get(getAdapterPosition());
 
             if (shelter != null) {
-//                new AlertDialog.Builder(view.getContext())
-//                        .setTitle(shelter.getName())
                 final Dialog dialog = new Dialog(view.getContext());
                 dialog.setContentView(R.layout.view_shelter);
 
@@ -122,7 +120,7 @@ public class SheltersRvAdapter extends RecyclerView.Adapter<SheltersRvAdapter.Da
             Shelter shelter = shelters.get(getAdapterPosition());
 
             if (shelter != null)
-                presenter.updateShelter(shelter.getId());
+                presenter.updateShelter(shelter);
         }
 
         @OnClick(R.id.btn_delete)

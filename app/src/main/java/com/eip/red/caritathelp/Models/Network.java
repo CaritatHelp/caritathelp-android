@@ -70,6 +70,7 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS = "/shelters";
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS_CREATE = "/shelters";
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS_DELETE = "/shelters/";
+    static final public  String     API_REQUEST_ORGANISATION_SHELTERS_UPDATE = "/shelters/";
 
     /* GUESTS */
     static final public  String     API_REQUEST_GUESTS_REPLY_INVITE = "/guests/reply_invite";

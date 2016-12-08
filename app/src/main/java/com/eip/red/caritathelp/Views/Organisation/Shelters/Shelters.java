@@ -25,7 +25,7 @@ public interface Shelters {
 
         void createShelter();
 
-        void updateShelter(Integer shelterId);
+        void updateShelter(Shelter shelter);
 
         void deleteShelter(Integer shelterId, String shelterName);
     }
