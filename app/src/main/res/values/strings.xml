@@ -19,6 +19,7 @@
 
     <string name="view_name_submenu">@string/app_name</string>
     <string name="view_name_submenu_profile">Profil</string>
+    <string name="view_name_submenu_profile_gallery_photo">Photos</string>
     <string name="view_name_submenu_my_organisations">Mes associations</string>
     <string name="view_name_submenu_my_organisations_creation">Créer une association</string>
     <string name="view_name_submenu_my_events">Mes événements</string>

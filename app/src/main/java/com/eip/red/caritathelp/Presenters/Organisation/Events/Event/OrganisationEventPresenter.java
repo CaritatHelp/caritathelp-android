@@ -9,9 +9,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
+import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Presenters.SubMenu.Profile.GalleryPhotoPresenter;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
@@ -22,6 +24,7 @@ import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.Organi
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhotoView;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -161,6 +164,18 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
     }
 
     @Override
+    public void goToGalleryPhotoView() {
+        Event event = interactor.getEvent();
+
+        if (event != null && event.getRights() != null) {
+            if (event.getRights().equals("owner"))
+                Tools.replaceView(view, GalleryPhotoView.newInstance(event.getId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.EVENT, true), Animation.FADE_IN_OUT, false);
+            else
+                Tools.replaceView(view, GalleryPhotoView.newInstance(event.getId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.EVENT, false), Animation.FADE_IN_OUT, false);
+        }
+    }
+
+    @Override
     public void goToProfileView(News news) {
         if (news.isAs_group())
             Tools.replaceView(view, OrganisationView.newInstance(news.getGroup_id(),news.getGroup_name()), Animation.FADE_IN_OUT, false);
@@ -182,6 +197,8 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
     @Override
     public void onSuccessGetData(Event event, List<News> newsList) {
         String  rights = event.getRights();
+
+        Network.loadImage(view.getContext(), view.getPicture(), Network.API_LOCATION_2 + event.getThumb_path(), R.drawable.solidarite);
 
         if (rights != null) {
             switch (rights) {

@@ -153,6 +153,10 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         presenter.onClick(v.getId());
     }
 
+    @OnClick(R.id.logo)
+    public void onClickLogoBtn() {
+        presenter.goToGalleryPhotoView();
+    }
 
     @OnClick(R.id.btn_shelters)
     public void onClickSheltersBtn() {

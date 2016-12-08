@@ -93,6 +93,7 @@ public class Network implements Serializable {
 
     /* PICTURE */
     static final public  String     API_REQUEST_PICTURES = "/pictures";
+    static final public  String     API_REQUEST_PICTURES_DELETE = "/pictures/";
 
     /* MESSAGES*/
     static final public  String     API_REQUEST_MESSAGE_CHATROOMS = "/chatrooms";

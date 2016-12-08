@@ -29,6 +29,7 @@ import com.eip.red.caritathelp.Views.SubMenu.MyEvents.MyEventsView;
 import com.eip.red.caritathelp.Views.SubMenu.MyOrganisations.MyOrganisationsView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.Friends.FriendsView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhotoView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -87,22 +88,24 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
     public void onClick(int viewId) {
         switch (viewId) {
             case R.id.image:
+                Tools.replaceView(view, GalleryPhotoView.newInstance(interactor.getUserId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.USER, interactor.isMainUser()), Animation.FADE_IN_OUT, false);
+
                 // Check if user == main user
                 // If true -> modify his profile img
-                if (interactor.isMainUser()) {
-                    Dexter.checkPermissions(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            if (report.areAllPermissionsGranted())
-                                dialog.show();
-                        }
-
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                }
+//                if (interactor.isMainUser()) {
+//                    Dexter.checkPermissions(new MultiplePermissionsListener() {
+//                        @Override
+//                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+//                            if (report.areAllPermissionsGranted())
+//                                dialog.show();
+//                        }
+//
+//                        @Override
+//                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+//                            token.continuePermissionRequest();
+//                        }
+//                    }, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//                }
                 break;
             case R.id.btn_friendship_friend:
                 view.showProgress();

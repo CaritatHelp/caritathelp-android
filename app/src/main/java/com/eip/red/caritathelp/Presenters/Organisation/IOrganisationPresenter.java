@@ -14,6 +14,8 @@ public interface IOrganisationPresenter {
 
     void getNews(boolean isSwipeRefresh);
 
+    void goToGalleryPhotoView();
+
     void goToProfileView(News news);
 
     void goToCommentView(News news);

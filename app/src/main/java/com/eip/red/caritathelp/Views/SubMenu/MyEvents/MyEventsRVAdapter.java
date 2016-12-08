@@ -97,7 +97,6 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
         holder.title.setText(Tools.upperCaseFirstLetter(title));
 
         // Set date
-        System.out.println("Date : " + date);
         if (date != null && !TextUtils.isEmpty(date)) {
             DateTime    dt = formatter.parseDateTime(date);
             holder.date.setText(newFormatter.print(dt));

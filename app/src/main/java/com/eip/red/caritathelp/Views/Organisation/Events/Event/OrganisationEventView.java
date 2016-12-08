@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -37,6 +38,7 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     private OrganisationEventRVAdapter  adapter;
     private AlertDialog                 dialog;
 
+    @BindView(R.id.picture) ImageView picture;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.btn_post) ImageButton postBtn;
     @BindView(R.id.btn_guests) ImageButton guestBtn;
@@ -76,19 +78,11 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_event, container, false);
+        ButterKnife.bind(this, view);
 
         // Init Image Filter (Darken the image)
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
         LightingColorFilter lcf = new LightingColorFilter(0xFF888888, 0x00222222);
-        imageView.setColorFilter(lcf);
-
-        return (view);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+        picture.setColorFilter(lcf);
 
         initSwipeRefreshLayout();
         initRecyclerView();
@@ -101,6 +95,12 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
         managementBtn.setOnClickListener(this);
         emergencyBtn.setOnClickListener(this);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         presenter.getData();
     }
 
@@ -153,6 +153,15 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @Override
     public void onClick(View v) {
         presenter.onClick(v.getId());
+    }
+
+    @OnClick(R.id.picture)
+    public void onClickPicture() {
+        presenter.goToGalleryPhotoView();
+    }
+
+    public ImageView getPicture() {
+        return picture;
     }
 
     public ImageButton getJoinBtn() {
