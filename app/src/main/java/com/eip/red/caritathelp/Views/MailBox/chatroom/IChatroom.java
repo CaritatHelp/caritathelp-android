@@ -18,6 +18,8 @@ public interface IChatroom {
         void setDialog(String title, String msg);
 
         void updateRVData(List<ChatroomMessage> messages);
+
+        void addMessage(ChatroomMessage message);
     }
 
     interface Presenter {

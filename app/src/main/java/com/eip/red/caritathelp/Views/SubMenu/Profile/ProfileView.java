@@ -2,6 +2,7 @@ package com.eip.red.caritathelp.Views.SubMenu.Profile;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -121,9 +122,9 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
 
         // When an Image is picked
         if (requestCode == ProfilePresenter.RESULT_LOAD_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
-            presenter.uploadProfileImg(profileImg, data);
+            presenter.uploadProfileImg(profileImg, data, ProfilePresenter.RESULT_LOAD_IMAGE);
         else if (requestCode == ProfilePresenter.RESULT_CAPTURE_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
-            presenter.uploadProfileImg(profileImg, data);
+            presenter.uploadProfileImg(profileImg, data, ProfilePresenter.RESULT_CAPTURE_IMAGE);
     }
 
     private void initSwipeRefreshLayout() {

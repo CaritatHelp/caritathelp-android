@@ -7,6 +7,8 @@ import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Presenters.SubMenu.Profile.GalleryPhotoPresenter;
+import com.eip.red.caritathelp.Views.Organisation.Shelters.SheltersView;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
@@ -17,6 +19,7 @@ import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationManagem
 import com.eip.red.caritathelp.Views.Organisation.Members.OrganisationMembersView;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhotoView;
 
 import java.util.List;
 
@@ -99,6 +102,15 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
     }
 
     @Override
+    public void goToGalleryPhotoView() {
+        Organisation organisation = interactor.getOrganisation();
+        if (organisation.getRights().equals("owner"))
+            Tools.replaceView(view, GalleryPhotoView.newInstance(organisation.getId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.ORGANISATION, true), Animation.FADE_IN_OUT, false);
+        else
+            Tools.replaceView(view, GalleryPhotoView.newInstance(organisation.getId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.ORGANISATION, false), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
     public void goToProfileView(News news) {
         if (news.isAs_group())
             Tools.replaceView(view, OrganisationView.newInstance(news.getGroup_id(),news.getGroup_name()), Animation.FADE_IN_OUT, false);
@@ -112,6 +124,11 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
     }
 
     @Override
+    public void goToSheltersView() {
+        Tools.replaceView(view, SheltersView.newInstance(interactor.getOrganisation().getId(), false), Animation.FADE_IN_OUT, false);
+    }
+
+    @Override
     public void onDialog(String title, String msg) {
         view.hideProgress();
         view.setDialog(title, msg);
@@ -122,7 +139,7 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
         String rights = organisation.getRights();
 
         // Set Profile Picture
-        Network.loadImage(view.getContext(), view.getLogo(), Network.API_LOCATION_2 + organisation.getName(), R.drawable.profile_example);
+        Network.loadImage(view.getContext(), view.getLogo(), Network.API_LOCATION_2 + organisation.getThumb_path(), R.drawable.profile_example);
 
         // Set Management Button Visibility
         view.setLogoPosition(organisation.getRights());

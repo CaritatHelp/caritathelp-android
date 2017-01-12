@@ -69,7 +69,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
                             android:text="Créer"
-                            android:textSize="@dimen/_18sdp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="@color/secondary_text"
                             android:background="@android:color/transparent"

@@ -55,7 +55,7 @@ public class ProfileInteractor {
                 .load("POST", Network.API_LOCATION_2 + Network.API_REQUEST_PICTURES)
                 .setHeader("access-token", mainUser.getToken())
                 .setHeader("client", mainUser.getClient())
-                .setHeader("uid", mainUser.getUid())
+                .setHeader("uid", mainUser.getUid   ())
                 .setJsonObjectBody(json)
                 .as(new TypeToken<MainPictureJson>() {})
                 .setCallback(new FutureCallback<MainPictureJson>() {

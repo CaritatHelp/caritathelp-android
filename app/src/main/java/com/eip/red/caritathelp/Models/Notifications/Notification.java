@@ -12,6 +12,7 @@ public class Notification {
     public final static String  NOTIF_TYPE_ADD_FRIEND = "AddFriend";
     public final static String  NOTIF_TYPE_NEW_GUEST = "NewGuest";
     public final static String  NOTIF_TYPE_NEW_MEMBER = "NewMember";
+    public final static String  NOTIF_TYPE_EMERGENCY = "Emergency";
 
     private int     id;
     private int     sender_id;

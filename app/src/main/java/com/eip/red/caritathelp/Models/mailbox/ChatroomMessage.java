@@ -17,6 +17,18 @@ public class ChatroomMessage {
     private String fullname;
     @SerializedName("thumb_path") private String thumbPath;
 
+    public ChatroomMessage() {}
+
+    public ChatroomMessage(WebSocketMessage webSocketMessage) {
+        chatroomId = webSocketMessage.getChatroomId();
+        volunteerId = webSocketMessage.getSenderId();
+        content = webSocketMessage.getContent();
+        createdAt = webSocketMessage.getCreatedAt();
+        updatedAt = null;
+        fullname = webSocketMessage.getSenderFirstname() + " " + webSocketMessage.getSenderLastname();
+        thumbPath = webSocketMessage.getSenderThumb();
+    }
+
     public Integer getId() {
         return id;
     }

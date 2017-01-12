@@ -25,6 +25,8 @@ public interface MailBox {
 
         void getChatrooms(boolean isSwipeRefresh);
 
+        void onMessage(String message);
+
         void goToChatroom(String chatroomName, Integer chatroomId);
 
         void goToChatroomCreationView();

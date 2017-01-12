@@ -2,7 +2,9 @@ package com.eip.red.caritathelp.Views.MailBox.chatroom;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,12 +32,13 @@ import butterknife.OnClick;
 
 public class ChatroomView extends Fragment implements IChatroom.View {
 
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.message) EditText message;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     private ChatroomPresenter presenter;
     private ChatroomRVAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
     private AlertDialog dialog;
 
     public static Fragment newInstance(String name, Integer chatroomId) {
@@ -64,12 +67,12 @@ public class ChatroomView extends Fragment implements IChatroom.View {
         View view = inflater.inflate(R.layout.fragment_mailbox_chatroom, container, false);
         ButterKnife.bind(this, view);
 
-        RecyclerView recyclerView = ButterKnife.findById(view, R.id.recycler_view);
         adapter = new ChatroomRVAdapter(getResources(), presenter);
         recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setNestedScrollingEnabled(true);
 
         return (view);
     }
@@ -101,13 +104,27 @@ public class ChatroomView extends Fragment implements IChatroom.View {
     @Override
     public void updateRVData(List<ChatroomMessage> messages) {
         adapter.update(messages);
-        layoutManager.scrollToPosition(messages.size() - 1);
+        layoutManager.scrollToPosition(adapter.getItemCount() - 1);
         message.getText().clear();
+    }
+
+    @Override
+    public void addMessage(ChatroomMessage message) {
+//        presenter.getMessages();
+
+        adapter.add(message);
+        layoutManager.smoothScrollToPosition(recyclerView, null, adapter.getItemCount() - 1);
+//        recyclerView.invalidate();
+
+//        layoutManager.scrollToPositionWithOffset(adapter.getItemCount() - 1, 0);
+//        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
     }
 
     @OnClick(R.id.btn_send)
     public void onClickSendBtn() {
-        if (!TextUtils.isEmpty(message.getText()))
+        if (!TextUtils.isEmpty(message.getText())) {
             presenter.sendMessage(message.getText().toString());
+            message.getText().clear();
+        }
     }
 }

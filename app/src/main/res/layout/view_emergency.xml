@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
+
+    <TextView
+        android:id="@+id/volunteer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+
+        android:text="Bénévoles : "
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:id="@+id/volunteer"
+        android:layout_toRightOf="@+id/volunteer_title"
+        android:layout_toEndOf="@+id/volunteer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+
+        android:text="0"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:textAllCaps="true"/>
+
+    <SeekBar
+        android:id="@+id/seekbar_volunteer"
+        android:layout_below="@+id/volunteer_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="0"
+        android:max="100"/>
+
+    <TextView
+        android:id="@+id/zone_title"
+        android:layout_below="@+id/seekbar_volunteer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:padding="10dp"
+
+        android:text="Zone : "
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:id="@+id/zone"
+        android:layout_toRightOf="@+id/zone_title"
+        android:layout_toEndOf="@+id/zone_title"
+        android:layout_below="@+id/seekbar_volunteer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:padding="10dp"
+
+        android:text="50 km"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:textAllCaps="false"/>
+
+    <SeekBar
+        android:id="@+id/seekbar_zone"
+        android:layout_below="@+id/zone_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="50"
+        android:max="100"/>
+
+</RelativeLayout>

@@ -21,7 +21,7 @@
 
                 <!-- Event Image + Event Btn for management -->
                 <ImageView
-                    android:id="@+id/image"
+                    android:id="@+id/picture"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
 
@@ -85,6 +85,18 @@
                         android:src="@drawable/ic_people_light_green_400_36dp"
                         android:background="@android:color/transparent"
                         android:scaleType="centerInside"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_emergency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add_alert_red_a700_48dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"
+                        android:visibility="gone"/>
 
                     <ImageButton
                         android:id="@+id/btn_informations"

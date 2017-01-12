@@ -17,7 +17,7 @@ public interface IProfilePresenter {
 
     void getNews(boolean isSwipeRefresh);
 
-    void uploadProfileImg(ImageView imageView, Intent data);
+    void uploadProfileImg(ImageView imageView, Intent data, int code);
 
     void goToProfileView();
 

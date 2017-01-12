@@ -127,4 +127,10 @@ public class ChatroomRVAdapter extends RecyclerView.Adapter<ChatroomRVAdapter.Da
         notifyDataSetChanged();
     }
 
+    public void add(ChatroomMessage message) {
+        this.messages.add(message);
+        notifyItemInserted(this.messages.size() - 1);
+//        notifyDataSetChanged();
+    }
+
 }

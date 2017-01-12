@@ -1,15 +1,22 @@
 package com.eip.red.caritathelp.Views.Organisation.Events;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.OrganisationEventsPresenter;
 import com.eip.red.caritathelp.R;
+import com.eip.red.caritathelp.Tools;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +32,17 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
 
     private List<Event> visibleObjects;
     private List<Event> allObjects;
+    private DateTimeFormatter formatter;
+    private DateTimeFormatter   newFormatter;
+
 
     public OrganisationEventsRVAdapter(OrganisationEventsPresenter presenter) {
         this.presenter = presenter;
 
         visibleObjects = new ArrayList<>();
         allObjects = new ArrayList<>();
-
+        formatter = DateTimeFormat.forPattern("yyyy-MM-dd' 'HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
+        newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -67,9 +78,20 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-//        holder.image.setText();
-        holder.title.setText(visibleObjects.get(position).getTitle());
-//        holder.date.setText();
+        Event event = visibleObjects.get(position);
+
+        if (event != null) {
+            String  date = event.getBegin();
+
+            Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION_2 + event.getThumb_path(), R.drawable.logo_caritathelp_2017_picture_only_normal);
+            holder.title.setText(Tools.upperCaseFirstLetter(event.getTitle()));
+            if (date != null && !TextUtils.isEmpty(date)) {
+                DateTime dt = formatter.parseDateTime(date);
+                holder.date.setText(newFormatter.print(dt));
+            }
+            else
+                holder.date.setVisibility(View.GONE);
+        }
     }
 
     @Override

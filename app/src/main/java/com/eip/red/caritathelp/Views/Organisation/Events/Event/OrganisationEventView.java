@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -37,12 +38,14 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     private OrganisationEventRVAdapter  adapter;
     private AlertDialog                 dialog;
 
+    @BindView(R.id.picture) ImageView picture;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.btn_post) ImageButton postBtn;
     @BindView(R.id.btn_guests) ImageButton guestBtn;
     @BindView(R.id.btn_informations) ImageButton informationsBtn;
     @BindView(R.id.btn_join) ImageButton joinBtn;
     @BindView(R.id.btn_quit) ImageButton quitBtn;
+    @BindView(R.id.btn_emergency) ImageButton emergencyBtn;
     @BindView(R.id.btn_management) ImageButton managementBtn;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -61,15 +64,10 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Get Network Model & Id Organisation
         User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     eventId = getArguments().getInt("event id");
 
-        // Init Presenter
         presenter = new OrganisationEventPresenter(this, user, eventId);
-
-        // Init Dialog
         dialog = new AlertDialog.Builder(getContext())
                 .setCancelable(true)
                 .create();
@@ -80,32 +78,29 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_event, container, false);
+        ButterKnife.bind(this, view);
 
         // Init Image Filter (Darken the image)
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
         LightingColorFilter lcf = new LightingColorFilter(0xFF888888, 0x00222222);
-        imageView.setColorFilter(lcf);
-
-        return (view);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+        picture.setColorFilter(lcf);
 
         initSwipeRefreshLayout();
         initRecyclerView();
 
-        // Init Listener
         postBtn.setOnClickListener(this);
         joinBtn.setOnClickListener(this);
         quitBtn.setOnClickListener(this);
         guestBtn.setOnClickListener(this);
         informationsBtn.setOnClickListener(this);
         managementBtn.setOnClickListener(this);
+        emergencyBtn.setOnClickListener(this);
 
-        // Init Event Model
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         presenter.getData();
     }
 
@@ -121,18 +116,11 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     }
 
     private void initRecyclerView() {
-        // Init RecyclerView
         adapter = new OrganisationEventRVAdapter(presenter);
         recyclerView.setAdapter(adapter);
-
-        // Init LayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Set Options to enable toolbar display/hide
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(false);
-
-        // Init Divider (between items)
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this.getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
     }
@@ -167,12 +155,25 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
         presenter.onClick(v.getId());
     }
 
+    @OnClick(R.id.picture)
+    public void onClickPicture() {
+        presenter.goToGalleryPhotoView();
+    }
+
+    public ImageView getPicture() {
+        return picture;
+    }
+
     public ImageButton getJoinBtn() {
         return joinBtn;
     }
 
     public ImageButton getQuitBtn() {
         return quitBtn;
+    }
+
+    public ImageButton getEmergencyBtn() {
+        return emergencyBtn;
     }
 
     public ImageButton getManagementBtn() {
