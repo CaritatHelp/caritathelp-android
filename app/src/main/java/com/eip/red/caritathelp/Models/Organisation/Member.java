@@ -36,4 +36,8 @@ public class Member {
     public String getRights() {
         return rights;
     }
+
+    public void setRights(String rights) {
+        this.rights = rights;
+    }
 }

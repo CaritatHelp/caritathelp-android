@@ -2,16 +2,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:background="@color/icons">
 
     <!-- Image -->
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/organisation_members_list_row_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="6dp"
 
         android:layout_gravity="center"
@@ -21,17 +21,66 @@
         app:civ_shadow="true"
         app:civ_shadow_radius="2" />
 
-    <TextView
-        android:id="@+id/organisation_members_list_row_name"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_40sdp"
-        android:paddingLeft="@dimen/_20sdp"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
-        android:background="@color/icons"
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+
+            android:layout_gravity="center"
+            android:background="@color/icons"
+            android:textColor="@color/primary_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/rights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+
+            android:layout_gravity="center"
+            android:background="@color/icons"
+            android:textColor="@color/secondary_text"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_upgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="10dp"
+
         android:layout_gravity="center"
-        android:gravity="left|center"
-        android:text="test"
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/_18sdp" />
+        android:gravity="center"
+        android:text="Modifier\ndroits"
+        android:textSize="13sp"
+        android:textColor="@android:color/black"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/btn_kick"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_clear_red_36dp"
+        android:visibility="visible"/>
 
 </LinearLayout>

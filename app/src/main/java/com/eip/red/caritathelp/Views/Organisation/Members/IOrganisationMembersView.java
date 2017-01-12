@@ -17,4 +17,8 @@ public interface IOrganisationMembersView {
     void setDialogError(String title, String msg);
 
     void updateListView(List<Member> members);
+
+    void upgrade(int position);
+
+    void kick(int position);
 }

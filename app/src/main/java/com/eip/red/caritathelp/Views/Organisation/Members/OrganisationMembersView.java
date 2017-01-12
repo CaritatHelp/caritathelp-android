@@ -36,12 +36,13 @@ public class OrganisationMembersView extends Fragment implements IOrganisationMe
     private ProgressBar progressBar;
     private AlertDialog dialog;
 
-    public static OrganisationMembersView newInstance(int idOrganisation) {
+    public static OrganisationMembersView newInstance(int idOrganisation, boolean isOwner) {
         OrganisationMembersView    myFragment = new OrganisationMembersView();
 
         Bundle args = new Bundle();
         args.putInt("page", R.string.view_name_organisation_members);
         args.putInt("organisation id", idOrganisation);
+        args.putBoolean("owner", isOwner);
         myFragment.setArguments(args);
 
         return (myFragment);
@@ -56,9 +57,10 @@ public class OrganisationMembersView extends Fragment implements IOrganisationMe
         // Get User Model & Id Organisation
         User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     organisationId = getArguments().getInt("organisation id");
+        boolean owner = getArguments().getBoolean("owner");
 
         // Init Presenter
-        presenter = new OrganisationMembersPresenter(this, user, organisationId);
+        presenter = new OrganisationMembersPresenter(this, user, organisationId, owner);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())
@@ -83,7 +85,7 @@ public class OrganisationMembersView extends Fragment implements IOrganisationMe
 
         // Init ListView & Listener & Adapter
         listView = (ListView)view.findViewById(R.id.organisation_members_list_view);
-        listView.setAdapter(new OrganisationMembersListViewAdapter(this));
+        listView.setAdapter(new OrganisationMembersListViewAdapter(this, presenter));
         initListViewListener();
 
         return (view);
@@ -100,71 +102,13 @@ public class OrganisationMembersView extends Fragment implements IOrganisationMe
         presenter.getMembers();
     }
 
-/*
-    private void initSearchBar() {
-        MySearchBar searchBar = ((MainActivity) getActivity()).getToolBar().getSearchBar();
-        final EditText    searchText = searchBar.getSearchText();
-        final ImageButton cancelBtn = searchBar.getCancelBtn();
-
-        // Show SearchBar
-        searchBar.setVisibility(View.VISIBLE);
-
-        // Show the SearchBar
-        searchBar.show(R.string.search_bar_member);
-
-        //Init SearchText listener & filter
-        searchText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                if (TextUtils.isEmpty(arg0)) {
-                    // Hide Cancel Btn
-                    cancelBtn.setVisibility(View.GONE);
-
-                    // Flush Filter
-//                    ((OrganisationEventsRVAdapter) recyclerView.getAdapter()).flushFilter();
-                }
-                else {
-                    // Show Cancel Btn
-                    cancelBtn.setVisibility(View.VISIBLE);
-
-                    // Filter text
-                    String text = searchText.getText().toString().toLowerCase(Locale.getDefault());
-                    ((OrganisationMembersListViewAdapter) listView.getAdapter()).filter(text);
-                }
-            }
-        });
-    }
-*/
-
     private void initListViewListener() {
-
         final OrganisationMembersView frag = this;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-/*
-                // Go to organisation page
-                presenter.goToOrganisationView((Organisation) parent.getItemAtPosition(position));
-
-                // Init Text Search Bar
-                searchBar.invalidate();
-                searchBar.getText().clear();
-                searchBar.setHint(R.string.organisations_search_bar);
-*/
                 int userId =  ((Member) parent.getItemAtPosition(position)).getId();
                 Tools.replaceView(frag, ProfileView.newInstance(userId), Animation.FADE_IN_OUT, false);
-
             }
         });
     }
@@ -189,5 +133,15 @@ public class OrganisationMembersView extends Fragment implements IOrganisationMe
     @Override
     public void updateListView(List<Member> members) {
         ((OrganisationMembersListViewAdapter) listView.getAdapter()).update(members);
+    }
+
+    @Override
+    public void upgrade(int position) {
+        ((OrganisationMembersListViewAdapter) listView.getAdapter()).upgrade(position);
+    }
+
+    @Override
+    public void kick(int position) {
+        ((OrganisationMembersListViewAdapter) listView.getAdapter()).kick(position);
     }
 }

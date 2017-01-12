@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.Organisation.Member;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.OrganisationEventsPresenter;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
@@ -114,27 +115,4 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
         notifyDataSetChanged();
     }
 
-    public void flushFilter(){
-        visibleObjects.clear();
-        visibleObjects.addAll(allObjects);
-        notifyDataSetChanged();
-    }
-
-    public void filter(String queryText) {
-        visibleObjects.clear();
-
-        for (Event event :  allObjects) {
-            if (event.getTitle().toLowerCase(Locale.getDefault()).contains(queryText))
-                visibleObjects.add(event);
-        }
-        notifyDataSetChanged();
-    }
-
-//    public interface OnItemClickListener {
-//        public void onItemClick(View view , int position);
-//    }
-//
-//    public interface MyClickListener {
-//        public void onItemClick(int position, View v);
-//    }
 }

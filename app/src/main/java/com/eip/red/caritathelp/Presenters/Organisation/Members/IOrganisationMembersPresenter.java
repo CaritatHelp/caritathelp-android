@@ -7,4 +7,10 @@ package com.eip.red.caritathelp.Presenters.Organisation.Members;
 public interface IOrganisationMembersPresenter {
 
     void getMembers();
+
+    boolean isOwner();
+
+    void upgrade(int id, String rights, int position);
+
+    void kick(int id, int position);
 }

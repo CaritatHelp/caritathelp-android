@@ -76,7 +76,8 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
                 Tools.replaceView(view, PostView.newInstance(News.GROUP_TYPE_ORGANISATION, organisation.getId(), organisation.getName(), organisation.getRights()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_members:
-                Tools.replaceView(view, OrganisationMembersView.newInstance(interactor.getOrganisation().getId()), Animation.FADE_IN_OUT, false);
+                String rights = interactor.getOrganisation().getRights();
+                Tools.replaceView(view, OrganisationMembersView.newInstance(interactor.getOrganisation().getId(), rights.equals(Organisation.ORGANISATION_OWNER) || rights.equals(Organisation.ORGANISATION_ADMIN)), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_events:
                 Tools.replaceView(view, OrganisationEventsView.newInstance(interactor.getOrganisation().getId()), Animation.FADE_IN_OUT, false);
