@@ -30,4 +30,8 @@ public class Picture {
     public Boolean getMain() {
         return main;
     }
+
+    public void setMain(Boolean main) {
+        this.main = main;
+    }
 }

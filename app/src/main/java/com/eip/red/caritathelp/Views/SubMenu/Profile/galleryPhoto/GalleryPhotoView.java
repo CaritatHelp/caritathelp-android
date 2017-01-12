@@ -134,6 +134,11 @@ public class GalleryPhotoView extends Fragment implements GalleryPhoto.View {
         recyclerView.scrollToPosition(adapter.getItemCount());
     }
 
+    @Override
+    public void updateRvMainPhoto(Picture picture) {
+        adapter.setMainPicture(picture);
+    }
+
     @OnClick(R.id.btn_add_photo)
     public void onClickAddPhoto() {
         presenter.addPhoto();

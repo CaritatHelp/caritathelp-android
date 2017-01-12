@@ -223,6 +223,7 @@ public class GalleryPhotoPresenter implements GalleryPhoto.Presenter {
                         if (error == null) {
                             if (type == GALLERY_PHOTO_OWNER.USER)
                                 user.setThumb_path(picture.getPicturePath().getThumb().getUrl());
+                            view.updateRvMainPhoto(picture);
 
                             new AlertDialog.Builder(view.getContext())
                                     .setCancelable(true)

@@ -115,4 +115,11 @@ public class GalleryPhotoRvAdapter extends RecyclerView.Adapter<GalleryPhotoRvAd
         notifyItemRemoved(position);
     }
 
+    public void setMainPicture(Picture newMainPicture) {
+        for (Picture picture : pictures) {
+            picture.setMain(false);
+        }
+        pictures.get(pictures.indexOf(newMainPicture)).setMain(true);
+    }
+
 }

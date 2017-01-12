@@ -23,6 +23,8 @@ public interface GalleryPhoto {
         void updateRV(List<Picture> pictures);
 
         void updateRv(Picture picture, boolean remove);
+
+        void updateRvMainPhoto(Picture picture);
     }
 
     interface Presenter {
