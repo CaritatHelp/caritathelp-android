@@ -34,10 +34,10 @@
                         android:id="@+id/logo"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="4dp"
 
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/logo_caritathelp_2017_picture_only_normal"
+                        android:layout_centerHorizontal="true"
                         app:civ_border_color="#EEEEEE"
                         app:civ_border_width="2dp"
                         app:civ_shadow="true"
@@ -178,11 +178,13 @@
 
                         android:src="@drawable/follow_48dp"
                         android:scaleType="centerInside"
-                        android:background="@android:color/transparent"/>
+                        android:background="@android:color/transparent"
+                        android:visibility="gone"/>
 
                     <!-- Menu Bar -->
                     <LinearLayout
                         android:id="@+id/menu_bar"
+                        android:layout_below="@+id/logo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -192,12 +194,11 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:orientation="horizontal"
-                            android:weightSum="6">
+                            android:orientation="horizontal">
 
                             <ImageButton
                                 android:id="@+id/btn_post"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
 
@@ -208,7 +209,7 @@
 
                             <ImageButton
                                 android:id="@+id/btn_members"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
 
@@ -219,7 +220,7 @@
 
                             <ImageButton
                                 android:id="@+id/btn_management"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
 
@@ -231,7 +232,7 @@
 
                             <ImageButton
                                 android:id="@+id/btn_events"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
 
@@ -242,7 +243,7 @@
 
                             <ImageButton
                                 android:id="@+id/btn_informations"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
 

@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface IOrganisationView {
 
-    void setLogoPosition(String right);
-
     void showProgress();
 
     void hideProgress();

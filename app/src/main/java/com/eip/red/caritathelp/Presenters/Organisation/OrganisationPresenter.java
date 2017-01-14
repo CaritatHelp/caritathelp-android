@@ -34,13 +34,13 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
 
     public OrganisationPresenter(OrganisationView view, User user, int id) {
         this.view = view;
-
-        // Init Interactor
         interactor = new OrganisationInteractor(view.getActivity().getApplicationContext(), user, id);
     }
 
     @Override
     public void onClick(int viewId) {
+        Organisation organisation = interactor.getOrganisation();
+
         switch (viewId) {
             case R.id.btn_management:
                 Tools.replaceView(view, OrganisationManagementView.newInstance(interactor.getOrganisation().getId()), Animation.FADE_IN_OUT, false);
@@ -72,12 +72,15 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
             case R.id.btn_follow:
                 break;
             case R.id.btn_post:
-                Organisation organisation = interactor.getOrganisation();
-                Tools.replaceView(view, PostView.newInstance(News.GROUP_TYPE_ORGANISATION, organisation.getId(), organisation.getName(), organisation.getRights()), Animation.FADE_IN_OUT, false);
+                if (organisation != null)
+                    Tools.replaceView(view, PostView.newInstance(News.GROUP_TYPE_ORGANISATION, organisation.getId(), organisation.getName(), organisation.getRights()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_members:
-                String rights = interactor.getOrganisation().getRights();
-                Tools.replaceView(view, OrganisationMembersView.newInstance(interactor.getOrganisation().getId(), rights.equals(Organisation.ORGANISATION_OWNER) || rights.equals(Organisation.ORGANISATION_ADMIN)), Animation.FADE_IN_OUT, false);
+                if (organisation != null) {
+                    String rights = organisation.getRights();
+                    if (rights != null)
+                        Tools.replaceView(view, OrganisationMembersView.newInstance(interactor.getOrganisation().getId(), rights.equals(Organisation.ORGANISATION_OWNER) || rights.equals(Organisation.ORGANISATION_ADMIN)), Animation.FADE_IN_OUT, false);
+                }
                 break;
             case R.id.btn_events:
                 Tools.replaceView(view, OrganisationEventsView.newInstance(interactor.getOrganisation().getId()), Animation.FADE_IN_OUT, false);
@@ -142,29 +145,38 @@ public class OrganisationPresenter implements IOrganisationPresenter, IOnOrganis
         // Set Profile Picture
         Network.loadImage(view.getContext(), view.getLogo(), Network.API_LOCATION_2 + organisation.getThumb_path(), R.drawable.profile_example);
 
-        // Set Management Button Visibility
-        view.setLogoPosition(organisation.getRights());
-
         // Set Membership Button Visibility
         if (rights != null) {
             switch (organisation.getRights()) {
                 case Organisation.ORGANISATION_OWNER:
                     view.getMembershipBtn(Organisation.ORGANISATION_OWNER).setVisibility(View.VISIBLE);
+                    view.getManagementBtn().setVisibility(View.VISIBLE);
+                    view.getPostBtn().setVisibility(View.VISIBLE);
                     break;
                 case Organisation.ORGANISATION_ADMIN:
                     view.getMembershipBtn(Organisation.ORGANISATION_OWNER).setVisibility(View.VISIBLE);
+                    view.getManagementBtn().setVisibility(View.VISIBLE);
+                    view.getPostBtn().setVisibility(View.VISIBLE);
                     break;
                 case Organisation.ORGANISATION_MEMBER:
                     view.getMembershipBtn(Organisation.ORGANISATION_MEMBER).setVisibility(View.VISIBLE);
+                    view.getManagementBtn().setVisibility(View.INVISIBLE);
+                    view.getPostBtn().setVisibility(View.VISIBLE);
                     break;
                 case Organisation.ORGANISATION_NONE:
+                    view.getManagementBtn().setVisibility(View.GONE);
+                    view.getPostBtn().setVisibility(View.GONE);
                     break;
                 case Organisation.ORGANISATION_INVITED:
                     view.getMembershipBtn(Organisation.ORGANISATION_INVITED_CONFIRM).setVisibility(View.VISIBLE);
                     view.getMembershipBtn(Organisation.ORGANISATION_INVITED_REMOVE).setVisibility(View.VISIBLE);
+                    view.getManagementBtn().setVisibility(View.GONE);
+                    view.getPostBtn().setVisibility(View.GONE);
                     break;
                 case Organisation.ORGANISATION_WAITING:
                     view.getMembershipBtn(Organisation.ORGANISATION_WAITING).setVisibility(View.VISIBLE);
+                    view.getManagementBtn().setVisibility(View.GONE);
+                    view.getPostBtn().setVisibility(View.GONE);
                     break;
             }
         }

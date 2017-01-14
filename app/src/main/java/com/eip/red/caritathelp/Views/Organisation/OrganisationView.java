@@ -45,6 +45,7 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     private Unbinder                        unbinder;
     private AlertDialog                     dialog;
 
+    @BindView(R.id.btn_post) ImageButton postBtn;
     @BindView(R.id.btn_management) ImageButton managementBtn;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_bar) ProgressBar         progressBar;
@@ -164,28 +165,6 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
     }
 
     @Override
-    public void setLogoPosition(String right) {
-        if (right != null && right.equals("owner")) {
-            // Set Logo Position
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) logo.getLayoutParams();
-
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            logo.setLayoutParams(layoutParams);
-
-            // Set Management Btn Visibility
-            managementBtn.setVisibility(View.VISIBLE);
-        }
-        else {
-            // Set Logo Position
-            logo.bringToFront();
-            logo.invalidate();
-
-            // Set Management Btn Visibility
-            managementBtn.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -221,4 +200,11 @@ public class OrganisationView extends Fragment implements IOrganisationView, Vie
         return membershipBtn.get(key);
     }
 
+    public ImageButton getManagementBtn() {
+        return managementBtn;
+    }
+
+    public ImageButton getPostBtn() {
+        return postBtn;
+    }
 }
