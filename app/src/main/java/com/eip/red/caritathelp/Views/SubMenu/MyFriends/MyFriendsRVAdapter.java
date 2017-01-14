@@ -37,7 +37,6 @@ public class MyFriendsRVAdapter extends RecyclerView.Adapter<MyFriendsRVAdapter.
         CircularImageView   image;
         TextView            name;
         TextView            nb_common_friends;
-        ImageButton         block;
         ImageButton         remove;
 
         public DataObjectHolder(View itemView) {
@@ -47,14 +46,12 @@ public class MyFriendsRVAdapter extends RecyclerView.Adapter<MyFriendsRVAdapter.
             image = (CircularImageView) itemView.findViewById(R.id.image);
             name = (TextView) itemView.findViewById(R.id.name);
             nb_common_friends = (TextView) itemView.findViewById(R.id.nb_common_friends);
-            block = (ImageButton) itemView.findViewById(R.id.btn_block);
             remove = (ImageButton) itemView.findViewById(R.id.btn_remove);
 
             // Init Listeners
             image.setOnClickListener(this);
             name.setOnClickListener(this);
             nb_common_friends.setOnClickListener(this);
-            block.setOnClickListener(this);
             remove.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }

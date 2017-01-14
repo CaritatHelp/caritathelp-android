@@ -38,10 +38,10 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/friends_my_friends"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textColor="@color/primary_text"
                             android:textStyle="bold"
-                            android:singleLine="true" />
+                            android:maxLines="1" />
 
                         <!-- Divider -->
                         <View
@@ -60,9 +60,9 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/friends_invitations"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textColor="@color/primary_text"
-                            android:singleLine="true" />
+                            android:maxLines="1" />
 
                         <!-- Divider -->
                         <View
@@ -81,9 +81,9 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/friends_sent"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textColor="@color/primary_text"
-                            android:singleLine="true" />
+                            android:maxLines="1" />
 
                         <!-- Divider -->
                         <View
@@ -93,16 +93,14 @@
                             android:layout_gravity="center"
                             android:background="?android:attr/listDivider" />
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/btn_add"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="4dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
 
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:src="@drawable/ic_person_add_black_36dp"
-                            android:background="@android:color/transparent" />
+                            android:src="@drawable/ic_person_add_black_36dp" />
 
                     </LinearLayout>
 

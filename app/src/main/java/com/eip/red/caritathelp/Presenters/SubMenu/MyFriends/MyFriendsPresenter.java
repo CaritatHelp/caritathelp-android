@@ -97,8 +97,6 @@ public class MyFriendsPresenter implements IMyFriendsPresenter, IOnMyFriendsFini
                 // Go To User Profile
                 Tools.replaceView(view, ProfileView.newInstance(friend.getId()), Animation.FADE_IN_OUT, false);
                 break;
-            case R.id.btn_block:
-                break;
             case R.id.btn_remove:
                 final IOnMyFriendsFinishedListener listener = this;
                 String  name = friend.getFirstname() + " " + friend.getLastname();
