@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,33 +26,55 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="5">
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/title"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="4"
+                <!-- Logo -->
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/thumbnail"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
 
-                        android:nextFocusDown="@id/date_begin"
-                        android:hint="@string/organisation_management_event_title"
-                        android:textSize="28sp"
-                        android:textColorHint="@color/secondary_text"
-                        android:textColor="@color/primary_text"
-                        android:singleLine="true"
-                        android:background="@android:color/transparent" />
+                    android:layout_gravity="center"
+                    android:src="@drawable/profile_example"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="2dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_radius="2"
+                    android:visibility="gone"/>
 
-                    <ImageButton
-                        android:id="@+id/btn_photo"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5">
 
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_camera"
-                        android:scaleType="centerInside"
-                        android:background="@android:color/transparent" />
+                        <EditText
+                            android:id="@+id/title"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_weight="4"
+
+                            android:hint="@string/organisation_management_event_title"
+                            android:textSize="16sp"
+                            android:textColorHint="@color/secondary_text"
+                            android:textColor="@color/primary_text"
+                            android:inputType="text"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:background="@android:color/transparent" />
+
+                        <ImageButton
+                            android:id="@+id/btn_photo"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_menu_camera"
+                            android:scaleType="centerInside"
+                            android:background="@android:color/transparent" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -72,11 +95,11 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"
+                        android:layout_height="wrap_content"
 
                         android:layout_gravity="center"
                         android:text="@string/organisation_management_event_begin"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textColor="@color/primary_text"/>
 
                     <LinearLayout
@@ -94,9 +117,10 @@
 
                             android:gravity="start|center"
                             android:hint="@string/organisation_management_event_date"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColorHint="@color/secondary_text"
-                            android:textColor="@color/primary_text" />
+                            android:textColor="@color/primary_text"
+                            android:maxLines="1" />
 
                         <TextView
                             android:id="@+id/begin_time"
@@ -106,7 +130,7 @@
 
                             android:gravity="start|center"
                             android:hint="@string/organisation_management_event_time"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColorHint="@color/secondary_text"
                             android:textColor="@color/primary_text" />
 
@@ -120,11 +144,11 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"
+                        android:layout_height="wrap_content"
 
                         android:layout_gravity="center"
                         android:text="Fin de l'événement"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textColor="@color/primary_text"/>
 
                     <LinearLayout
@@ -142,7 +166,7 @@
 
                             android:gravity="start|center"
                             android:hint="@string/organisation_management_event_date"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColorHint="@color/secondary_text"
                             android:textColor="@color/primary_text" />
 
@@ -154,7 +178,7 @@
 
                             android:gravity="start|center"
                             android:hint="@string/organisation_management_event_time"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textColorHint="@color/secondary_text"
                             android:textColor="@color/primary_text" />
 
@@ -178,9 +202,12 @@
 
                     android:nextFocusDown="@id/description"
                     android:hint="@string/organisation_management_event_location"
-                    android:textSize="20sp"
+                    android:textSize="14sp"
                     android:textColorHint="@color/secondary_text"
                     android:textColor="@color/primary_text"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:background="@android:color/transparent" />
             </android.support.v7.widget.CardView>
 
@@ -201,16 +228,19 @@
                     android:layout_gravity="top|start"
                     android:background="@android:color/transparent"
                     android:hint="@string/organisation_management_event_description"
-                    android:textSize="20sp"
+                    android:textSize="14sp"
                     android:textColorHint="@color/secondary_text"
-                    android:textColor="@color/primary_text"/>
+                    android:textColor="@color/primary_text"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1" />
 
             </android.support.v7.widget.CardView>
 
             <Button
                 android:id="@+id/btn_create"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="60dp"
@@ -218,7 +248,7 @@
 
                 android:background="@color/primary"
                 android:text="@string/organisation_management_event_create"
-                android:textSize="22sp"
+                android:textSize="15sp"
                 android:textColor="@color/icons"
                 android:textAllCaps="false" />
 

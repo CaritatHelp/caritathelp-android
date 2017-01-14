@@ -16,8 +16,11 @@ import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,8 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
 
         visibleObjects = new ArrayList<>();
         allObjects = new ArrayList<>();
-        formatter = DateTimeFormat.forPattern("yyyy-MM-dd' 'HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
+//        formatter = DateTimeFormat.forPattern("yyyy-MM-dd' 'HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
+//        formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssX");//.withLocale(Locale.FRANCE);
         newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
     }
 
@@ -87,8 +91,17 @@ public class OrganisationEventsRVAdapter extends RecyclerView.Adapter<Organisati
             Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION_2 + event.getThumb_path(), R.drawable.logo_caritathelp_2017_picture_only_normal);
             holder.title.setText(Tools.upperCaseFirstLetter(event.getTitle()));
             if (date != null && !TextUtils.isEmpty(date)) {
-                DateTime dt = formatter.parseDateTime(date);
-                holder.date.setText(newFormatter.print(dt));
+//                DateTime dt = formatter.parseDateTime(date);
+                java.util.Date date2 = new DateTime(date, DateTimeZone.UTC).toDate();
+
+//                Invalid format: "2017-01-15 13:14:19.859292" is malformed at " 13:14:19.859292"
+
+//                DateTimeFormatter parser2 = ISODateTimeFormat.dateTime();
+//                System.out.println(parser2.parseDateTime(date));
+
+//                holder.date.setText(parser2.parseDateTime(date).toString());//newFormatter.print(dt));
+//                holder.date.setText(newFormatter.print(dt));
+                holder.date.setText(date2.toString());
             }
             else
                 holder.date.setVisibility(View.GONE);

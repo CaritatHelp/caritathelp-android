@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -21,7 +23,10 @@ import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation.OrganisationEventCreationPresenter;
+import com.eip.red.caritathelp.Presenters.SubMenu.MyOrganisations.OrganisationCreation.OrganisationCreationPresenter;
+import com.eip.red.caritathelp.Presenters.SubMenu.Profile.ProfilePresenter;
 import com.eip.red.caritathelp.R;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -29,6 +34,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -38,6 +45,7 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
 
     private OrganisationEventCreationPresenter presenter;
 
+    private CircularImageView thumbnail;
     private EditText        title;
     private TextView        beginDate;
     private TextView        beginTime;
@@ -73,7 +81,7 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
         int     organisationId = getArguments().getInt("organisation id");
 
         // Init Presenter
-        presenter = new OrganisationEventCreationPresenter(this, user.getToken(), organisationId);
+        presenter = new OrganisationEventCreationPresenter(this, user, organisationId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())
@@ -164,6 +172,8 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
         endTime = (TextView) view.findViewById(R.id.end_time);
         location = (EditText) view.findViewById(R.id.location);
         description = (EditText) view.findViewById(R.id.description);
+        thumbnail =
+                ButterKnife.findById(view, R.id.thumbnail);
 
         // Init Listener
         view.findViewById(R.id.btn_create).setOnClickListener(this);
@@ -171,6 +181,7 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
         beginTime.setOnClickListener(this);
         endDate.setOnClickListener(this);
         endTime.setOnClickListener(this);
+        ButterKnife.findById(view, R.id.btn_photo).setOnClickListener(this);
 
         return (view);
     }
@@ -181,6 +192,16 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
 
         // Init ToolBar Title
         getActivity().setTitle(getArguments().getInt("page"));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ProfilePresenter.RESULT_LOAD_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
+            presenter.uploadEventImg(data, OrganisationCreationPresenter.RESULT_LOAD_IMAGE);
+        else if (requestCode == ProfilePresenter.RESULT_CAPTURE_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
+            presenter.uploadEventImg(data, OrganisationCreationPresenter.RESULT_CAPTURE_IMAGE);
     }
 
     @Override
@@ -261,5 +282,9 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
 
     public TimePickerDialog getTimeEndDialog() {
         return timeEndDialog;
+    }
+
+    public CircularImageView getThumbnail() {
+        return thumbnail;
     }
 }
