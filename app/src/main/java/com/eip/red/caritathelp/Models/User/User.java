@@ -47,6 +47,8 @@ public class User implements Serializable {
     private boolean geolocation;
     private boolean notifications;
 
+    private boolean check;
+
     public int getId() {
         return id;
     }
@@ -237,6 +239,14 @@ public class User implements Serializable {
 
     public void setNotifications(boolean notifications) {
         this.notifications = notifications;
+    }
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
     }
 }
 

@@ -1,13 +1,15 @@
 package com.eip.red.caritathelp.Models.User;
 
+import java.util.List;
+
 /**
- * Created by pierr on 11/05/2016.
+ * Created by pierr on 14/01/2017.
  */
 
-public class UserJson {
+public class UsersJson {
     private int      status;
     private String   message;
-    private User     response;
+    private List<User> response;
 
     public int getStatus() {
         return status;
@@ -17,7 +19,8 @@ public class UserJson {
         return message;
     }
 
-    public User getResponse() {
+    public List<User> getResponse() {
         return response;
     }
+
 }

@@ -35,6 +35,8 @@
     <string name="view_name_organisation_events">Événement</string>
     <string name="view_name_organisation_informations">Informations</string>
     <string name="view_name_organisation_management">Gestion de l\'association</string>
+    <string name="view_name_organisation_management_member">Gestion des invitations</string>
+    <string name="view_name_organisation_management_member_invite">Envoyer une invitation</string>
     <string name="view_name_organisation_shelters">Centres d\'hébergements</string>
 
     <string name="view_name_organisation_event_guests">Participants</string>
@@ -172,7 +174,7 @@
     <string name="organisation_management_bar_title">Gérer mon association</string>
     <string name="organisation_management_post">Ajouter une publication</string>
     <string name="organisation_management_create_event">Créer un événement</string>
-    <string name="organisation_management_members">Gérer les membres</string>
+    <string name="organisation_management_members">Gérer les invitations</string>
     <string name="organisation_management_settings">Modifier les paramètres</string>
     <string name="organisation_management_emergency_system">Système d\'urgence</string>
     <string name="organisation_management_delete">Supprimer l\'association</string>

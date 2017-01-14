@@ -19,7 +19,7 @@
             android:gravity="center"
             android:text="@string/organisation_management_create_event"
             android:textColor="@color/primary_text"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:background="@color/icons"/>
 
         <View style="@style/Divider" />
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:text="@string/organisation_management_members"
             android:textColor="@color/primary_text"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:background="@color/icons"/>
 
         <View style="@style/Divider" />
@@ -47,7 +47,7 @@
             android:gravity="center"
             android:text="@string/organisation_management_shelters"
             android:textColor="@color/primary_text"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:background="@color/icons"/>
 
         <View style="@style/Divider" />
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:background="@color/icons"
             android:text="@string/organisation_management_delete"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textColor="@android:color/holo_red_dark" />
 
         <!-- DIVIDER -->

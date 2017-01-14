@@ -50,6 +50,7 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_MEMBERSHIP_UPGRADE = "/membership/upgrade";
     static final public  String     API_REQUEST_MEMBERSHIP_JOIN = "/membership/join";
     static final public  String     API_REQUEST_MEMBERSHIP_INVITE = "/membership/invite";
+    static final public  String     API_REQUEST_MEMBERSHIP_REPLY_MEMBER = "/membership/reply_member";
     static final public  String     API_REQUEST_MEMBERSHIP_REPLY_INVITE = "/membership/reply_invite";
     static final public  String     API_REQUEST_MEMBERSHIP_LEAVE = "/membership/leave";
     static final public  String     API_REQUEST_MEMBERSHIP_INVITED = "/membership/invited";
@@ -67,6 +68,7 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_ORGANISATION_EVENT_EMERGENCY = "/raise_emergency";
     static final public  String     API_REQUEST_ORGANISATION_EVENT_MANAGEMENT = "/events/";
     static final public  String     API_REQUEST_ORGANISATION_NEWS = "/news";
+    static final public  String     API_REQUEST_ORGANISATION_INVITABLE_VOLUNTEERS = "/invitable_volunteers";
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS = "/shelters";
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS_CREATE = "/shelters";
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS_DELETE = "/shelters/";

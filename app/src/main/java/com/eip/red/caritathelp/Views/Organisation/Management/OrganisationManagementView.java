@@ -10,6 +10,8 @@ import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
+import com.eip.red.caritathelp.Views.Organisation.Management.members.OrganisationManagementInvitations;
+import com.eip.red.caritathelp.Views.Organisation.Management.members.OrganisationManagementInvitationsView;
 import com.eip.red.caritathelp.Views.Organisation.Shelters.SheltersView;
 
 import butterknife.ButterKnife;
@@ -60,7 +62,7 @@ public class OrganisationManagementView extends Fragment {
 
     @OnClick(R.id.btn_manage_member)
     public void onClickManageMember() {
-
+        Tools.replaceView(this, OrganisationManagementInvitationsView.newInstance(organisationId), Animation.FADE_IN_OUT, false);
     }
 
     @OnClick(R.id.btn_manage_shelters)
