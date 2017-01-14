@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 public interface IOrganisationCreationPresenter {
 
-    void uploadProfileImg(ImageView imageView, Intent data);
+    void uploadProfileImg(ImageView imageView, Intent data, int code);
 
     void onClick(int viewId);
     

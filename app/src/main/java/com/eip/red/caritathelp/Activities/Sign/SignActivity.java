@@ -40,12 +40,11 @@ public class SignActivity extends Activity implements View.OnClickListener {
         // Display Splash Screen
         replaceView(new SplashScreen(), Animation.FADE_IN_OUT);
 
-        // Launch SignIn View in 4 sec
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
                 replaceView(new SignInView(), Animation.FADE_IN_OUT);
             }
-        }, 4000);
+        }, 800);
 
         // Set Status Bar Color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

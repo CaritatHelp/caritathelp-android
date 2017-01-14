@@ -27,7 +27,6 @@ public class OrganisationCreationView extends Fragment implements IOrganisationC
 
     private CircularImageView   image;
     private EditText            name;
-    private EditText            theme;
     private EditText            city;
     private EditText            description;
 
@@ -72,7 +71,6 @@ public class OrganisationCreationView extends Fragment implements IOrganisationC
         // Init UI Element
         image = (CircularImageView) view.findViewById(R.id.image);
         name = (EditText) view.findViewById(R.id.name);
-        theme = (EditText) view.findViewById(R.id.theme);
         city = (EditText) view.findViewById(R.id.location);
         description = (EditText) view.findViewById(R.id.description);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
@@ -96,11 +94,10 @@ public class OrganisationCreationView extends Fragment implements IOrganisationC
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // When an Image is picked
         if (requestCode == ProfilePresenter.RESULT_LOAD_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
-            presenter.uploadProfileImg(image, data);
+            presenter.uploadProfileImg(image, data, OrganisationCreationPresenter.RESULT_LOAD_IMAGE);
         else if (requestCode == ProfilePresenter.RESULT_CAPTURE_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
-            presenter.uploadProfileImg(image, data);
+            presenter.uploadProfileImg(image, data, OrganisationCreationPresenter.RESULT_CAPTURE_IMAGE);
     }
 
     @Override
@@ -121,11 +118,6 @@ public class OrganisationCreationView extends Fragment implements IOrganisationC
     @Override
     public void setNameError(String error) {
         name.setError(error);
-    }
-
-    @Override
-    public void setThemeError(String error) {
-        theme.setError(error);
     }
 
     @Override
@@ -155,10 +147,6 @@ public class OrganisationCreationView extends Fragment implements IOrganisationC
 
     public EditText getName() {
         return name;
-    }
-
-    public EditText getTheme() {
-        return theme;
     }
 
     public EditText getCity() {

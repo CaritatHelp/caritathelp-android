@@ -12,8 +12,6 @@ public interface IOrganisationCreation {
 
     void setNameError(String error);
 
-    void setThemeError(String error);
-
     void setCityError(String error);
 
     void setDescriptionError(String error);

@@ -47,15 +47,17 @@
                     <EditText
                         android:id="@+id/name"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/_60sdp"
+                        android:layout_height="48dp"
                         android:layout_weight="4"
 
                         android:nextFocusDown="@+id/theme"
                         android:hint="Nom de l'association"
-                        android:textSize="22sp"
+                        android:textSize="14sp"
                         android:textColorHint="@color/secondary_text"
                         android:textColor="@color/primary_text"
-                        android:singleLine="true"
+                        android:inputType="text"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
                         android:background="@android:color/transparent" />
 
                     <ImageButton
@@ -84,41 +86,21 @@
             card_view:cardCornerRadius="2dp"
             card_view:contentPadding="10dp">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:padding="10dp"
 
-                <EditText
-                    android:id="@+id/theme"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-
-                    android:nextFocusDown="@+id/location"
-                    android:hint="Thème (mot clés)"
-                    android:textSize="20sp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textColor="@color/primary_text"
-                    android:background="@android:color/transparent"/>
-
-                <!-- DIVIDER -->
-                <View
-                    style="@style/Divider"
-                    android:layout_margin="@dimen/_10sdp"/>
-
-                <EditText
-                    android:id="@+id/location"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-
-                    android:nextFocusDown="@+id/description"
-                    android:hint="Ville"
-                    android:textSize="20sp"
-                    android:textColorHint="@color/secondary_text"
-                    android:textColor="@color/primary_text"
-                    android:background="@android:color/transparent"/>
-
-            </LinearLayout>
+                android:nextFocusDown="@+id/description"
+                android:hint="Ville"
+                android:textSize="14sp"
+                android:textColorHint="@color/secondary_text"
+                android:textColor="@color/primary_text"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:background="@android:color/transparent"/>
 
         </android.support.v7.widget.CardView>
 
@@ -134,32 +116,36 @@
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
 
+                android:nextFocusDown="@+id/btn_create"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:hint="Description"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textColorHint="@color/secondary_text"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/primary_text"
+                android:inputType="text"
+                android:imeOptions="actionDone" />
 
         </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/btn_create"
-            android:layout_below="@+id/card_view_3"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
 
             android:background="@color/primary"
             android:text="Créer"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/icons"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:layout_below="@+id/card_view_3"
+            android:layout_centerHorizontal="true" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

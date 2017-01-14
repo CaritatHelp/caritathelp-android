@@ -31,23 +31,17 @@ public class OrganisationCreationInteractor {
         encodedImg = null;
     }
 
-    public void createOrganisation(String name, String theme, String city, String description, IOnOrganisationCreationsFinishedListener listener) {
-        if (!checkError(name, theme, city, description, listener))
-            apiRequest(name, theme, city, description, listener);
+    public void createOrganisation(String name, String city, String description, IOnOrganisationCreationsFinishedListener listener) {
+        if (!checkError(name, city, description, listener))
+            apiRequest(name, city, description, listener);
     }
 
-    private boolean checkError(String name, String theme, String city, String description, IOnOrganisationCreationsFinishedListener listener) {
+    private boolean checkError(String name, String city, String description, IOnOrganisationCreationsFinishedListener listener) {
         boolean error = false;
 
         // Check Organisation Name
         if (TextUtils.isEmpty(name)) {
             listener.onNameError(ERROR_MANDATORY);
-            error = true;
-        }
-
-        // Check Organisation Theme
-        if (TextUtils.isEmpty(theme)) {
-            listener.onThemeError(ERROR_MANDATORY);
             error = true;
         }
 
@@ -66,7 +60,7 @@ public class OrganisationCreationInteractor {
         return (error);
     }
 
-    private void apiRequest(final String name, String theme, String city, String description, final IOnOrganisationCreationsFinishedListener listener) {
+    private void apiRequest(final String name, String city, String description, final IOnOrganisationCreationsFinishedListener listener) {
         JsonObject          json = new JsonObject();
         json.addProperty("name", name);
         json.addProperty("city", city);

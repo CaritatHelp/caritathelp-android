@@ -10,8 +10,6 @@ public interface IOnOrganisationCreationsFinishedListener {
 
     void onNameError(String error);
 
-    void onThemeError(String error);
-
     void onCityError(String error);
 
     void onDescriptionError(String error);
