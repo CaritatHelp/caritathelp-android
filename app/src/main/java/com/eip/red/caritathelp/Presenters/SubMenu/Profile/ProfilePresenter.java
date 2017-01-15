@@ -123,8 +123,6 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
                 view.showProgress();
                 interactor.replyFriend(this, view.getProgressBar(), "false");
                 break;
-            case R.id.btn_send_message:
-                break;
             case R.id.btn_friends:
                 if (interactor.isMainUser())
                     Tools.replaceView(view, MyFriendsView.newInstance(interactor.getUserId()), Animation.FADE_IN_OUT, false);
@@ -234,34 +232,30 @@ public class ProfilePresenter implements IProfilePresenter, IOnProfileFinishedLi
 
         view.getName().setText(name);
 
+        if (interactor.isMainUser())
+            view.getPostBtn().setVisibility(View.VISIBLE);
+
         if (friendship != null) {
             switch (friendship) {
                 case User.FRIENDSHIP_YOURSELF:
-                    view.getMessageBtn().setVisibility(View.INVISIBLE);
                     break;
                 case User.FRIENDSHIP_NONE:
                     view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
-                    view.getMessageBtn().setVisibility(View.VISIBLE);
                     break;
                 case User.FRIENDSHIP_FRIEND:
                     view.getFriendshipBtn(User.FRIENDSHIP_FRIEND).setVisibility(View.VISIBLE);
-                    view.getMessageBtn().setVisibility(View.VISIBLE);
                     break;
                 case User.FRIENDSHIP_INVITATION_SENT:
                     view.getFriendshipBtn(User.FRIENDSHIP_INVITATION_SENT).setVisibility(View.VISIBLE);
-                    view.getMessageBtn().setVisibility(View.VISIBLE);
                     break;
                 case User.FRIENDSHIP_INVITATIONS_RECEIVED:
                     view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_CONFIRM).setVisibility(View.VISIBLE);
                     view.getFriendshipBtn(User.FRIENDSHIP_INVITATIONS_RECEIVED_REMOVE).setVisibility(View.VISIBLE);
-                    view.getMessageBtn().setVisibility(View.VISIBLE);
                     break;
             }
         }
-        else {
+        else
             view.getFriendshipBtn(User.FRIENDSHIP_NONE).setVisibility(View.VISIBLE);
-            view.getMessageBtn().setVisibility(View.VISIBLE);
-        }
 
         Network.loadImage(view.getContext(), view.getProfileImg(), Network.API_LOCATION_2 + user.getThumb_path(), R.drawable.profile_example);
         Network.loadImage(view.getContext(), view.getImageUser(), Network.API_LOCATION_2 + interactor.getMainUser().getThumb_path(), R.drawable.profile_example);

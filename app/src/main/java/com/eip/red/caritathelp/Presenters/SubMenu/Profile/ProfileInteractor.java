@@ -231,7 +231,7 @@ public class ProfileInteractor {
     }
 
     public boolean isMainUser() {
-        return (mainUser.getId() == userId);
+        return mainUser.getId() == userId;
     }
 
     public int getUserId() {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,11 +49,10 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
     @BindView(R.id.image) CircularImageView profileImg;
     @BindView(R.id.image_user) ImageView imageUser;
     @BindView(R.id.name) TextView name;
-    @BindView(R.id.btn_send_message) ImageButton messageBtn;
+    @BindView(R.id.post_container) CardView postBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-
 
     public static ProfileView newInstance(int id) {
         ProfileView    myFragment = new ProfileView();
@@ -98,7 +98,6 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
         for (ImageButton imageButton : friendshipBtn.values()) {
             imageButton.setOnClickListener(this);
         }
-        messageBtn.setOnClickListener(this);
         ButterKnife.findById(view, R.id.btn_friends).setOnClickListener(this);
         ButterKnife.findById(view, R.id.btn_organisations).setOnClickListener(this);
         ButterKnife.findById(view, R.id.btn_events).setOnClickListener(this);
@@ -201,8 +200,8 @@ public class ProfileView extends Fragment implements IProfileView, View.OnClickL
         return friendshipBtn.get(key);
     }
 
-    public ImageButton getMessageBtn() {
-        return messageBtn;
+    public CardView getPostBtn() {
+        return postBtn;
     }
 
     public ProgressBar getProgressBar() {
