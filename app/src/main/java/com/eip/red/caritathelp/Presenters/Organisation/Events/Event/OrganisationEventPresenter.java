@@ -1,6 +1,5 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -20,14 +19,13 @@ import com.eip.red.caritathelp.Views.Home.Comment.CommentView;
 import com.eip.red.caritathelp.Views.Home.Post.PostView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Guests.OrganisationEventGuestsView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Informations.OrganisationEventInformationsView;
-import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.OrganisationEventManagementView;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.ManagementView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhotoView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -64,7 +62,7 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
                 Tools.replaceView(view, OrganisationEventInformationsView.newInstance(interactor.getEvent().getId()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_management:
-                Tools.replaceView(view, OrganisationEventManagementView.newInstance(interactor.getEvent().getId()), Animation.FADE_IN_OUT, false);
+                Tools.replaceView(view, ManagementView.newInstance(interactor.getEvent().getId()), Animation.FADE_IN_OUT, false);
                 break;
         }
     }

@@ -1,10 +1,10 @@
-package com.eip.red.caritathelp.Views.Organisation.Events.Event.Management;
+package com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.modification;
 
 /**
  * Created by pierr on 14/04/2016.
  */
 
-public interface IOrganisationEventManagementView {
+public interface Modification {
 
     void showProgress();
 

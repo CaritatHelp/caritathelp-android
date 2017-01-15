@@ -65,7 +65,7 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
         OrganisationEventCreationView    myFragment = new OrganisationEventCreationView();
 
         Bundle args = new Bundle();
-        args.putInt("page", R.string.view_name_submenu_my_organisations_creation);
+        args.putInt("page", R.string.view_name_submenu_my_events_creation);
         args.putInt("organisation id", idOrganisation);
         myFragment.setArguments(args);
 
@@ -197,7 +197,6 @@ public class OrganisationEventCreationView extends Fragment implements IOrganisa
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == ProfilePresenter.RESULT_LOAD_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
             presenter.uploadEventImg(data, OrganisationCreationPresenter.RESULT_LOAD_IMAGE);
         else if (requestCode == ProfilePresenter.RESULT_CAPTURE_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)

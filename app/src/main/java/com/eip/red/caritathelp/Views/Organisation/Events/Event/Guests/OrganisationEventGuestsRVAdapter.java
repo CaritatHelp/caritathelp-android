@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Guest;
+import com.eip.red.caritathelp.Models.Organisation.Member;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Guests.OrganisationEventGuestsPresenter;
 import com.eip.red.caritathelp.R;
@@ -69,16 +70,6 @@ public class OrganisationEventGuestsRVAdapter extends RecyclerView.Adapter<Organ
         public void onClickNameBtn() {
             goToProfileView();
         }
-
-        @OnClick(R.id.btn_upgrade)
-        public void onClickUpgradeBtn() {
-
-        }
-
-        @OnClick(R.id.btn_kick)
-        public void onClickKickBtn() {
-
-        }
     }
 
     @Override
@@ -98,7 +89,6 @@ public class OrganisationEventGuestsRVAdapter extends RecyclerView.Adapter<Organ
         Network.loadImage(holder.thumbnail.getContext(), holder.thumbnail, Network.API_LOCATION_2 + guest.getThumb_path(), R.drawable.profile_example);
 
         if (presenter.isOwner()) {
-            System.out.println("RIGHT : " + guest.getRights());
             if (!guest.getRights().equals(Organisation.ORGANISATION_HOST)) {
                 holder.upgradeBtn.setVisibility(View.VISIBLE);
                 holder.kickBtn.setVisibility(View.VISIBLE);
@@ -150,7 +140,7 @@ public class OrganisationEventGuestsRVAdapter extends RecyclerView.Adapter<Organ
                 holder.rights.setText("Administrateur");
                 break;
             case Organisation.ORGANISATION_MEMBER:
-                holder.rights.setText("Membre");
+                holder.rights.setText("Participant");
                 break;
         }
     }
@@ -175,20 +165,18 @@ public class OrganisationEventGuestsRVAdapter extends RecyclerView.Adapter<Organ
         notifyDataSetChanged();
     }
 
-    public void flushFilter(){
-        visibleObjects.clear();
-        visibleObjects.addAll(allObjects);
+    public void upgrade(int position) {
+        Guest guest = visibleObjects.get(position);
+
+        if (guest.getRights().equals(Organisation.ORGANISATION_ADMIN))
+            guest.setRights(Organisation.ORGANISATION_MEMBER);
+        else if (guest.getRights().equals(Organisation.ORGANISATION_MEMBER))
+            guest.setRights(Organisation.ORGANISATION_ADMIN);
         notifyDataSetChanged();
     }
 
-    public void filter(String queryText) {
-        visibleObjects.clear();
-
-        for (Guest guest :  allObjects) {
-            String  name = guest.getFirstname() + " " + guest.getLastname();
-            if (name.toLowerCase(Locale.getDefault()).contains(queryText))
-                visibleObjects.add(guest);
-        }
+    public void kick(int positon) {
+        visibleObjects.remove(positon);
         notifyDataSetChanged();
     }
 }

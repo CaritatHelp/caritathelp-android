@@ -52,6 +52,7 @@ public class OrganisationMembersPresenter implements IOrganisationMembersPresent
         else
             newRights = Organisation.ORGANISATION_ADMIN;
 
+        view.showProgress();
         Ion.with(view.getContext())
                 .load("PUT", Network.API_LOCATION + Network.API_REQUEST_MEMBERSHIP_UPGRADE)
                 .setHeader("access-token", user.getToken())
@@ -64,7 +65,7 @@ public class OrganisationMembersPresenter implements IOrganisationMembersPresent
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception error, JsonObject result) {
-                        System.out.println(" RESULT : " + result);
+                        view.hideProgress();
                         if (error == null)
                             view.upgrade(position);
                         else
@@ -93,7 +94,6 @@ public class OrganisationMembersPresenter implements IOrganisationMembersPresent
                             view.setDialogError("Problème de connection", "Vérifiez votre connexion Internet");
                     }
                 });
-
     }
 
     @Override

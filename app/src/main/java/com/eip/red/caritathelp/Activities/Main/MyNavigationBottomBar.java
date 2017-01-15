@@ -81,7 +81,7 @@ public class MyNavigationBottomBar {
 
     }
 
-    private void backToFirstPage(ViewPager viewPager) {
+    public void backToFirstPage(ViewPager viewPager) {
         int             currentPos = viewPager.getCurrentItem();
         FragmentManager childFm = ((MyPagerAdapter)viewPager.getAdapter()).getItem(currentPos).getChildFragmentManager();
         int             count = childFm.getBackStackEntryCount();

@@ -52,6 +52,13 @@ public class OrganisationEventGuestsInteractor {
                         }
                     }
                 });
+    }
 
+    public User getUser() {
+        return user;
+    }
+
+    public int getEventId() {
+        return eventId;
     }
 }

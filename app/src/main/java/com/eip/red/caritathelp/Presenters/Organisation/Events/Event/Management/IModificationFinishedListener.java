@@ -6,7 +6,7 @@ import com.eip.red.caritathelp.Models.Organisation.Event;
  * Created by pierr on 14/04/2016.
  */
 
-public interface IOnOrganisationEventManagementFinishedListener {
+public interface IModificationFinishedListener {
 
     void onTitleError(String error);
 

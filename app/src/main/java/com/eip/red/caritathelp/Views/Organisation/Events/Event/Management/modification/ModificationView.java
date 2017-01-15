@@ -1,12 +1,11 @@
-package com.eip.red.caritathelp.Views.Organisation.Events.Event.Management;
+package com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.modification;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.graphics.LightingColorFilter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +17,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
-import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.User.User;
-import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Management.OrganisationEventManagementPresenter;
+import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Management.ModificationPresenter;
+import com.eip.red.caritathelp.Presenters.SubMenu.MyOrganisations.OrganisationCreation.OrganisationCreationPresenter;
+import com.eip.red.caritathelp.Presenters.SubMenu.Profile.ProfilePresenter;
 import com.eip.red.caritathelp.R;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,9 +33,9 @@ import java.util.Locale;
  * Created by pierr on 14/04/2016.
  */
 
-public class OrganisationEventManagementView extends Fragment implements IOrganisationEventManagementView, View.OnClickListener {
+public class ModificationView extends Fragment implements Modification, View.OnClickListener {
 
-    private OrganisationEventManagementPresenter presenter;
+    private ModificationPresenter presenter;
 
     private EditText        title;
     private TextView        beginDate;
@@ -45,14 +46,15 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
     private EditText        description;
     private ProgressBar     progressBar;
 
+    private CircularImageView thumbnail;
     private DatePickerDialog    dateBeginDialog;
     private TimePickerDialog    timeBeginDialog;
     private DatePickerDialog    dateEndDialog;
     private TimePickerDialog    timeEndDialog;
     private AlertDialog         dialog;
 
-    public static OrganisationEventManagementView newInstance(int eventId) {
-        OrganisationEventManagementView myFragment = new OrganisationEventManagementView();
+    public static ModificationView newInstance(int eventId) {
+        ModificationView myFragment = new ModificationView();
 
         Bundle args = new Bundle();
         args.putInt("page", R.string.view_name_organisation_event_management);
@@ -71,7 +73,7 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
         int eventId = getArguments().getInt("event id");
 
         // Init Presenter
-        presenter = new OrganisationEventManagementPresenter(this, user, eventId);
+        presenter = new ModificationPresenter(this, user, eventId);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())
@@ -152,10 +154,11 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_organisation_event_management, container, false);
+        View view = inflater.inflate(R.layout.fragment_organisation_event_management_modification, container, false);
 
         // Init UI Element
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        thumbnail = (CircularImageView) view.findViewById(R.id.thumbnail);
         title = (EditText) view.findViewById(R.id.title);
         beginDate = (TextView) view.findViewById(R.id.begin_date);
         beginTime = (TextView) view.findViewById(R.id.begin_time);
@@ -165,11 +168,12 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
         description = (EditText) view.findViewById(R.id.description);
 
         // Init Listener
-        view.findViewById(R.id.btn_save).setOnClickListener(this);
         beginDate.setOnClickListener(this);
         beginTime.setOnClickListener(this);
         endDate.setOnClickListener(this);
         endTime.setOnClickListener(this);
+        view.findViewById(R.id.btn_photo).setOnClickListener(this);
+        view.findViewById(R.id.btn_save).setOnClickListener(this);
 
         return (view);
     }
@@ -177,15 +181,17 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Init ToolBar Title
         getActivity().setTitle(getArguments().getInt("page"));
-
-        // Init Event Model
         presenter.getEvent();
+    }
 
-        // Init News Model
-//        presenter.getNews();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ProfilePresenter.RESULT_LOAD_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
+            presenter.uploadEventImg(data, OrganisationCreationPresenter.RESULT_LOAD_IMAGE);
+        else if (requestCode == ProfilePresenter.RESULT_CAPTURE_IMAGE && resultCode == MainActivity.RESULT_OK && data != null)
+            presenter.uploadEventImg(data, OrganisationCreationPresenter.RESULT_CAPTURE_IMAGE);
     }
 
     @Override
@@ -282,6 +288,10 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
         return (data);
     }
 
+    public CircularImageView getThumbnail() {
+        return thumbnail;
+    }
+
     public EditText getTitle() {
         return title;
     }
@@ -329,4 +339,5 @@ public class OrganisationEventManagementView extends Fragment implements IOrgani
     public ProgressBar getProgressBar() {
         return progressBar;
     }
+
 }

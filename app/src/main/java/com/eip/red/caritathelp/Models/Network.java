@@ -75,7 +75,17 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_ORGANISATION_SHELTERS_UPDATE = "/shelters/";
 
     /* GUESTS */
+    static final public  String     API_REQUEST_GUESTS_INVITED = "/guests/invited";
+    static final public  String     API_REQUEST_GUESTS_WAITING = "/guests/waiting";
+    static final public  String     API_REQUEST_GUESTS_JOIN = "/guests/join";
+    static final public  String     API_REQUEST_GUESTS_REPLY = "/guests/reply_guest";
+    static final public  String     API_REQUEST_GUESTS_INVITE = "/guests/invite";
     static final public  String     API_REQUEST_GUESTS_REPLY_INVITE = "/guests/reply_invite";
+    static final public  String     API_REQUEST_GUESTS_UPGRADE = "/guests/upgrade";
+    static final public  String     API_REQUEST_GUESTS_KICK = "/guests/kick";
+    static final public  String     API_REQUEST_GUESTS_LEAVE = "/guests/leave";
+    static final public  String     API_REQUEST_GUESTS_UNINVITE = "/guests/uninvite";
+    static final public  String     API_REQUEST_GUESTS_UNJOIN = "/guests/unjoin";
 
     /* INVITATIONS Friend-Organisation-Event */
     static final public  String     API_REQUEST_FRIEND_REQUESTS = "/friend_requests";

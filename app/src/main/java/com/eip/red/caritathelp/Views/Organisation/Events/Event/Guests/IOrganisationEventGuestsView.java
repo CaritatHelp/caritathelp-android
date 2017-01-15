@@ -17,4 +17,8 @@ public interface IOrganisationEventGuestsView {
     void setDialog(String title, String msg);
 
     void updateRecyclerView(List<Guest> guests);
+
+    void upgrade(int position);
+
+    void kick(int position);
 }

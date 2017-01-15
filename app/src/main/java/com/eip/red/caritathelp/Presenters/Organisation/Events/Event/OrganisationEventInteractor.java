@@ -49,7 +49,8 @@ public class OrganisationEventInteractor {
                     public void onCompleted(Exception error, EventInformations result) {
                         if (error == null) {
                             if (result.getStatus() == Network.API_STATUS_ERROR)
-                                listener.onDialog("Statut 400", result.getMessage());
+                                return;
+//                                listener.onDialog("Statut 400", result.getMessage());
                             else {
                                 event = result.getResponse();
                                 getNews(listener, result.getResponse());
@@ -63,7 +64,7 @@ public class OrganisationEventInteractor {
 
     public void getNews(final IOnOrganisationEventFinishedListener listener, final Event event) {
         Ion.with(context)
-                .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT+ eventId + Network.API_REQUEST_ORGANISATION_NEWS)
+                .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT + eventId + Network.API_REQUEST_ORGANISATION_NEWS)
                 .setHeader("access-token", user.getToken())
                 .setHeader("client", user.getClient())
                 .setHeader("uid", user.getUid())

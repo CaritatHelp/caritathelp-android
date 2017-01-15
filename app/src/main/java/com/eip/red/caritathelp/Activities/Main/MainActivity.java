@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         return (childFm.getFragments().get(childFm.getBackStackEntryCount() - 1));
     }
 
+    public void backToFirstPage() {
+        myNavigationBottomBar.backToFirstPage(viewPager);
+    }
+
     public void logout() {
         startActivity(new Intent(this, SignActivity.class));
         finish();

@@ -128,6 +128,16 @@ public class OrganisationEventGuestsView extends Fragment implements IOrganisati
         ((OrganisationEventGuestsRVAdapter) recyclerView.getAdapter()).update(guests);
     }
 
+    @Override
+    public void upgrade(int position) {
+        ((OrganisationEventGuestsRVAdapter) recyclerView.getAdapter()).upgrade(position);
+    }
+
+    @Override
+    public void kick(int position) {
+        ((OrganisationEventGuestsRVAdapter) recyclerView.getAdapter()).kick(position);
+    }
+
     public ProgressBar getProgressBar() {
         return progressBar;
     }

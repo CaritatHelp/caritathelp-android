@@ -33,6 +33,10 @@ public class Guest {
         return rights;
     }
 
+    public void setRights(String rights) {
+        this.rights = rights;
+    }
+
     public String getThumb_path() {
         return thumb_path;
     }
