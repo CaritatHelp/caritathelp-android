@@ -14,7 +14,7 @@
             android:id="@+id/submenu_my_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -40,23 +40,25 @@
                 android:layout_gravity="center"
                 android:text="@string/submenu_my_profile"
                 android:textColor="@color/primary_text"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
         <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="@color/background" />
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_my_organisations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -76,18 +78,18 @@
                 android:layout_gravity="center"
                 android:text="@string/submenu_my_organisations"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_my_events"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -106,18 +108,18 @@
                 android:layout_gravity="center"
                 android:text="@string/submenu_my_events"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -136,18 +138,18 @@
                 android:layout_gravity="center"
                 android:text="@string/submenu_friends"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_invitations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -166,23 +168,24 @@
                 android:layout_gravity="center"
                 android:text="@string/submenu_invitations"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="@color/background" />
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_account_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -201,18 +204,18 @@
                 android:layout_gravity="center"
                 android:text="@string/submenu_account_settings"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_security"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -231,18 +234,18 @@
                 android:layout_gravity="center"
                 android:text="Aide et assistance"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_about_caritathelp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:background="@color/icons">
 
@@ -261,54 +264,35 @@
                 android:layout_gravity="center"
                 android:text="A propos de Caritathelp"
                 android:textColor="@color/primary_text"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="@color/background" />
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <TextView
             android:id="@+id/submenu_logout"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:padding="5dp"
+            android:padding="4dp"
             android:background="@color/icons"
 
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/submenu_logout"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/background" />
-
-        <TextView
-            android:id="@+id/submenu_delete_account"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:padding="5dp"
-            android:background="@color/icons"
-
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/submenu_delete_account"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp" />
-
-        <!-- DIVIDER -->
-        <View style="@style/Divider" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="28dp"

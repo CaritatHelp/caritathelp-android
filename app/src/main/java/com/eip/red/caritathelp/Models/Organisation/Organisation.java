@@ -15,6 +15,7 @@ public class Organisation implements Serializable {
     public static final String ORGANISATION_OWNER = "owner";
     public static final String ORGANISATION_ADMIN = "admin";
     public static final String ORGANISATION_MEMBER = "member";
+    public static final String ORGANISATION_HOST = "host";
     public static final String ORGANISATION_NONE = "none";
     public static final String ORGANISATION_INVITED = "invited";
     public static final String ORGANISATION_INVITED_CONFIRM = "invited confirm";

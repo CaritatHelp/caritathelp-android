@@ -13,6 +13,7 @@ import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Presenters.Home.HomePresenter;
 import com.eip.red.caritathelp.R;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -45,7 +46,7 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.DataObject
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.image)                   ImageView       image;
+        @BindView(R.id.image) CircularImageView image;
         @BindView(R.id.title)                   TextView        title;
         @BindView(R.id.date)                    TextView        date;
         @BindView(R.id.description)             TextView        description;

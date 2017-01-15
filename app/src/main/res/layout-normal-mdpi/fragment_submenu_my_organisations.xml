@@ -18,11 +18,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <View
+                    android:id="@+id/divider_2"
+                    android:layout_below="@+id/my_organisations_owner_profile"
+                    android:layout_margin="@dimen/_6sdp"
+                    style="@style/Divider"
+                    android:alpha="0.4">
+                </View>
+
+                <LinearLayout
+                    android:id="@+id/my_organisations_member_profile"
+                    android:layout_below="@+id/divider_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:paddingLeft="10dp"
+
+                        android:gravity="start|center"
+                        android:text="En tant que Membre"
+                        android:textSize="15sp"
+                        android:textColor="@color/secondary_text"/>
+
+                    <TextView
+                        android:id="@+id/tv_no_members_organisations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+
+                        android:layout_gravity="center"
+                        android:text="Vous n'êtes membre d'aucune association."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/_13sdp"
+                        android:visibility="gone"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/my_organisations_member_profile_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/my_organisations_owner_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -32,13 +80,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:paddingLeft="@dimen/_10sdp"
+                            android:paddingLeft="10dp"
 
                             android:gravity="center"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentLeft="true"
                             android:text="En tant que Propriétaire"
-                            android:textSize="@dimen/_16sdp"
+                            android:textSize="15sp"
                             android:textColor="@color/secondary_text"/>
 
                         <!-- Divider -->
@@ -53,7 +101,8 @@
                             android:layout_marginEnd="@dimen/_4sdp"
                             android:layout_marginRight="@dimen/_4sdp"
                             android:layout_centerHorizontal="true"
-                            android:background="?android:attr/listDivider"/>
+                            android:background="?android:attr/listDivider"
+                            android:alpha="0.4"/>
 
                         <Button
                             android:id="@+id/btn_create"
@@ -64,7 +113,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
                             android:text="Créer"
-                            android:textSize="@dimen/_18sdp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/secondary_text"
                             android:background="@android:color/transparent"
@@ -86,53 +135,9 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/my_organisations_owner_profile_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </android.support.v7.widget.RecyclerView>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_below="@+id/my_organisations_owner_profile"
-                    android:layout_margin="@dimen/_6sdp"
-                    style="@style/Divider">
-                </View>
-
-                <LinearLayout
-                    android:id="@+id/my_organisations_member_profile"
-                    android:layout_below="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_30sdp"
-                        android:paddingLeft="@dimen/_10sdp"
-
-                        android:gravity="left|center"
-                        android:text="En tant que Membre"
-                        android:textSize="@dimen/_16sdp"
-                        android:textColor="@color/secondary_text"/>
-
-                    <TextView
-                        android:id="@+id/tv_no_members_organisations"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-
-                        android:layout_gravity="center"
-                        android:text="Vous n'êtes membre d'aucune association."
-                        android:textColor="@color/secondary_text"
-                        android:textSize="@dimen/_13sdp"
-                        android:visibility="gone"/>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/my_organisations_member_profile_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </android.support.v7.widget.RecyclerView>
+                        android:layout_margin="4dp" />
 
                 </LinearLayout>
             </RelativeLayout>

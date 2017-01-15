@@ -33,12 +33,13 @@ public class OrganisationEventGuestsView extends Fragment implements IOrganisati
     private ProgressBar     progressBar;
     private AlertDialog     dialog;
 
-    public static OrganisationEventGuestsView newInstance(int idEvent) {
+    public static OrganisationEventGuestsView newInstance(int idEvent, boolean owner) {
         OrganisationEventGuestsView myFragment = new OrganisationEventGuestsView();
 
         Bundle args = new Bundle();
         args.putInt("page", R.string.view_name_organisation_event_guests);
         args.putInt("event id", idEvent);
+        args.putBoolean("owner", owner);
         myFragment.setArguments(args);
 
         return (myFragment);
@@ -51,9 +52,10 @@ public class OrganisationEventGuestsView extends Fragment implements IOrganisati
         // Get User Model & Id Organisation
         User    user = ((MainActivity) getActivity()).getModelManager().getUser();
         int     eventId = getArguments().getInt("event id");
+        boolean owner = getArguments().getBoolean("owner");
 
         // Init Presenter
-        presenter = new OrganisationEventGuestsPresenter(this, user, eventId);
+        presenter = new OrganisationEventGuestsPresenter(this, user, eventId, owner);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getContext())

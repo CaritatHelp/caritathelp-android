@@ -58,9 +58,6 @@ public class SubMenuPresenter implements ISubMenuPresenter {
             case R.id.submenu_logout:
                 ((MainActivity) view.getActivity()).logout();
                 break;
-            case R.id.submenu_delete_account:
-                interactor.removeAccount();
-                break;
         }
     }
 

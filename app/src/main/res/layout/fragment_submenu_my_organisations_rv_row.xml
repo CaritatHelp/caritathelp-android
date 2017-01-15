@@ -2,17 +2,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:orientation="vertical">
 
-    <!-- Logo -->
-    <!-- Logo -->
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/logo"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
 
         android:layout_gravity="center"
         android:src="@drawable/logo_caritathelp_2017_picture_only_normal"
@@ -23,42 +24,41 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="@dimen/_80sdp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp"
 
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Name"
         android:textColor="@color/primary_text"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="14sp"
         android:textStyle="bold"
-        android:singleLine="false" />
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/location"
-        android:layout_width="@dimen/_80sdp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
 
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Lieu"
         android:textColor="@color/primary_text"
-        android:textSize="@dimen/_14sdp"
-        android:singleLine="true" />
+        android:textSize="13sp"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/friends"
-        android:layout_width="@dimen/_80sdp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
 
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Friends"
         android:textColor="@color/secondary_text"
-        android:textSize="@dimen/_14sdp"
-        android:singleLine="true" />
+        android:textSize="12sp"
+        android:maxLines="1" />
 
 </LinearLayout>

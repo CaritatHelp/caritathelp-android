@@ -22,32 +22,6 @@ public class SubMenuInteractor {
         this.user = user;
     }
 
-    public void removeAccount() {
-/*
-        JsonObject json = new JsonObject();
-
-        json.addProperty("token", network.getToken());
-
-        Ion.with(context)
-                .load("DELETE", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEER_DELETE_ACCOUNT + user.getId())
-                .setJsonObjectBody(json)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception error, JsonObject result) {
-                        if (error == null) {
-                            MainActivity activity = (MainActivity) getActivity();
-
-                            startActivity(new Intent(activity, SignInView.class));
-                            activity.finish();
-                        }
-                        else
-                            new AlertDialog.Builder(getActivity()).setMessage(error.toString()).show();
-                    }
-                });
-*/
-    }
-
     public void loadProfileImg(ImageView imageView) {
         Network.loadImage(context, imageView, Network.API_LOCATION_2 + user.getThumb_path(), R.drawable.profile_example);
     }

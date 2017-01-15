@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
@@ -23,15 +24,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/image_user"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_alignParentTop="true" />
+
+                    android:layout_alignParentTop="true"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="2dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_radius="2" />
 
                 <TextView
                     android:id="@+id/text_view_name"
                     android:layout_toRightOf="@id/image_user"
+                    android:layout_toEndOf="@+id/image_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="12dp"
@@ -40,7 +47,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
                 <Button
                     android:id="@+id/btn_post"
@@ -48,13 +55,14 @@
                     android:layout_height="wrap_content"
 
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:background="@color/primary"
                     android:text="@string/post"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </RelativeLayout>
 
@@ -66,11 +74,11 @@
                 android:layout_marginTop="14dp"
                 android:paddingLeft="10dp"
 
-                android:gravity="left"
-                android:layout_gravity="left"
+                android:gravity="start"
+                android:layout_gravity="start"
                 android:hint="@string/your_message"
                 android:textColorHint="@color/secondary_text"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/primary_text"
                 android:inputType="text|textMultiLine"
                 android:singleLine="false"

@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/organisation_events_list_top_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:background="@color/icons">
 
-    <ImageView
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/organisation_events_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/logo_caritathelp_2017_picture_only" />
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+
+        app:civ_border_color="#EEEEEE"
+        app:civ_border_width="2dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="2" />
 
     <LinearLayout
         android:layout_toRightOf="@id/organisation_events_image"
+        android:layout_toEndOf="@+id/organisation_events_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -25,22 +31,18 @@
             android:id="@+id/organisation_events_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
 
-            android:text="Titre"
             android:textColor="@color/primary_text"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/organisation_events_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
 
-            android:text="Date"
             android:textColor="@color/primary_text"
-            android:textSize="14dp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 

@@ -32,7 +32,7 @@
     <string name="view_name_organisation">Association</string>
     <string name="view_name_organisation_post">Poster</string>
     <string name="view_name_organisation_members">Membres</string>
-    <string name="view_name_organisation_events">Événement</string>
+    <string name="view_name_organisation_events">Événements</string>
     <string name="view_name_organisation_informations">Informations</string>
     <string name="view_name_organisation_management">Gestion de l\'association</string>
     <string name="view_name_organisation_management_member">Gestion des invitations</string>

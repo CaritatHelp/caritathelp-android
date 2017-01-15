@@ -1,8 +1,6 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events;
 
-import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Tools;

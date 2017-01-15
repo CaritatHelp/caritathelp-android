@@ -86,8 +86,10 @@ public class MyOrganisationsRVAdapter extends RecyclerView.Adapter<MyOrganisatio
         holder.name.setText(Tools.upperCaseFirstLetter(name));
 
         // Set Location
-        if (location != null && !TextUtils.isEmpty(location))
+        if (location != null && !TextUtils.isEmpty(location)) {
             holder.location.setText(location);
+            holder.location.setVisibility(View.VISIBLE);
+        }
         else
             holder.location.setVisibility(View.GONE);
 
@@ -97,6 +99,7 @@ public class MyOrganisationsRVAdapter extends RecyclerView.Adapter<MyOrganisatio
                 holder.friends.setText(new StringBuilder(friends).append(" ami"));
             else
                 holder.friends.setText(new StringBuilder(friends).append(" amis"));
+            holder.friends.setVisibility(View.VISIBLE);
         }
         else
             holder.friends.setVisibility(View.GONE);
@@ -104,7 +107,7 @@ public class MyOrganisationsRVAdapter extends RecyclerView.Adapter<MyOrganisatio
 
     @Override
     public int getItemCount() {
-        return (visibleObjects.size());
+        return visibleObjects.size();
     }
 
     public void update(List<Organisation>  organisations) {

@@ -9,6 +9,7 @@ import com.eip.red.caritathelp.Models.Organisation.EmergencyJson;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
 import com.eip.red.caritathelp.Models.Organisation.Events;
+import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.IOnOrganisationEventsFinishedListener;
 import com.eip.red.caritathelp.R;
@@ -134,5 +135,9 @@ public class OrganisationEventInteractor {
 
     public Event getEvent() {
         return event;
+    }
+
+    public boolean isHost() {
+        return event.getRights().contains(Organisation.ORGANISATION_HOST) || event.getRights().contains(Organisation.ORGANISATION_ADMIN);
     }
 }

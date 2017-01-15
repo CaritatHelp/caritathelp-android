@@ -11,6 +11,7 @@ public class Guest {
     private String  firstname;
     private String  lastname;
     private String  rights;
+    private String  thumb_path;
 
     public int getId() {
         return id;
@@ -30,5 +31,9 @@ public class Guest {
 
     public String getRights() {
         return rights;
+    }
+
+    public String getThumb_path() {
+        return thumb_path;
     }
 }

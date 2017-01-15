@@ -20,21 +20,30 @@
                 android:orientation="vertical">
 
                 <!-- Event Image + Event Btn for management -->
-                <ImageView
-                    android:id="@+id/picture"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="140dp"
+                    android:padding="4dp"
+                    android:background="@drawable/background_gradient">
 
-                    android:scaleType="fitXY"
-                    android:src="@drawable/solidarite"/>
+                    <ImageView
+                        android:id="@+id/picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter" />
+
+                </FrameLayout>
 
                 <!-- DIVIDER -->
-                <View style="@style/Divider" />
+                <View
+                    style="@style/Divider"
+                    android:alpha="0.2" />
 
                 <!-- BAR 2 - MENU -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
 
                     android:orientation="horizontal"
                     android:background="@color/icons"
@@ -66,8 +75,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_post"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
 
                         android:layout_gravity="center"
@@ -77,8 +86,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_guests"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
 
                         android:layout_gravity="center"
@@ -88,8 +97,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_emergency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
                         android:layout_weight="1"
 
                         android:layout_gravity="center"
@@ -100,8 +109,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_informations"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
 
                         android:layout_gravity="center"
@@ -111,8 +120,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_management"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
 
                         android:layout_gravity="center"
@@ -124,7 +133,9 @@
                 </LinearLayout>
 
                 <!-- DIVIDER -->
-                <View style="@style/Divider"/>
+                <View
+                    style="@style/Divider"
+                    android:alpha="0.2" />
 
                 <!-- NEWS -->
                 <android.support.v7.widget.RecyclerView

@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -26,13 +27,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/image"
                     android:layout_width="48dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+
+                    android:layout_gravity="center"
+                    app:civ_border_color="#EEEEEE"
+                    app:civ_border_width="2dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_radius="2" />
 
                 <LinearLayout
                     android:layout_toRightOf="@id/image"
+                    android:layout_toEndOf="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -44,9 +52,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
 
-                        android:text="Auteur - Type actu"
                         android:textColor="@color/primary_text"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -55,7 +62,6 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
 
-                        android:text="Date"
                         android:textColor="@color/secondary_text"
                         android:textSize="12sp" />
 
@@ -70,8 +76,8 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
 
-                android:layout_gravity="left|center"
-                android:gravity="left|center"
+                android:layout_gravity="start|center"
+                android:gravity="start|center"
                 android:text="Description"
                 android:textColor="@color/primary_text"
                 android:textSize="14sp"
@@ -87,7 +93,8 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_gravity="center"
-                style="@style/Divider" />
+                style="@style/Divider"
+                android:alpha="0.4"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,6 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
 
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -123,7 +131,7 @@
                         android:textSize="13sp"
                         android:textColor="@color/secondary_text"
                         android:textStyle="bold"
-                        android:singleLine="true"/>
+                        android:maxLines="1" />
 
                 </LinearLayout>
 
@@ -137,7 +145,7 @@
                     android:gravity="right"
                     android:textSize="13sp"
                     android:textColor="@color/secondary_text"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </LinearLayout>
 

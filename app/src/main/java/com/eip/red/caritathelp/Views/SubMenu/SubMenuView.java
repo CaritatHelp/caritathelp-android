@@ -55,7 +55,6 @@ public class SubMenuView extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.submenu_invitations).setOnClickListener(this);
         view.findViewById(R.id.submenu_account_settings).setOnClickListener(this);
         view.findViewById(R.id.submenu_logout).setOnClickListener(this);
-        view.findViewById(R.id.submenu_delete_account).setOnClickListener(this);
 
         return (view);
     }

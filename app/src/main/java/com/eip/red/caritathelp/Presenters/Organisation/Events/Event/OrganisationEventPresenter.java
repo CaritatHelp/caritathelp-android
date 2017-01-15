@@ -55,7 +55,7 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
             case R.id.btn_quit:
                 break;
             case R.id.btn_guests:
-                Tools.replaceView(view, OrganisationEventGuestsView.newInstance(interactor.getEvent().getId()), Animation.FADE_IN_OUT, false);
+                Tools.replaceView(view, OrganisationEventGuestsView.newInstance(interactor.getEvent().getId(), interactor.isHost()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_emergency:
                 showEmergencyDialog();
