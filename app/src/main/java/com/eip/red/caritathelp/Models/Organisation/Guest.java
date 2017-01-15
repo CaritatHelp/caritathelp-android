@@ -1,5 +1,7 @@
 package com.eip.red.caritathelp.Models.Organisation;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by pierr on 15/04/2016.
  */
@@ -12,6 +14,8 @@ public class Guest {
     private String  lastname;
     private String  rights;
     private String  thumb_path;
+    @SerializedName("notif_id")
+    private int notifId;
 
     public int getId() {
         return id;
@@ -39,5 +43,9 @@ public class Guest {
 
     public String getThumb_path() {
         return thumb_path;
+    }
+
+    public int getNotifId() {
+        return notifId;
     }
 }

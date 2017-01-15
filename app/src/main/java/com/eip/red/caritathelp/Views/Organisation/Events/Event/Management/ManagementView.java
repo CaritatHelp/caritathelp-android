@@ -15,6 +15,7 @@ import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.invitations.InvitationsView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.modification.ModificationView;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -66,7 +67,7 @@ public class ManagementView extends Fragment {
 
     @OnClick(R.id.btn_manage_invitations)
     public void onClickManageInvitations() {
-
+        Tools.replaceView(this, InvitationsView.newInstance(eventId), Animation.FADE_IN_OUT, false);
     }
 
     @OnClick(R.id.btn_delete_event)

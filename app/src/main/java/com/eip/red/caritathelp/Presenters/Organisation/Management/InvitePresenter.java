@@ -27,38 +27,65 @@ public class InvitePresenter implements Invite.Presenter {
 
     private InviteView view;
     private User user;
-    private int organisationId;
+    private int id;
+    private boolean organisation;
 
-    public InvitePresenter(InviteView view, User user, int organisationId) {
+    public InvitePresenter(InviteView view, User user, int id, boolean organisation) {
         this.view = view;
         this.user = user;
-        this.organisationId = organisationId;
+        this.id = id;
+        this.organisation = organisation;
     }
 
     @Override
     public void getVolunteers() {
         view.showProgress();
-        Ion.with(view.getContext())
-                .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_BY_ID + organisationId + Network.API_REQUEST_ORGANISATION_INVITABLE_VOLUNTEERS)
-                .setHeader("access-token", user.getToken())
-                .setHeader("client", user.getClient())
-                .setHeader("uid", user.getUid())
-                .addQuery("id", String.valueOf(organisationId))
-                .as(new TypeToken<UsersJson>(){})
-                .setCallback(new FutureCallback<UsersJson>() {
-                    @Override
-                    public void onCompleted(Exception error, UsersJson result) {
-                        view.hideProgress();
-                        if (error == null) {
-                            if (result.getStatus() == Network.API_STATUS_ERROR)
-                                view.setDialog("Statut 400", result.getMessage());
-                            else
-                                view.update(result.getResponse());
+        if (organisation) {
+            Ion.with(view.getContext())
+                    .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_BY_ID + id + Network.API_REQUEST_ORGANISATION_INVITABLE_VOLUNTEERS)
+                    .setHeader("access-token", user.getToken())
+                    .setHeader("client", user.getClient())
+                    .setHeader("uid", user.getUid())
+                    .addQuery("id", String.valueOf(id))
+                    .as(new TypeToken<UsersJson>() {
+                    })
+                    .setCallback(new FutureCallback<UsersJson>() {
+                        @Override
+                        public void onCompleted(Exception error, UsersJson result) {
+                            view.hideProgress();
+                            if (error == null) {
+                                if (result.getStatus() == Network.API_STATUS_ERROR)
+                                    view.setDialog("Statut 400", result.getMessage());
+                                else
+                                    view.update(result.getResponse());
+                            } else
+                                view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
                         }
-                        else
-                            view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
-                    }
-                });
+                    });
+        }
+        else {
+            Ion.with(view.getContext())
+                    .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT + id + Network.API_REQUEST_ORGANISATION_INVITABLE_VOLUNTEERS)
+                    .setHeader("access-token", user.getToken())
+                    .setHeader("client", user.getClient())
+                    .setHeader("uid", user.getUid())
+                    .addQuery("id", String.valueOf(id))
+                    .as(new TypeToken<UsersJson>(){})
+                    .setCallback(new FutureCallback<UsersJson>() {
+                        @Override
+                        public void onCompleted(Exception error, UsersJson result) {
+                            view.hideProgress();
+                            if (error == null) {
+                                if (result.getStatus() == Network.API_STATUS_ERROR)
+                                    view.setDialog("Statut 400", result.getMessage());
+                                else
+                                    view.update(result.getResponse());
+                            }
+                            else
+                                view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                        }
+                    });
+        }
     }
 
     @Override
@@ -69,22 +96,43 @@ public class InvitePresenter implements Invite.Presenter {
             for (User volunteer : volunteers) {
                 if (volunteer.isCheck()) {
                     view.showProgress();
-                    Ion.with(view.getContext())
-                            .load("POST", Network.API_LOCATION + Network.API_REQUEST_MEMBERSHIP_INVITE)
-                            .setHeader("access-token", user.getToken())
-                            .setHeader("client", user.getClient())
-                            .setHeader("uid", user.getUid())
-                            .addQuery("volunteer_id", String.valueOf(volunteer.getId()))
-                            .addQuery("assoc_id", String.valueOf(organisationId))
-                            .as(new TypeToken<JsonObject>(){})
-                            .setCallback(new FutureCallback<JsonObject>() {
-                                @Override
-                                public void onCompleted(Exception error, JsonObject result) {
-                                    view.hideProgress();
-                                    if (error != null)
-                                        view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
-                                }
-                            });
+
+                    if (organisation) {
+                        Ion.with(view.getContext())
+                                .load("POST", Network.API_LOCATION + Network.API_REQUEST_MEMBERSHIP_INVITE)
+                                .setHeader("access-token", user.getToken())
+                                .setHeader("client", user.getClient())
+                                .setHeader("uid", user.getUid())
+                                .addQuery("volunteer_id", String.valueOf(volunteer.getId()))
+                                .addQuery("assoc_id", String.valueOf(id))
+                                .as(new TypeToken<JsonObject>() {})
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception error, JsonObject result) {
+                                        view.hideProgress();
+                                        if (error != null)
+                                            view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                                    }
+                                });
+                    }
+                    else {
+                        Ion.with(view.getContext())
+                                .load("POST", Network.API_LOCATION + Network.API_REQUEST_GUESTS_INVITE)
+                                .setHeader("access-token", user.getToken())
+                                .setHeader("client", user.getClient())
+                                .setHeader("uid", user.getUid())
+                                .addQuery("volunteer_id", String.valueOf(volunteer.getId()))
+                                .addQuery("event_id", String.valueOf(id))
+                                .as(new TypeToken<JsonObject>() {})
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception error, JsonObject result) {
+                                        view.hideProgress();
+                                        if (error != null)
+                                            view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                                    }
+                                });
+                    }
                 }
             }
             new AlertDialog.Builder(view.getContext())

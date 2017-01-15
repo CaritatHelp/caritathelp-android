@@ -136,7 +136,7 @@ public class OrganisationManagementInvitationsView extends Fragment implements O
     }
 
     @OnClick(R.id.btn_invitations)
-    public void onClickInvitationsBtn(Button button) {
+    public void onClickInvitationsBtn() {
         presenter.goToSendInvitationView();
     }
 

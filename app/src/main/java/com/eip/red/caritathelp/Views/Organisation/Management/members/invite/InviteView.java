@@ -35,12 +35,13 @@ public class InviteView extends Fragment implements BaseView, Invite.View {
     private InviteRvAdapter adapter;
     private AlertDialog dialog;
 
-    public static InviteView newInstance(int idOrganisation) {
+    public static InviteView newInstance(int id, boolean organisation) {
         InviteView myFragment = new InviteView();
         Bundle args = new Bundle();
 
         args.putInt("page", R.string.view_name_organisation_management_member_invite);
-        args.putInt("organisation id", idOrganisation);
+        args.putInt("id", id);
+        args.putBoolean("organisation", organisation);
         myFragment.setArguments(args);
 
         return (myFragment);
@@ -52,10 +53,11 @@ public class InviteView extends Fragment implements BaseView, Invite.View {
 
         // Get User Model & Id Organisation
         User user = ((MainActivity) getActivity()).getModelManager().getUser();
-        int     organisationId = getArguments().getInt("organisation id");
+        int     id = getArguments().getInt("id");
+        boolean organisation = getArguments().getBoolean("organisation");
 
         // Init Presenter
-        presenter = new InvitePresenter(this, user, organisationId);
+        presenter = new InvitePresenter(this, user, id, organisation);
 
         // Init Dialog
         dialog = new AlertDialog.Builder(getActivity())
@@ -96,7 +98,7 @@ public class InviteView extends Fragment implements BaseView, Invite.View {
     @Override
     public void setDialog(String title, String msg) {
         dialog.setTitle(title);
-        dialog.setMessage(title);
+        dialog.setMessage(msg);
         dialog.show();
     }
 

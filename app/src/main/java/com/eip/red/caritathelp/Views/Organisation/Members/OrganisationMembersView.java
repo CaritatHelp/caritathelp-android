@@ -74,12 +74,6 @@ public class OrganisationMembersView extends Fragment implements IOrganisationMe
         // Inflate the layout for this fragment
         View    view = inflater.inflate(R.layout.fragment_organisation_members, container, false);
 
-        // Set ToolBar
-//        ((MainActivity) getActivity()).getToolBar().update("Membres", true);
-
-        // Init SearchBar
-//        initSearchBar();
-
         // Init UI Element
         progressBar = (ProgressBar) view.findViewById(R.id.organisation_members_progress_bar);
 
