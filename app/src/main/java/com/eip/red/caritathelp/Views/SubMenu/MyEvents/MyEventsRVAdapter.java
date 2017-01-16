@@ -16,12 +16,19 @@ import com.eip.red.caritathelp.Tools;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -35,6 +42,7 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
     private List<Event> allObjects;
 
     private DateTimeFormatter   formatter;
+    private DateTimeFormatter   formatter2;
     private DateTimeFormatter   newFormatter;
 
     public MyEventsRVAdapter(MyEventsPresenter presenter) {
@@ -46,7 +54,8 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
 
         // Init DateTimeFormatter
 //        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");//.withZone(timeZone);
-        formatter = DateTimeFormat.forPattern("yyyy-MM-dd' 'HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
+        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.FRANCE);
+        formatter2 = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
         newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
     }
 
@@ -98,8 +107,35 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
 
         // Set date
         if (date != null && !TextUtils.isEmpty(date)) {
-            DateTime    dt = formatter.parseDateTime(date);
-            holder.date.setText(newFormatter.print(dt));
+            System.out.println("Date : " + date);
+
+            try {
+                DateTime dt = formatter.parseDateTime(date);
+                holder.date.setText(newFormatter.print(dt));
+            }
+            catch (Exception exception) {
+                DateTime dt = formatter2.parseDateTime(date);
+                holder.date.setText(newFormatter.print(dt));
+            }
+
+//            date = "2017-01-15T17:15:28.332+01:00";
+//            DateTime dt = ISODateTimeFormat.dateTime().parseDateTime(date);
+//            holder.date.setText(newFormatter.print(dt));
+
+//            DateTime dt = new DateTime(date, DateTimeZone.forTimeZone(TimeZone.getTimeZone("Europe/Paris")));
+//            holder.date.setText(dt.toString());
+
+//            LocalDateTime ldt = LocalDateTime.parse(date);
+//            holder.date.setText(ldt.toString());
+
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+//            try {
+//                Date dateStr = dateFormat.parse(date);
+//                holder.date.setText(new SimpleDateFormat("'Le' E dd MMMM Y 'à' HH:mm", Locale.FRANCE).format(dateStr));
+//            }
+//            catch (ParseException e) {
+//                e.printStackTrace();
+//            }
         }
         else
             holder.date.setVisibility(View.GONE);
