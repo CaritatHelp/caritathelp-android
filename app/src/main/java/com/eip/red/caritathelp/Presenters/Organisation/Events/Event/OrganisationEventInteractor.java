@@ -1,6 +1,7 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Models.Network;
@@ -108,6 +109,44 @@ public class OrganisationEventInteractor {
                 });
     }
 
+    public void join(final IOnOrganisationEventFinishedListener listener) {
+        Ion.with(context)
+                .load("POST", Network.API_LOCATION + Network.API_REQUEST_GUESTS_JOIN)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .addQuery("event_id", String.valueOf(eventId))
+                .as(new TypeToken<JsonObject>(){})
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception error, JsonObject result) {
+                        if (error == null)
+                            listener.onSuccessJoinEvent();
+                        else
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+                    }
+                });
+    }
+
+    public void leave(final IOnOrganisationEventFinishedListener listener) {
+        Ion.with(context)
+                .load("DELETE", Network.API_LOCATION + Network.API_REQUEST_GUESTS_LEAVE)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .addQuery("event_id", String.valueOf(eventId))
+                .as(new TypeToken<JsonObject>(){})
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception error, JsonObject result) {
+                        if (error == null)
+                            listener.onSuccessLeaveEvent();
+                        else
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+                    }
+                });
+    }
+
     public void raiseEmergency(final IOnOrganisationEventFinishedListener listener, String volunteers, String zone) {
         JsonObject json = new JsonObject();
         json.addProperty("number_volunteers", Integer.valueOf(volunteers));
@@ -117,10 +156,10 @@ public class OrganisationEventInteractor {
                 .load("POST", Network.API_LOCATION_2 + Network.API_REQUEST_ORGANISATION_EVENT + eventId + Network.API_REQUEST_ORGANISATION_EVENT_EMERGENCY + "?number_volunteers=17&zone=50")
                 .setHeader("access-token", user.getToken())
                 .setHeader("client", user.getClient())
-                .setHeader("uid", user.getUid())
-//                .addQuery("number_volunteers", volunteers)
+                .setHeader("uid", user.getUid())//                .addQuery("number_volunteers", volunteers)
 //                .addQuery("zone", zone.replaceAll("km", "").trim())
 //                .setJsonObjectBody(json)
+
                 .as(new TypeToken<EmergencyJson>(){})
                 .setCallback(new FutureCallback<EmergencyJson>() {
                     @Override
@@ -128,6 +167,8 @@ public class OrganisationEventInteractor {
                         if (error == null) {
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialog("Statut 400", result.getMessage());
+                            else
+                                listener.onSuccessRaiseEmergency();
                         } else
                             listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
                     }
@@ -139,6 +180,8 @@ public class OrganisationEventInteractor {
     }
 
     public boolean isHost() {
+        if (event.getRights() == null)
+            return false;
         return event.getRights().contains(Organisation.ORGANISATION_HOST) || event.getRights().contains(Organisation.ORGANISATION_ADMIN);
     }
 }

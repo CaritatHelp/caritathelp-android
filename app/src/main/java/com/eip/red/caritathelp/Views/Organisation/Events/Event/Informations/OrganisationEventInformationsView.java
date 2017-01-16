@@ -3,6 +3,7 @@ package com.eip.red.caritathelp.Views.Organisation.Events.Event.Informations;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,10 +106,32 @@ public class OrganisationEventInformationsView extends Fragment implements IOrga
 
     @Override
     public void setViewData(String dateBegin, String dateEnd, String location, String description) {
-        this.dateBegin.setText(dateBegin);
-        this.dateEnd.setText(dateEnd);
-        this.location.setText(location);
-        this.description.setText(description);
+        if (dateBegin != null && !TextUtils.isEmpty(dateBegin)) {
+            this.dateBegin.setText(dateBegin);
+            this.dateBegin.setVisibility(View.VISIBLE);
+        }
+        else
+            this.dateBegin.setVisibility(View.GONE);
+        if (dateEnd != null && !TextUtils.isEmpty(dateEnd)) {
+            this.dateEnd.setText(dateEnd);
+            this.dateEnd.setVisibility(View.VISIBLE);
+        }
+        else
+            this.dateEnd.setVisibility(View.GONE);
+
+        if (location != null && !TextUtils.isEmpty(location)) {
+            this.location.setText(location);
+            this.location.setVisibility(View.VISIBLE);
+        }
+        else
+            this.location.setVisibility(View.GONE);
+
+        if (description != null && !TextUtils.isEmpty(description)) {
+            this.description.setText(description);
+            this.description.setVisibility(View.VISIBLE);
+        }
+        else
+            this.description.setVisibility(View.GONE);
     }
 
 }

@@ -20,6 +20,7 @@ import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
 import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.OrganisationEventPresenter;
 import com.eip.red.caritathelp.R;
+import com.eip.red.caritathelp.Tools;
 
 import java.util.List;
 
@@ -101,6 +102,7 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle(getArguments().getString("page"));
         presenter.getData();
     }
 
@@ -162,6 +164,10 @@ public class OrganisationEventView extends Fragment implements IOrganisationEven
 
     public ImageView getPicture() {
         return picture;
+    }
+
+    public ImageButton getPostBtn() {
+        return postBtn;
     }
 
     public ImageButton getJoinBtn() {

@@ -53,7 +53,6 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
         allObjects = new ArrayList<>();
 
         // Init DateTimeFormatter
-//        formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");//.withZone(timeZone);
         formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.FRANCE);
         formatter2 = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
         newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
@@ -107,8 +106,6 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
 
         // Set date
         if (date != null && !TextUtils.isEmpty(date)) {
-            System.out.println("Date : " + date);
-
             try {
                 DateTime dt = formatter.parseDateTime(date);
                 holder.date.setText(newFormatter.print(dt));
@@ -117,25 +114,6 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
                 DateTime dt = formatter2.parseDateTime(date);
                 holder.date.setText(newFormatter.print(dt));
             }
-
-//            date = "2017-01-15T17:15:28.332+01:00";
-//            DateTime dt = ISODateTimeFormat.dateTime().parseDateTime(date);
-//            holder.date.setText(newFormatter.print(dt));
-
-//            DateTime dt = new DateTime(date, DateTimeZone.forTimeZone(TimeZone.getTimeZone("Europe/Paris")));
-//            holder.date.setText(dt.toString());
-
-//            LocalDateTime ldt = LocalDateTime.parse(date);
-//            holder.date.setText(ldt.toString());
-
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-//            try {
-//                Date dateStr = dateFormat.parse(date);
-//                holder.date.setText(new SimpleDateFormat("'Le' E dd MMMM Y 'à' HH:mm", Locale.FRANCE).format(dateStr));
-//            }
-//            catch (ParseException e) {
-//                e.printStackTrace();
-//            }
         }
         else
             holder.date.setVisibility(View.GONE);
@@ -164,22 +142,6 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
         visibleObjects.addAll(events);
         allObjects.addAll(events);
 
-        notifyDataSetChanged();
-    }
-
-    public void flushFilter(){
-        visibleObjects.clear();
-        visibleObjects.addAll(allObjects);
-        notifyDataSetChanged();
-    }
-
-    public void filter(String queryText) {
-        visibleObjects.clear();
-
-        for (Event event :  allObjects) {
-            if (event.getTitle().toLowerCase(Locale.getDefault()).contains(queryText))
-                visibleObjects.add(event);
-        }
         notifyDataSetChanged();
     }
 

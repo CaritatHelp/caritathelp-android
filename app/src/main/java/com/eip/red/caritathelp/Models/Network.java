@@ -65,6 +65,7 @@ public class Network implements Serializable {
     static final public  String     API_REQUEST_ORGANISATION_EVENT = "/events/";
     static final public  String     API_REQUEST_ORGANISATION_EVENTS_GUESTS = "/guests";
     static final public  String     API_REQUEST_ORGANISATION_EVENTS_INFORMATIONS = "/events/";
+    static final public  String     API_REQUEST_ORGANISATION_EVENT_EMERGENCY_INVITATIONS = "/volunteers_from_emergency";
     static final public  String     API_REQUEST_ORGANISATION_EVENT_EMERGENCY = "/raise_emergency";
     static final public  String     API_REQUEST_ORGANISATION_EVENT_MANAGEMENT = "/events/";
     static final public  String     API_REQUEST_ORGANISATION_NEWS = "/news";

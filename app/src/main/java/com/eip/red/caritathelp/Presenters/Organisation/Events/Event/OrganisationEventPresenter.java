@@ -21,6 +21,7 @@ import com.eip.red.caritathelp.Views.Organisation.Events.Event.Guests.Organisati
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Informations.OrganisationEventInformationsView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.Management.ManagementView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.emergency.EmergencyInvitationsView;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhotoView;
@@ -49,8 +50,12 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
                 Tools.replaceView(view, PostView.newInstance(News.GROUP_TYPE_EVENT, event.getId(), event.getTitle(), event.getRights()), Animation.FADE_IN_OUT, false);
                 break;
             case R.id.btn_join:
+                view.showProgress();
+                interactor.join(this);
                 break;
             case R.id.btn_quit:
+                view.showProgress();
+                interactor.leave(this);
                 break;
             case R.id.btn_guests:
                 Tools.replaceView(view, OrganisationEventGuestsView.newInstance(interactor.getEvent().getId(), interactor.isHost()), Animation.FADE_IN_OUT, false);
@@ -69,15 +74,27 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
 
     private void showEmergencyDialog() {
         final IOnOrganisationEventFinishedListener listener = this;
+        View emergencyButtonsView = View.inflate(view.getContext(), R.layout.view_emergency_buttons, null);
+        Button emergencyBtn = (Button) emergencyButtonsView.findViewById(R.id.btn_emergency);
+        Button emergencyInvitationsBtn = (Button) emergencyButtonsView.findViewById(R.id.btn_emergency_invitations);
         View emergencyView = View.inflate(view.getContext(), R.layout.view_emergency, null);
         final TextView volunteer = (TextView) emergencyView.findViewById(R.id.volunteer);
         final TextView zone = (TextView) emergencyView.findViewById(R.id.zone);
         final SeekBar volunteerSeekbar = (SeekBar) emergencyView.findViewById(R.id.seekbar_volunteer);
         final SeekBar zoneSeekbar = (SeekBar) emergencyView.findViewById(R.id.seekbar_zone);
-        final AlertDialog dialog = new AlertDialog.Builder(view.getContext())
+        final AlertDialog dialog;
+        final AlertDialog emergencyDialog;
+
+        dialog = new AlertDialog.Builder(view.getContext())
+                .setCancelable(true)
+                .setView(emergencyButtonsView)
+                .show();
+
+
+        emergencyDialog = new AlertDialog.Builder(view.getContext())
+                .setCancelable(true)
                 .setTitle("Création d'une urgence")
                 .setView(emergencyView)
-                .setCancelable(false)
                 .setNeutralButton("Annuler", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -88,14 +105,16 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         interactor.raiseEmergency(listener, volunteer.getText().toString(), zone.getText().toString());
+                        dialogInterface.dismiss();
+                        dialog.dismiss();
                     }
                 })
                 .create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        emergencyDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                final Button positiveBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                final Button positiveBtn = emergencyDialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 positiveBtn.setVisibility(View.INVISIBLE);
 
                 volunteerSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -145,7 +164,21 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
             }
         });
 
-        dialog.show();
+        emergencyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emergencyDialog.show();
+            }
+        });
+
+        emergencyInvitationsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Tools.replaceView(view, EmergencyInvitationsView.newInstance(interactor.getEvent().getId()), Animation.FADE_IN_OUT, false);
+            }
+        });
+
     }
 
     @Override
@@ -201,14 +234,17 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
         if (rights != null) {
             switch (rights) {
                 case "admin":
+                    view.getPostBtn().setVisibility(View.VISIBLE);
                     view.getEmergencyBtn().setVisibility(View.VISIBLE);
                     view.getManagementBtn().setVisibility(View.VISIBLE);
                     break;
                 case "host":
+                    view.getPostBtn().setVisibility(View.VISIBLE);
                     view.getEmergencyBtn().setVisibility(View.VISIBLE);
                     view.getManagementBtn().setVisibility(View.VISIBLE);
                     break;
                 case "member":
+                    view.getPostBtn().setVisibility(View.VISIBLE);
                     view.getQuitBtn().setVisibility(View.VISIBLE);
                     break;
             }
@@ -226,5 +262,36 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
     public void onSuccessGetNews(List<News> newsList) {
         view.updateRV(newsList);
         view.hideProgress();
+    }
+
+    @Override
+    public void onSuccessJoinEvent() {
+        view.getJoinBtn().setVisibility(View.GONE);
+        view.getQuitBtn().setVisibility(View.VISIBLE);
+        view.getPostBtn().setVisibility(View.VISIBLE);
+        view.hideProgress();
+
+        new AlertDialog.Builder(view.getContext())
+                .setMessage("Vous avez rejoint l'événement.")
+                .show();
+    }
+
+    @Override
+    public void onSuccessLeaveEvent() {
+        view.getJoinBtn().setVisibility(View.VISIBLE);
+        view.getQuitBtn().setVisibility(View.GONE);
+        view.getPostBtn().setVisibility(View.GONE);
+        view.hideProgress();
+
+        new AlertDialog.Builder(view.getContext())
+                .setMessage("Vous avez quitté l'événement.")
+                .show();
+    }
+
+    @Override
+    public void onSuccessRaiseEmergency() {
+        new AlertDialog.Builder(view.getContext())
+                .setMessage("L'urgence a été envoyé.")
+                .show();
     }
 }

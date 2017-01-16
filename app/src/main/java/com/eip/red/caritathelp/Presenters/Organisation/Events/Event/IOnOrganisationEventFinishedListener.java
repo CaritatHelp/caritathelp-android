@@ -17,4 +17,10 @@ public interface IOnOrganisationEventFinishedListener {
     void onSuccessGetData(Event event, List<News> newsList);
 
     void onSuccessGetNews(List<News> newsList);
+
+    void onSuccessJoinEvent();
+
+    void onSuccessLeaveEvent();
+
+    void onSuccessRaiseEmergency();
 }

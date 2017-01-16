@@ -82,7 +82,8 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_create_light_green_400_36dp"
                         android:scaleType="centerInside"
-                        android:background="@android:color/transparent" />
+                        android:background="@android:color/transparent"
+                        android:visibility="gone"/>
 
                     <ImageButton
                         android:id="@+id/btn_guests"
