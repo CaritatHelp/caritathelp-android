@@ -27,7 +27,8 @@ public class Notification {
     private String  event_name;
     private String  sender_name;
     private String  receiver_name;
-    private String  thumb_path;
+    private String  sender_thumb_path;
+    private String  receiver_thumb_path;
 
     private String  result = null;
 
@@ -83,8 +84,12 @@ public class Notification {
         return receiver_name;
     }
 
-    public String getThumb_path() {
-        return thumb_path;
+    public String getSender_thumb_path() {
+        return sender_thumb_path;
+    }
+
+    public String getReceiver_thumb_path() {
+        return receiver_thumb_path;
     }
 
     public String getResult() {

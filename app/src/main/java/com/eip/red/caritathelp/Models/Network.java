@@ -37,6 +37,7 @@ public class Network implements Serializable {
 
     /* NOTIFICATIONS */
     static final public  String     API_REQUEST_NOTIFICATIONS = "/notifications";
+    static final public  String     API_REQUEST_NOTIFICATIONS_REPLY_EMERGENCY = "/reply_emergency";
 
     /* SEARCH */
     static final public  String     API_REQUEST_SEARCH = "/search";

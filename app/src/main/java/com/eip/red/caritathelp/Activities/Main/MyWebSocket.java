@@ -5,7 +5,10 @@ import android.os.Build;
 import com.eip.red.caritathelp.Activities.Main.ViewPager.MyPagerAdapter;
 import com.eip.red.caritathelp.Activities.Main.ViewPager.MySecondPage;
 import com.eip.red.caritathelp.Activities.Main.ViewPager.MyThirdPage;
+import com.eip.red.caritathelp.Models.Notifications.Notification;
 import com.eip.red.caritathelp.Models.User.User;
+import com.eip.red.caritathelp.Models.mailbox.WebSocketMessage;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.java_websocket.client.WebSocketClient;
@@ -49,11 +52,22 @@ public class MyWebSocket {
                 webSocketClient.send(json.toString());
             }
 
+
             @Override
-            public void onMessage(String s) {
-//                System.out.println("****************************************** MSG : " + s);
-                ((MyThirdPage) pagerAdapter.getFragment(2)).getNotificationsView().getPresenter().onMessage();
-                ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().onMessage(s);
+            public void onMessage(String json) {
+                System.out.println("****************************************** MSG : " + json);
+
+                Gson gson = new Gson();
+                Notification notification = gson.fromJson(json, Notification.class);
+//
+                if (notification != null)
+                    ((MyThirdPage) pagerAdapter.getFragment(2)).getNotificationsView().getPresenter().onMessage(notification);
+                else {
+                    WebSocketMessage webSocketMessage = gson.fromJson(json, WebSocketMessage.class);
+                    ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().onMessage(json);
+                }
+//
+//                ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().onMessage(s);
 
                 /* DEBUG */
 //                System.out.println("Websocket MSG : " + s);
@@ -61,14 +75,10 @@ public class MyWebSocket {
 
             @Override
             public void onClose(int i, String s, boolean b) {
-                /* DEBUG */
-//                System.out.println("CLOSE");
             }
 
             @Override
             public void onError(Exception e) {
-                /* DEBUG */
-//                System.out.println("Error : " + e.toString());
             }
         };
         webSocketClient.connect();

@@ -25,7 +25,7 @@ public class ChatroomMessage {
         content = webSocketMessage.getContent();
         createdAt = webSocketMessage.getCreatedAt();
         updatedAt = null;
-        fullname = webSocketMessage.getSenderFirstname() + " " + webSocketMessage.getSenderLastname();
+        fullname = webSocketMessage.getFullname();
         thumbPath = webSocketMessage.getSenderThumb();
     }
 

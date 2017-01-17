@@ -86,7 +86,7 @@ public class MyFriendsInteractor {
 
     public void removeFriend(int unfriendId, ProgressBar progressBar, final IOnMyFriendsFinishedListener listener) {
         JsonObject json = new JsonObject();
-        json.addProperty("id", unfriendId);
+        json.addProperty("volunteer_id", unfriendId);
 
         Ion.with(context)
                 .load("DELETE", Network.API_LOCATION + Network.API_REQUEST_FRIENDSHIP_REMOVE)

@@ -14,10 +14,14 @@ import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Network;
+import com.eip.red.caritathelp.Models.Notifications.Notification;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.MyWidgets.DividerItemDecoration;
 import com.eip.red.caritathelp.Presenters.Notifications.NotificationsPresenter;
 import com.eip.red.caritathelp.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by pierr on 16/11/2015.
@@ -25,12 +29,15 @@ import com.eip.red.caritathelp.R;
 
 public class NotificationsView extends Fragment implements INotificationsView, View.OnClickListener {
 
+    @BindView(R.id.recycler_view_volunteer) RecyclerView volunteerRV;
+    @BindView(R.id.recycler_view_owner) RecyclerView ownerRV;
+
     private NotificationsPresenter  presenter;
 
-    private RecyclerView            volunteerRV;
-    private RecyclerView            ownerRV;
-    private NotificationsRVAdapter  rvAdapter;
+    private NotificationsRVAdapter  volunteerAdapter;
+    private NotificationsRVAdapter  ownerAdapter;
 
+    private LinearLayoutManager layoutManager;
     private LinearLayout    tabs;
     private TextView        volunteerTab;
     private TextView        ownerTab;
@@ -67,6 +74,7 @@ public class NotificationsView extends Fragment implements INotificationsView, V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        ButterKnife.bind(this, view);
 
         // Init UI Element
         tabs = (LinearLayout) view.findViewById(R.id.tabs);
@@ -96,29 +104,27 @@ public class NotificationsView extends Fragment implements INotificationsView, V
     }
 
     private void initRecyclerView(View view) {
-        // Init RecyclerView
-        volunteerRV = (RecyclerView) view.findViewById(R.id.recycler_view_volunteer);
-        ownerRV = (RecyclerView) view.findViewById(R.id.recycler_view_owner);
-
         // Init & Set Adapter
-        rvAdapter = new NotificationsRVAdapter(presenter);
-        volunteerRV.setAdapter(rvAdapter);
-//        ownerRV.setAdapter();
+        volunteerAdapter = new NotificationsRVAdapter(presenter);
+        ownerAdapter = new NotificationsRVAdapter(presenter);
+        volunteerRV.setAdapter(volunteerAdapter);
+        ownerRV.setAdapter(ownerAdapter);
 
         // Init LayoutManager
-        volunteerRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        layoutManager = new LinearLayoutManager(getContext());
+        volunteerRV.setLayoutManager(layoutManager);
         ownerRV.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Set Options to enable toolbar display/hide
-        volunteerRV.setNestedScrollingEnabled(false);
-        ownerRV.setNestedScrollingEnabled(false);
-        volunteerRV.setHasFixedSize(false);
-        ownerRV.setHasFixedSize(false);
+//        volunteerRV.setNestedScrollingEnabled(false);
+//        ownerRV.setNestedScrollingEnabled(false);
+//        volunteerRV.setHasFixedSize(false);
+//        ownerRV.setHasFixedSize(false);
 
         // Init Divider (between items)
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this.getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL);
-        volunteerRV.addItemDecoration(itemDecoration);
-        ownerRV.addItemDecoration(itemDecoration);
+//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this.getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL);
+//        volunteerRV.addItemDecoration(itemDecoration);
+//        ownerRV.addItemDecoration(itemDecoration);
     }
 
     @Override
@@ -147,10 +153,6 @@ public class NotificationsView extends Fragment implements INotificationsView, V
         return progressBar;
     }
 
-    public NotificationsRVAdapter getRvAdapter() {
-        return rvAdapter;
-    }
-
     public TextView getOwnerTab() {
         return ownerTab;
     }
@@ -161,5 +163,21 @@ public class NotificationsView extends Fragment implements INotificationsView, V
 
     public NotificationsPresenter getPresenter() {
         return presenter;
+    }
+
+    public NotificationsRVAdapter getVolunteerAdapter() {
+        return volunteerAdapter;
+    }
+
+    public NotificationsRVAdapter getOwnerAdapter() {
+        return ownerAdapter;
+    }
+
+    public RecyclerView getVolunteerRV() {
+        return volunteerRV;
+    }
+
+    public RecyclerView getOwnerRV() {
+        return ownerRV;
     }
 }

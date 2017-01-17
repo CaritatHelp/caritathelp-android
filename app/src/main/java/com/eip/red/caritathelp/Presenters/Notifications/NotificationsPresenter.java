@@ -38,7 +38,6 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
         interactor = new NotificationsInteractor(view.getContext(), user);
     }
 
-
     @Override
     public void getNotifications() {
         view.showProgress();
@@ -54,7 +53,8 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
                 view.getOwnerTab().setTypeface(Typeface.DEFAULT);
 
                 // Set RV
-                view.getRvAdapter().setShowVolunteerNotifs(true);
+                view.getVolunteerRV().setVisibility(View.VISIBLE);
+                view.getOwnerRV().setVisibility(View.GONE);
                 break;
             case R.id.tab_owner:
                 // Set Tab TextView
@@ -62,7 +62,8 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
                 view.getOwnerTab().setTypeface(Typeface.DEFAULT_BOLD);
 
                 // Set RV
-                view.getRvAdapter().setShowVolunteerNotifs(false);
+                view.getVolunteerRV().setVisibility(View.GONE);
+                view.getOwnerRV().setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -77,11 +78,15 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
                     case Notification.NOTIF_TYPE_JOIN_EVENT:
                         break;
                     case Notification.NOTIF_TYPE_INVITE_MEMBER:
+                        interactor.organisationInvitationReply(notification, "true", this);
                         break;
                     case Notification.NOTIF_TYPE_INVITE_GUEST:
                         break;
                     case Notification.NOTIF_TYPE_ADD_FRIEND:
                         interactor.friendshipReply(notification, "true", this);
+                        break;
+                    case Notification.NOTIF_TYPE_EMERGENCY:
+                        interactor.emergencyReply(notification, true, this);
                         break;
                 }
                 break;
@@ -92,11 +97,15 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
                     case Notification.NOTIF_TYPE_JOIN_EVENT:
                         break;
                     case Notification.NOTIF_TYPE_INVITE_MEMBER:
+                        interactor.organisationInvitationReply(notification, "false", this);
                         break;
                     case Notification.NOTIF_TYPE_INVITE_GUEST:
                         break;
                     case Notification.NOTIF_TYPE_ADD_FRIEND:
                         interactor.friendshipReply(notification, "false", this);
+                        break;
+                    case Notification.NOTIF_TYPE_EMERGENCY:
+                        interactor.emergencyReply(notification, false, this);
                         break;
                 }
                 break;
@@ -113,9 +122,8 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
         }
     }
 
-    /* Websocket msg */
     @Override
-    public void onMessage() {
+    public void onMessage(Notification notification) {
         interactor.getNotifications(view.getProgressBar(), this);
     }
 
@@ -131,21 +139,23 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
         List<Notification>  volunteerNotifs = new ArrayList<>();
         List<Notification>  ownerNotifs = new ArrayList<>();
 
+        System.out.print("RESULT : " );
+
         for (Notification notification : notifications) {
             String  notifType = notification.getNotif_type();
 
-            if (notifType.equals(Notification.NOTIF_TYPE_INVITE_GUEST) || notifType.equals(Notification.NOTIF_TYPE_INVITE_MEMBER) || notifType.equals(Notification.NOTIF_TYPE_ADD_FRIEND))
+            if (notifType.equals(Notification.NOTIF_TYPE_INVITE_GUEST) || notifType.equals(Notification.NOTIF_TYPE_INVITE_MEMBER) || notifType.equals(Notification.NOTIF_TYPE_ADD_FRIEND) || notifType.equals(Notification.NOTIF_TYPE_EMERGENCY))
                 volunteerNotifs.add(notification);
             else
                 ownerNotifs.add(notification);
         }
 
         // Set RecyclerView
-        NotificationsRVAdapter adpater = view.getRvAdapter();
-        adpater.update(volunteerNotifs, ownerNotifs);
+        view.getVolunteerAdapter().update(volunteerNotifs);
+        view.getOwnerAdapter().update(ownerNotifs);
 
         // Set Notification Number Bottom Navigation Bar
-        int number = adpater.getItemCount();
+        int number = 1;
         ((MainActivity) view.getActivity()).getMyNavigationBottomBar().setNotifications(number, MyNavigationBottomBar.NOTIFICATIONS);
 
         // Set ProgressBar Visibility
@@ -153,45 +163,53 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
     }
 
     @Override
-    public void onSuccessFriendshipReply(Notification notification, String acceptance) {
+    public void onSuccess(Notification notification, String acceptance) {
         // Set ProgressBar Visibility
         view.hideProgress();
 
         // Set Notification Result Msg
-        switch (acceptance) {
-            case "true":
-                switch (notification.getNotif_type()) {
-                    case Notification.NOTIF_TYPE_JOIN_ASSOC:
-                        break;
-                    case Notification.NOTIF_TYPE_JOIN_EVENT:
-                        break;
-                    case Notification.NOTIF_TYPE_INVITE_MEMBER:
-                        break;
-                    case Notification.NOTIF_TYPE_INVITE_GUEST:
-                        break;
-                    case Notification.NOTIF_TYPE_ADD_FRIEND:
-                        notification.setResult("Invitation acceptée");
-                        break;
-                }
-                break;
-            case "false":
-                switch (notification.getNotif_type()) {
-                    case Notification.NOTIF_TYPE_JOIN_ASSOC:
-                        break;
-                    case Notification.NOTIF_TYPE_JOIN_EVENT:
-                        break;
-                    case Notification.NOTIF_TYPE_INVITE_MEMBER:
-                        break;
-                    case Notification.NOTIF_TYPE_INVITE_GUEST:
-                        break;
-                    case Notification.NOTIF_TYPE_ADD_FRIEND:
-                        notification.setResult("Invitation rejetée");
-                        break;
-                }
-                break;
+        if (acceptance.equals("true")) {
+            switch (notification.getNotif_type()) {
+                case Notification.NOTIF_TYPE_JOIN_ASSOC:
+                    break;
+                case Notification.NOTIF_TYPE_JOIN_EVENT:
+                    break;
+                case Notification.NOTIF_TYPE_INVITE_MEMBER:
+                    notification.setResult("Invitation acceptée");
+                    break;
+                case Notification.NOTIF_TYPE_INVITE_GUEST:
+                    break;
+                case Notification.NOTIF_TYPE_ADD_FRIEND:
+                    notification.setResult("Invitation acceptée");
+                    break;
+                case Notification.NOTIF_TYPE_EMERGENCY:
+                    notification.setResult("Urgence acceptée");
+                    break;
+            }
+        }
+        else {
+            switch (notification.getNotif_type()) {
+                case Notification.NOTIF_TYPE_JOIN_ASSOC:
+                    break;
+                case Notification.NOTIF_TYPE_JOIN_EVENT:
+                    break;
+                case Notification.NOTIF_TYPE_INVITE_MEMBER:
+                    notification.setResult("Invitation rejetée");
+                    break;
+                case Notification.NOTIF_TYPE_INVITE_GUEST:
+                    break;
+                case Notification.NOTIF_TYPE_ADD_FRIEND:
+                    notification.setResult("Invitation rejetée");
+                    break;
+                case Notification.NOTIF_TYPE_EMERGENCY:
+                    notification.setResult("Urgence refusée");
+                    break;
+            }
         }
 
         // Update RecyclerView
-        view.getRvAdapter().notifyDataSetChanged();
+        view.getVolunteerAdapter().notifyDataSetChanged();
+        view.getOwnerAdapter().notifyDataSetChanged();
+//        view.getRvAdapter().notifyDataSetChanged();
     }
 }

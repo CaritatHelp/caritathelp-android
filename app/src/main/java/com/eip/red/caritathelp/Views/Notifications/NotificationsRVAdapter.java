@@ -36,16 +36,11 @@ import java.util.Locale;
 public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRVAdapter.DataObjectHolder> {
 
     private NotificationsPresenter  presenter;
-    private List<Notification>      volunteerNotifs;
-    private List<Notification>      ownerNotifs;
-
-    private boolean             showVolunteerNotifs;
+    private List<Notification>      notifications;
 
     public NotificationsRVAdapter(NotificationsPresenter presenter) {
         this.presenter = presenter;
-        volunteerNotifs = new ArrayList<>();
-        ownerNotifs = new ArrayList<>();
-        showVolunteerNotifs = true;
+        notifications = new ArrayList<>();
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -75,12 +70,7 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
 
         @Override
         public void onClick(View v) {
-            Notification    notification;
-
-            if (showVolunteerNotifs)
-                notification = volunteerNotifs.get(getAdapterPosition());
-            else
-                notification = ownerNotifs.get(getAdapterPosition());
+            Notification    notification = notifications.get(getAdapterPosition());
 
             if (notification != null)
                 presenter.onClick(v.getId(), notification);
@@ -98,121 +88,117 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        Notification    notification;
-        String          msg = null;
+        Notification    notification = notifications.get(position);
 
-        if (showVolunteerNotifs)
-            notification = volunteerNotifs.get(position);
-        else
-            notification = ownerNotifs.get(position);
+        if (notification != null) {
+            String          msg = null;
 
-        // Set Img
-        Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION_2 + notification.getThumb_path(), R.drawable.profile_example);
+            // Set Img
+            Network.loadImage(holder.image.getContext(), holder.image, Network.API_LOCATION_2 + notification.getSender_thumb_path(), R.drawable.profile_example);
 
-        // Set Msg && Buttons Visibility
-        switch (notification.getNotif_type()) {
-            case Notification.NOTIF_TYPE_JOIN_ASSOC:
-                // Set Msg
-                msg = notification.getSender_name() + " souhaite rejoindre l'association " + notification.getAssoc_name() + ".";
-                holder.message.setText(msg);
-                break;
-            case Notification.NOTIF_TYPE_JOIN_EVENT:
-                // Set Msg
-                msg = notification.getSender_name() + " souhaite participer à l'événement " + notification.getEvent_name() + ".";
-                holder.message.setText(msg);
-                break;
-            case Notification.NOTIF_TYPE_INVITE_MEMBER:
-                // Set Msg
-                msg = notification.getSender_name() + " t'invite à rejoindre son association " + notification.getAssoc_name() + ".";
-                holder.message.setText(msg);
-                break;
-            case Notification.NOTIF_TYPE_INVITE_GUEST:
-                // Set Msg
-                msg = notification.getSender_name() + " t'invite à participer son événement " + notification.getEvent_name() + ".";
-                holder.message.setText(msg);
-                break;
-            case Notification.NOTIF_TYPE_ADD_FRIEND:
-                // Set Msg
-                msg = notification.getSender_name() + " souhaite rejoindre votre liste d'amis.";
-                holder.message.setText(msg);
-                break;
-            case Notification.NOTIF_TYPE_NEW_MEMBER:
-                // Set Msg
-                msg = notification.getSender_name() + " est maintenant membre de votre association " + notification.getEvent_name() + ".";
-                holder.message.setText(msg);
+            // Set Msg && Buttons Visibility
+            switch (notification.getNotif_type()) {
+                case Notification.NOTIF_TYPE_JOIN_ASSOC:
+                    // Set Msg
+                    msg = notification.getSender_name() + " souhaite rejoindre l'association <b>" + notification.getAssoc_name() + "<b>.";
+                    holder.message.setText(Html.fromHtml(msg));
+                    break;
+                case Notification.NOTIF_TYPE_JOIN_EVENT:
+                    // Set Msg
+                    msg = notification.getSender_name() + " souhaite participer à l'événement <b>" + notification.getEvent_name() + "<b>.";
+                    holder.message.setText(Html.fromHtml(msg));
+                    break;
+                case Notification.NOTIF_TYPE_INVITE_MEMBER:
+                    // Set Msg
+                    msg = notification.getSender_name() + " t'invite à rejoindre son association <b>" + notification.getAssoc_name() + "<b>.";
+                    holder.message.setText(Html.fromHtml(msg));
+                    break;
+                case Notification.NOTIF_TYPE_INVITE_GUEST:
+                    // Set Msg
+                    msg = notification.getSender_name() + " t'invite à participer son événement <b>" + notification.getEvent_name() + "<b>.";
+                    holder.message.setText(Html.fromHtml(msg));
+                    break;
+                case Notification.NOTIF_TYPE_ADD_FRIEND:
+                    // Set Msg
+                    msg = notification.getSender_name() + " souhaite rejoindre votre liste d'amis.";
+                    holder.message.setText(msg);
+                    break;
+                case Notification.NOTIF_TYPE_NEW_MEMBER:
+                    // Set Msg
+                    msg = notification.getSender_name() + " est maintenant membre de votre association <b>" + notification.getEvent_name() + "<b>.";
+                    holder.message.setText(Html.fromHtml(msg));
 
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.GONE);
+                    holder.delete.setVisibility(View.GONE);
+                    break;
+                case Notification.NOTIF_TYPE_NEW_GUEST:
+                    // Set Msg
+                    msg = notification.getSender_name() + " est maintenant membre de votre association " + notification.getEvent_name() + ".";
+                    holder.message.setText(msg);
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.GONE);
+                    holder.delete.setVisibility(View.GONE);
+                    break;
+                case Notification.NOTIF_TYPE_EMERGENCY:
+                    // Set Msg
+                    msg ="Urgence : l'événement <b>" + notification.getEvent_name() + "</b> a besoin de vous.";
+                    holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.VISIBLE);
+                    holder.delete.setVisibility(View.VISIBLE);
+                    break;
+            }
+
+            // Set Date
+            String createdAt = notification.getCreated_at();
+
+            if (createdAt != null) {
+                try {
+                    long now = ISO8601Utils.parse(createdAt, new ParsePosition(0)).getTime();
+                    holder.date.setText(String.format("%s", DateUtils.getRelativeTimeSpanString(now)));
+                    holder.date.setVisibility(View.VISIBLE);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            else
+                holder.date.setVisibility(View.GONE);
+
+
+            // Set Result Msg (Friend Invitation confirmed...)
+            String  result = notification.getResult();
+            if (result != null) {
                 // Set Buttons Visibility
-                holder.confirm.setVisibility(View.GONE);
-                holder.delete.setVisibility(View.GONE);
-                break;
-            case Notification.NOTIF_TYPE_NEW_GUEST:
-                // Set Msg
-                msg = notification.getSender_name() + " est maintenant membre de votre association " + notification.getEvent_name() + ".";
-                holder.message.setText(msg);
+                holder.buttons.setVisibility(View.INVISIBLE);
 
-                // Set Buttons Visibility
-                holder.confirm.setVisibility(View.GONE);
-                holder.delete.setVisibility(View.GONE);
-                break;
-            case Notification.NOTIF_TYPE_EMERGENCY:
-                // Set Msg
-                msg ="Urgence : l'événement <b>" + notification.getEvent_name() + "</b> a besoin de vous.";
-                holder.message.setText(Html.fromHtml(msg));
-
-                // Set Buttons Visibility
-                holder.confirm.setVisibility(View.VISIBLE);
-                holder.delete.setVisibility(View.VISIBLE);
-                break;
-        }
-
-        // Set Date
-        try {
-            long now = ISO8601Utils.parse(notification.getCreated_at(), new ParsePosition(0)).getTime();
-            holder.date.setText(String.format("%s", DateUtils.getRelativeTimeSpanString(now)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        // Set Result Msg (Friend Invitation confirmed...)
-        String  result = notification.getResult();
-        if (result != null) {
-            // Set Buttons Visibility
-            holder.buttons.setVisibility(View.INVISIBLE);
-
-            // Set Result Msg && Visibility
-            holder.result.setText(result);
-            holder.result.setVisibility(View.VISIBLE);
-        }
-        else {
-            holder.buttons.setVisibility(View.VISIBLE);
-            holder.result.setVisibility(View.GONE);
+                // Set Result Msg && Visibility
+                holder.result.setText(result);
+                holder.result.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.buttons.setVisibility(View.VISIBLE);
+                holder.result.setVisibility(View.GONE);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        if (showVolunteerNotifs)
-            return volunteerNotifs.size();
-        return ownerNotifs.size();
+        return notifications.size();
     }
 
-    public void update(List<Notification> volunteerNotifs, List<Notification> ownerNotifs) {
-        this.volunteerNotifs.clear();
-        this.ownerNotifs.clear();
-
-        this.volunteerNotifs.addAll(volunteerNotifs);
-        this.ownerNotifs.addAll(ownerNotifs);
-
+    public void update(List<Notification> notifications) {
+        this.notifications.clear();
+        this.notifications.addAll(notifications);
         notifyDataSetChanged();
     }
 
-    public boolean isShowVolunteerNotifs() {
-        return showVolunteerNotifs;
-    }
-
-    public void setShowVolunteerNotifs(boolean showVolunteerNotifs) {
-        this.showVolunteerNotifs = showVolunteerNotifs;
-        notifyDataSetChanged();
+    public void add(Notification notification) {
+        this.notifications.add(notification);
+        notifyItemInserted(notifications.size());
     }
 
 }

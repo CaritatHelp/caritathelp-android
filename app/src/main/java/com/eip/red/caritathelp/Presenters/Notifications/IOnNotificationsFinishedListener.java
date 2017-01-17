@@ -14,5 +14,5 @@ public interface IOnNotificationsFinishedListener {
 
     void onSuccessGetNotifications(List<Notification> notifications);
 
-    void onSuccessFriendshipReply(Notification notification, String acceptance);
+    void onSuccess(Notification notification, String acceptance);
 }

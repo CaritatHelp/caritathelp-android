@@ -8,13 +8,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class WebSocketMessage {
 
-    @SerializedName("chatroom_id") private Integer chatroomId;
-    @SerializedName("sender_id") private Integer senderId;
-    @SerializedName("sender_firstname") private String senderFirstname;
-    @SerializedName("sender_lastname") private String senderLastname;
-    @SerializedName("sender_thumb_path") private String senderThumb;
+    public static String WEBSOCKETMESSAGE_TYPE_MESSAGE = "message";
+
+    @SerializedName("volunteer_id")
+    private int volunteerId;
+    private int id;
+    @SerializedName("chatroom_id")
+    private Integer chatroomId;
+    @SerializedName("sender_id")
+    private Integer senderId;
+    private String fullname;
+    @SerializedName("thumb_path")
+    private String senderThumb;
     private String content;
-    @SerializedName("created_at") private String createdAt;
+    @SerializedName("created_at")
+    private String createdAt;
     private String type;
 
     public Integer getChatroomId() {
@@ -25,12 +33,8 @@ public class WebSocketMessage {
         return senderId;
     }
 
-    public String getSenderFirstname() {
-        return senderFirstname;
-    }
-
-    public String getSenderLastname() {
-        return senderLastname;
+    public String getFullname() {
+        return fullname;
     }
 
     public String getSenderThumb() {
@@ -47,5 +51,13 @@ public class WebSocketMessage {
 
     public String getType() {
         return type;
+    }
+
+    public int getVolunteerId() {
+        return volunteerId;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -13,6 +13,6 @@ public interface INotificationsPresenter {
 
     void onClick(int viewId, Notification notification);
 
-    void onMessage();
+    void onMessage(Notification notification);
 
 }
