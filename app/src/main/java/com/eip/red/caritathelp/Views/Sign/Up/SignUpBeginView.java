@@ -5,12 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.eip.red.caritathelp.Activities.Sign.SignActivity;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Sign.Up.Begin.SignUpBeginPresenter;
 import com.eip.red.caritathelp.R;
+import com.karumi.dexter.Dexter;
+
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 /**
  * Created by pierr on 23/03/2016.
@@ -26,6 +31,7 @@ public class SignUpBeginView extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Dexter.initialize(getActivity());
 
         // Init Presenter
         User        user = ((SignActivity) getActivity()).getUser();
@@ -36,6 +42,7 @@ public class SignUpBeginView extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up_begin, container, false);
+        ButterKnife.bind(this, view);
 
         // Set ToolBar
         ((SignActivity) getActivity()).getToolBar().update("Inscription", true, false);
@@ -53,10 +60,14 @@ public class SignUpBeginView extends Fragment implements View.OnClickListener {
         return (view);
     }
 
-
     @Override
     public void onClick(View v) {
         presenter.onClick(v.getId());
+    }
+
+    @OnCheckedChanged(R.id.switch_geolocation)
+    public void onCheckedChangedGeolocation(boolean isChecked) {
+        presenter.setGeolocation(isChecked);
     }
 
     public Switch getGeolocation() {

@@ -30,8 +30,8 @@
                 android:hint="E-mail"
                 android:textColorHint="@color/secondary_text"
                 android:textColor="@color/primary_text"
-                android:textSize="15sp"
-                android:singleLine="true"
+                android:textSize="14sp"
+                android:maxLines="1"
                 android:inputType="textEmailAddress"/>
 
             <View
@@ -52,8 +52,8 @@
                 android:hint="Password"
                 android:textColorHint="@color/secondary_text"
                 android:textColor="@color/primary_text"
-                android:textSize="15sp"
-                android:singleLine="true"
+                android:textSize="14sp"
+                android:maxLines="1"
                 android:inputType="textPassword"/>
 
         </LinearLayout>
@@ -69,22 +69,7 @@
             android:background="@color/primary"
             android:text="Connection"
             android:textColor="@color/icons"
-            android:textSize="16sp"
-            android:textAllCaps="false"/>
-
-        <Button
-            android:id="@+id/btn_password_forgot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:background="@android:color/transparent"
-            android:text="Mot de passe oublié ?"
-            android:textColor="@color/secondary_text"
             android:textSize="14sp"
-            android:singleLine="true"
             android:textAllCaps="false"/>
 
     </LinearLayout>

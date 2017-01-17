@@ -9,4 +9,6 @@ public interface ISignUpBeginPresenter {
     void init();
 
     void onClick(int viewid);
+
+    void setGeolocation(boolean geolocation);
 }

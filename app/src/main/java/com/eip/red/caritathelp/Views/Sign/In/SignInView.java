@@ -59,7 +59,6 @@ public class SignInView extends Fragment implements ISignInView, View.OnClickLis
 
         // Init Listener
         view.findViewById(R.id.btn_sign_in).setOnClickListener(this);
-        view.findViewById(R.id.btn_password_forgot).setOnClickListener(this);
 
         // Init User Model for SignUp Fragments
         ((SignActivity) getActivity()).setUser(new User());

@@ -1,27 +1,24 @@
 package com.eip.red.caritathelp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Environment;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pierr on 12/03/2016.
@@ -29,49 +26,20 @@ import java.util.Date;
 
 public class Tools {
 
-    static public File createImageFile() throws IOException {
-        // Create an image file name
-        String  timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(new Date());
-        String  imageFileName = "IMG_" + timeStamp + "_";
-        File    storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Caritathelp");
-//        File    storageDir = Environment.getExternalStoragePublicDirectory("Caritathelp");
+    static public Location getLastKnownLocation(LocationManager locationManager) {
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = locationManager.getLastKnownLocation(provider);
 
-//        System.out.println("PASSERRRRRRRRRRRRRRRRR11111111111111111111111");
+            if (l == null)
+                continue;
 
-        if (!storageDir.exists()) {
-            System.out.println("PASSERRRRRRRRRRRRRRRRR22222222222222222222222");
-            if (!storageDir.mkdirs()) {
-                System.out.println("PASSERRRRRRRRRRRRRRRRR");
-                Log.d("Pics Files directory", "failed to create directory");
-                return null;
-            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy())
+                bestLocation = l;
         }
 
-        return File.createTempFile(imageFileName, ".jpg", storageDir);
-    }
-
-    static public Uri getOutputMediaFileUri(){
-        return Uri.fromFile(getOutputMediaFile());
-    }
-
-    static public File getOutputMediaFile() {
-//        File myFilesDir = new File(Environment.getExternalStorageDirectory(), "Caritathelp");
-
-        File myFilesDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Caritathelp");
-//        File myFilesDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/caritathelp/files");
-
-        // Create the storage directory if it does not exist
-        if (!myFilesDir.exists()) {
-            if (!myFilesDir.mkdirs()){
-                Log.d("Pics Files directory", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(new Date());
-
-        return new File(myFilesDir.getPath(), "IMG_"+ timeStamp + ".jpg");
+        return bestLocation;
     }
 
     static public void replaceView(Fragment currentFragment ,Fragment newFragment, int animation, boolean parent) {
@@ -134,16 +102,6 @@ public class Tools {
         newValue.setCharAt(0, Character.toUpperCase(value.charAt(0)));
 
         return (newValue.toString());
-    }
-
-    static public void showKeyboard(Context context, EditText editText) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-    }
-
-    static public void hideKeyboard(Context context, View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     /**** Method for Setting the Height of the ListView dynamically.

@@ -1,7 +1,14 @@
 package com.eip.red.caritathelp.Presenters.Sign.Up.Credentials;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
@@ -18,8 +25,8 @@ import com.eip.red.caritathelp.Views.Sign.Up.SignUpCredentialsView;
 
 public class SignUpCredentialsPresenter implements ISignUpCredentialsPresenter, IOnSignUpCredentialsFinishedListener {
 
-    private SignUpCredentialsView       view;
-    private SignUpCredentialInteractor  interactor;
+    private SignUpCredentialsView view;
+    private SignUpCredentialInteractor interactor;
 
     public SignUpCredentialsPresenter(SignUpCredentialsView view, User user) {
         this.view = view;
@@ -29,8 +36,8 @@ public class SignUpCredentialsPresenter implements ISignUpCredentialsPresenter, 
 
     @Override
     public void init() {
-        User    user = interactor.getUser();
-        String  mail = user.getMail();
+        User user = interactor.getUser();
+        String mail = user.getMail();
 
         if (mail != null)
             view.getMail().setText(mail);

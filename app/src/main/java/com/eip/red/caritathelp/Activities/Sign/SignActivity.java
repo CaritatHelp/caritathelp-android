@@ -16,6 +16,7 @@ import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.Sign.In.SignInView;
 import com.eip.red.caritathelp.Views.Splash.SplashScreen;
+import com.karumi.dexter.Dexter;
 
 /**
  * Created by pierr on 22/03/2016.
@@ -30,7 +31,6 @@ public class SignActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Set View
         setContentView(R.layout.activity_sign);
 

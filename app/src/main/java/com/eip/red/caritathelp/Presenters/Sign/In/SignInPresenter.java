@@ -31,8 +31,6 @@ public class SignInPresenter implements ISignInPresenter, IOnSignInFinishedListe
                 view.showProgress();
                 interactor.signIn(view.getMail(), view.getPassword(), this);
                 break;
-            case R.id.btn_password_forgot:
-                break;
         }
     }
 

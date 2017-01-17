@@ -130,7 +130,8 @@ public class HomeView extends Fragment implements IHomeView {
 
     @Override
     public void updateRecyclerViewData(List<News> newsList) {
-        adapter.update(newsList);
+        if (newsList != null && newsList.size() > 0)
+            adapter.update(newsList);
     }
 }
 

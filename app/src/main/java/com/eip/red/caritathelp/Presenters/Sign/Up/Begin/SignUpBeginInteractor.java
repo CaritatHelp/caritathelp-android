@@ -22,4 +22,8 @@ public class SignUpBeginInteractor {
     public User getUser() {
         return user;
     }
+
+    public void setGeolocation(boolean geolocation) {
+        user.setGeolocation(geolocation);
+    }
 }
