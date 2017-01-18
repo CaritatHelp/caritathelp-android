@@ -77,6 +77,10 @@ public class AccountSettingsInteractor {
                 listener.onNewPasswordCheckingError("Champ obligatoire");
                 error = true;
             }
+            else if (password_new_checking.length() < 8) {
+                listener.onNewPasswordCheckingError("Le mot de passe doit contenir 8 caractères minimum.");
+                error = true;
+            }
         }
 
         if(!password_new.equals(password_new_checking)) {
@@ -97,15 +101,11 @@ public class AccountSettingsInteractor {
         if (!TextUtils.isEmpty(mail) && !mail.equals(user.getMail()))
             json.addProperty("email", mail);
 
-        System.out.println("FIRSTNAME : " + firstname);
         if (!TextUtils.isEmpty(firstname) && !firstname.equals(user.getFirstname()))
             json.addProperty("firstname", firstname);
 
         if (!TextUtils.isEmpty(lastname) && !lastname.equals(user.getLastname()))
             json.addProperty("lastname", lastname);
-
-//        if (!TextUtils.isEmpty(password))
-//            json.addProperty("password", password);
 
         json.addProperty("allowgps", user.isAllowgps());
         json.addProperty("allow_notifications", user.isAllow_notifications());
@@ -138,6 +138,7 @@ public class AccountSettingsInteractor {
                                         user = new Gson().fromJson(jsonObject.getString("response"), User.class);
                                         user.setToken(result.getHeaders().getHeaders().get("Access-Token"));
                                         user.setClient(result.getHeaders().getHeaders().get("Client"));
+
                                         listener.onSuccessSaveModification(user);
                                         break;
                                 }
@@ -147,6 +148,33 @@ public class AccountSettingsInteractor {
                         }
                         else
                             listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
+                    }
+                });
+
+        if (!TextUtils.isEmpty(password))
+            setPassword(listener, password);
+    }
+
+    private void setPassword(final IOnAccountSettingsFinishedListener listener, String password) {
+        Ion.with(context)
+                .load("PUT", Network.API_LOCATION + Network.API_REQUEST_PASSWORD)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .addQuery("password", password)
+                .addQuery("password_confirmation", password)
+                .as(new TypeToken<UserJson>() {})
+                .setCallback(new FutureCallback<UserJson>() {
+                    @Override
+                    public void onCompleted(Exception error, UserJson result) {
+                        if (error == null) {
+                            if (result.getStatus() == Network.API_STATUS_ERROR)
+                                listener.onDialog("Statut 400", result.getMessage());
+                            else
+                                listener.onSuccessSaveModification(user);
+                        }
+                        else
+                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
                     }
                 });
     }

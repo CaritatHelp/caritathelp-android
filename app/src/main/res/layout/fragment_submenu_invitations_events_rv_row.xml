@@ -13,8 +13,8 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
 
         android:layout_gravity="center"
         android:src="@drawable/profile_example"

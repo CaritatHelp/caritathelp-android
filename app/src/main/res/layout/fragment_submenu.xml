@@ -114,6 +114,12 @@
 
         <View style="@style/Divider"
             android:alpha="0.4"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:background="@color/background" />
+        <View style="@style/Divider"
+            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_friends"
@@ -174,12 +180,6 @@
 
         <View style="@style/Divider"
             android:alpha="0.4"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/background" />
-        <View style="@style/Divider"
-            android:alpha="0.4"/>
 
         <LinearLayout
             android:id="@+id/submenu_account_settings"
@@ -207,67 +207,6 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-
-        <View style="@style/Divider"
-            android:alpha="0.4"/>
-
-        <LinearLayout
-            android:id="@+id/submenu_security"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:orientation="horizontal"
-            android:background="@color/icons">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-
-                android:src="@drawable/help" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_weight="1"
-
-                android:layout_gravity="center"
-                android:text="Aide et assistance"
-                android:textColor="@color/primary_text"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <View style="@style/Divider"
-            android:alpha="0.4"/>
-
-        <LinearLayout
-            android:id="@+id/submenu_about_caritathelp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:orientation="horizontal"
-            android:background="@color/icons">
-
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-
-                android:src="@drawable/about" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_weight="1"
-
-                android:layout_gravity="center"
-                android:text="A propos de Caritathelp"
-                android:textColor="@color/primary_text"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
 
         <View style="@style/Divider"
             android:alpha="0.4"/>
