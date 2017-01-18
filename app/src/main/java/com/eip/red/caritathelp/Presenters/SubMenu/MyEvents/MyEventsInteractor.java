@@ -69,18 +69,6 @@ public class MyEventsInteractor {
                 });
     }
 
-
-    private List<Event> getEventsByProfile(List<Event> events, String profile) {
-        List<Event>  newList = new ArrayList<>();
-
-        for (Event event : events) {
-            if (event.getRights().equals(profile))
-                newList.add(event);
-        }
-
-        return (newList);
-    }
-
     public void getMyOrganisations(final IOnMyEventsFinishedListener listener, final List<Event> events) {
         Ion.with(context)
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS + userId + Network.API_REQUEST_GET_MY_ORGANISATIONS)

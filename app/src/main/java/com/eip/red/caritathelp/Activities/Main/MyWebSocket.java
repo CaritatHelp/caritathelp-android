@@ -1,12 +1,9 @@
 package com.eip.red.caritathelp.Activities.Main;
 
-import android.os.Build;
-
 import com.eip.red.caritathelp.Activities.Main.ViewPager.MyPagerAdapter;
 import com.eip.red.caritathelp.Activities.Main.ViewPager.MySecondPage;
 import com.eip.red.caritathelp.Activities.Main.ViewPager.MyThirdPage;
 import com.eip.red.caritathelp.Models.Notifications.Notification;
-import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Models.mailbox.WebSocketMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -55,22 +52,15 @@ public class MyWebSocket {
 
             @Override
             public void onMessage(String json) {
-                System.out.println("****************************************** MSG : " + json);
-
                 Gson gson = new Gson();
                 Notification notification = gson.fromJson(json, Notification.class);
-//
+
                 if (notification != null)
                     ((MyThirdPage) pagerAdapter.getFragment(2)).getNotificationsView().getPresenter().onMessage(notification);
                 else {
                     WebSocketMessage webSocketMessage = gson.fromJson(json, WebSocketMessage.class);
                     ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().onMessage(json);
                 }
-//
-//                ((MySecondPage) pagerAdapter.getFragment(1)).getMailBoxView().getPresenter().onMessage(s);
-
-                /* DEBUG */
-//                System.out.println("Websocket MSG : " + s);
             }
 
             @Override
@@ -82,9 +72,5 @@ public class MyWebSocket {
             }
         };
         webSocketClient.connect();
-    }
-
-    public void sendMessage() {
-//        webSocketClient.send("COCO");
     }
 }

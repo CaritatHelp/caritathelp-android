@@ -5,14 +5,13 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
-import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.creation.OrganisationEventCreationView;
 import com.eip.red.caritathelp.Views.SubMenu.MyEvents.MyEventsView;
 
 import java.util.List;
@@ -55,13 +54,10 @@ public class MyEventsPresenter implements IMyEventPresenter, IOnMyEventsFinished
                 interactor.getMyEvents(this, init, "current", swipeRefresh);
                 break;
             case "A venir":
-                interactor.getMyEvents(this, init, "futur", swipeRefresh);
+                interactor.getMyEvents(this, init, "future", swipeRefresh);
                 break;
             case "Passé":
                 interactor.getMyEvents(this, init, "past", swipeRefresh);
-                break;
-            case "Organisateur":
-                interactor.getMyEvents(this, init, "", swipeRefresh);
                 break;
         }
     }

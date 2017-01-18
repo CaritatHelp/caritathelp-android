@@ -1,21 +1,23 @@
-package com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation;
+package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.creation;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.TextUtils;
 
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.Organisation.Event;
 import com.eip.red.caritathelp.Models.Organisation.EventInformations;
-import com.eip.red.caritathelp.Models.Organisation.Organisation;
-import com.eip.red.caritathelp.Models.Profile.MainPictureJson;
 import com.eip.red.caritathelp.Models.User.User;
-import com.eip.red.caritathelp.Presenters.SubMenu.MyOrganisations.OrganisationCreation.IOnOrganisationCreationsFinishedListener;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by pierr on 18/03/2016.
@@ -51,6 +53,18 @@ public class OrganisationEventCreationInteractor {
         }
 
         // Check Description
+        if (TextUtils.isEmpty(data.get("date begin").trim())) {
+            listener.onBeginDateError(ERROR_MANDATORY);
+            error = true;
+        }
+
+        // Check Description
+        if (TextUtils.isEmpty(data.get("date end").trim())) {
+            listener.onEndDateError(ERROR_MANDATORY);
+            error = true;
+        }
+
+        // Check Description
         if (TextUtils.isEmpty(data.get("description"))) {
             listener.onDescriptionError(ERROR_MANDATORY);
             error = true;
@@ -62,6 +76,7 @@ public class OrganisationEventCreationInteractor {
 
     private void requestAPI(final IOnOrganisationEventCreationFinishedListener listener, HashMap<String, String> data) {
         JsonObject json = new JsonObject();
+        String location = data.get("location");
 
         json.addProperty("token", user.getToken());
         json.addProperty("assoc_id", organisationId);
@@ -71,8 +86,20 @@ public class OrganisationEventCreationInteractor {
         json.addProperty("begin", data.get("date begin"));
         json.addProperty("end", data.get("date end"));
 
-        System.out.println("BEGIN : " + data.get("date begin"));
-        System.out.println("END : " + data.get("date end"));
+        if (location != null && !TextUtils.isEmpty(location)) {
+            Geocoder gcd = new Geocoder(context, Locale.getDefault());
+            try {
+                List<Address> addressLocationList = gcd.getFromLocationName(location, 1);
+
+                if (addressLocationList != null && addressLocationList.size() > 0) {
+                    json.addProperty("latitude", addressLocationList.get(0).getLatitude());
+                    json.addProperty("longitude", addressLocationList.get(0).getLongitude());
+                    System.out.println("PASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSERRRRRRRRRRRRRRRRRRR");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         Ion.with(context)
                 .load("POST", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENTS)

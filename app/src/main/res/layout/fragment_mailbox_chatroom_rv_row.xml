@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
 
-    <ImageView
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/thumbnail"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+
+        app:civ_border_color="#EEEEEE"
+        app:civ_border_width="1dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="2" />
 
     <TextView
         android:id="@+id/name_left"

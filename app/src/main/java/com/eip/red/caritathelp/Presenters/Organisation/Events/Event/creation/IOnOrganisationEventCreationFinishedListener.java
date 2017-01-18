@@ -1,8 +1,4 @@
-package com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation;
-
-import com.eip.red.caritathelp.Models.Organisation.Event;
-
-import java.util.List;
+package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.creation;
 
 /**
  * Created by pierr on 18/03/2016.

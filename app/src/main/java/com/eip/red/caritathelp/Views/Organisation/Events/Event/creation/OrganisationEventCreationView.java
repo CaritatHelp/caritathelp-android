@@ -1,37 +1,30 @@
-package com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation;
+package com.eip.red.caritathelp.Views.Organisation.Events.Event.creation;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
-import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.User.User;
-import com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation.OrganisationEventCreationPresenter;
+import com.eip.red.caritathelp.Presenters.Organisation.Events.Event.creation.OrganisationEventCreationPresenter;
 import com.eip.red.caritathelp.Presenters.SubMenu.MyOrganisations.OrganisationCreation.OrganisationCreationPresenter;
 import com.eip.red.caritathelp.Presenters.SubMenu.Profile.ProfilePresenter;
 import com.eip.red.caritathelp.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 

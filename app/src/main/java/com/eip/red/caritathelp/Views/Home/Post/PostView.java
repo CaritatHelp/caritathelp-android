@@ -1,12 +1,9 @@
 package com.eip.red.caritathelp.Views.Home.Post;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,13 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
-import com.eip.red.caritathelp.Models.Enum.Animation;
-import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.Home.Post.PostPresenter;
 import com.eip.red.caritathelp.R;
-import com.eip.red.caritathelp.Tools;
-import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

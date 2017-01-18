@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation;
+package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.creation;
 
 import android.content.Intent;
 

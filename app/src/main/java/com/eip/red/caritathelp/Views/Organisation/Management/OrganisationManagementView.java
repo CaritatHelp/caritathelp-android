@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
-import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
-import com.eip.red.caritathelp.Views.Organisation.Management.members.OrganisationManagementInvitations;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.creation.OrganisationEventCreationView;
 import com.eip.red.caritathelp.Views.Organisation.Management.members.OrganisationManagementInvitationsView;
 import com.eip.red.caritathelp.Views.Organisation.Shelters.SheltersView;
 

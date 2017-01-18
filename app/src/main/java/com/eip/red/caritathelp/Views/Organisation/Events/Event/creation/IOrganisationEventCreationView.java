@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation;
+package com.eip.red.caritathelp.Views.Organisation.Events.Event.creation;
 
 /**
  * Created by pierr on 18/03/2016.

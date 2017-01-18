@@ -1,4 +1,4 @@
-package com.eip.red.caritathelp.Presenters.Organisation.Management.EventCreation;
+package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.creation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,14 +10,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
-import com.eip.red.caritathelp.Views.Organisation.Management.OrganisationEventCreation.OrganisationEventCreationView;
+import com.eip.red.caritathelp.Views.Organisation.Events.Event.creation.OrganisationEventCreationView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
