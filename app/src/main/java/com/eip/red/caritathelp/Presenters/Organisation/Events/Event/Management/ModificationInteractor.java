@@ -1,6 +1,7 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Management;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Models.Network;
@@ -59,11 +60,22 @@ public class ModificationInteractor {
 
     public void saveEventModifications(final IModificationFinishedListener listener, ProgressBar progressBar, HashMap<String, String> data) {
         JsonObject json = new JsonObject();
-        json.addProperty("title", data.get("title"));
-        json.addProperty("description", data.get("description"));
-        json.addProperty("place", data.get("location"));
-        json.addProperty("begin", data.get("date begin"));
-        json.addProperty("end", data.get("date end"));
+        String title = data.get("title");
+        String description = data.get("description");
+        String place = data.get("location");
+        String dateBegin = data.get("date begin");
+        String dateEnd = data.get("date end");
+
+        if (title != null && !TextUtils.isEmpty(title))
+            json.addProperty("title", title);
+        if (description != null && !TextUtils.isEmpty(description))
+            json.addProperty("description", description);
+        if (place != null && !TextUtils.isEmpty(place))
+            json.addProperty("place", place);
+        if (dateBegin != null && !TextUtils.isEmpty(dateBegin))
+            json.addProperty("begin", dateBegin);
+        if (dateEnd != null && !TextUtils.isEmpty(dateEnd))
+            json.addProperty("end", dateEnd);
 
         Ion.with(context)
                 .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT_MANAGEMENT + eventId)

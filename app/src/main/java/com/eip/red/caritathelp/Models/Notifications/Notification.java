@@ -13,6 +13,7 @@ public class Notification {
     public final static String  NOTIF_TYPE_NEW_GUEST = "NewGuest";
     public final static String  NOTIF_TYPE_NEW_MEMBER = "NewMember";
     public final static String  NOTIF_TYPE_EMERGENCY = "Emergency";
+    public final static String  NOTIF_TYPE_EMERGENCY_REFUSED = "RefusedEmergency";
 
     private int     id;
     private int     sender_id;
@@ -30,7 +31,11 @@ public class Notification {
     private String  sender_thumb_path;
     private String  receiver_thumb_path;
 
-    private String  result = null;
+    private String  result;
+
+    public Notification() {
+        result = null;
+    }
 
     public int getId() {
         return id;

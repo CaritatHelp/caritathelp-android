@@ -14,5 +14,5 @@ public interface IOnNotificationsFinishedListener {
 
     void onSuccessGetNotifications(List<Notification> notifications);
 
-    void onSuccess(Notification notification, String acceptance);
+    void onSuccess(Notification notification, String acceptance, int rvPosition);
 }

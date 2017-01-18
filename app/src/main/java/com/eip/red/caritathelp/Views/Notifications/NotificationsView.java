@@ -3,6 +3,7 @@ package com.eip.red.caritathelp.Views.Notifications;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import butterknife.ButterKnife;
 
 public class NotificationsView extends Fragment implements INotificationsView, View.OnClickListener {
 
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recycler_view_volunteer) RecyclerView volunteerRV;
     @BindView(R.id.recycler_view_owner) RecyclerView ownerRV;
 
@@ -82,6 +84,15 @@ public class NotificationsView extends Fragment implements INotificationsView, V
         ownerTab = (TextView) view.findViewById(R.id.tab_owner);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.icons);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getNotifications();
+            }
+        });
+
         // Init RecyclerView
         initRecyclerView(view);
 
@@ -114,17 +125,6 @@ public class NotificationsView extends Fragment implements INotificationsView, V
         layoutManager = new LinearLayoutManager(getContext());
         volunteerRV.setLayoutManager(layoutManager);
         ownerRV.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Set Options to enable toolbar display/hide
-//        volunteerRV.setNestedScrollingEnabled(false);
-//        ownerRV.setNestedScrollingEnabled(false);
-//        volunteerRV.setHasFixedSize(false);
-//        ownerRV.setHasFixedSize(false);
-
-        // Init Divider (between items)
-//        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this.getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL);
-//        volunteerRV.addItemDecoration(itemDecoration);
-//        ownerRV.addItemDecoration(itemDecoration);
     }
 
     @Override
@@ -140,6 +140,7 @@ public class NotificationsView extends Fragment implements INotificationsView, V
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.INVISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

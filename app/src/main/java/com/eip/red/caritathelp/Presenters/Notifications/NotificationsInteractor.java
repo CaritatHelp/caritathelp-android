@@ -1,6 +1,7 @@
 package com.eip.red.caritathelp.Presenters.Notifications;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.widget.ProgressBar;
 
 import com.eip.red.caritathelp.Models.Friendship;
@@ -53,7 +54,7 @@ public class NotificationsInteractor {
                 });
     }
 
-    public void friendshipReply(final Notification notification, final String acceptance, final IOnNotificationsFinishedListener listener) {
+    public void friendshipReply(final Notification notification, final String acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
         JsonObject json = new JsonObject();
         json.addProperty("notif_id", String.valueOf(notification.getId()));
         json.addProperty("acceptance", acceptance);
@@ -73,7 +74,7 @@ public class NotificationsInteractor {
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialogError("Statut 400", result.getMessage());
                             else
-                                listener.onSuccess(notification, acceptance);
+                                listener.onSuccess(notification, acceptance, rvPosition);
                         }
                         else
                             listener.onDialogError("Problème de connection", "Vérifiez votre connexion Internet");
@@ -81,7 +82,38 @@ public class NotificationsInteractor {
                 });
     }
 
-    public void organisationInvitationReply(final Notification notification, final String acceptance, final IOnNotificationsFinishedListener listener) {
+    public void organisationInvitationReplyMember(final Notification notification, final boolean acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
+        JsonObject json = new JsonObject();
+        json.addProperty("notif_id", notification.getId());
+        json.addProperty("acceptance", acceptance);
+
+        Ion.with(context)
+                .load("POST", Network.API_LOCATION + Network.API_REQUEST_MEMBERSHIP_REPLY_MEMBER)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .setJsonObjectBody(json)
+                .as(new TypeToken<JsonObject>(){})
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception error, JsonObject result) {
+                        if (error == null) {
+                            if (result.get("status").getAsInt() == Network.API_STATUS_ERROR)
+                                listener.onDialogError("Statut 400", result.get("message").toString());
+                            else {
+                                if (acceptance)
+                                    listener.onSuccess(notification, "true", rvPosition);
+                                else
+                                    listener.onSuccess(notification, "false", rvPosition);
+                            }
+                        }
+                        else
+                            listener.onDialogError("Problème de connection", "Vérifiez votre connexion Internet");
+                    }
+                });
+    }
+
+    public void organisationInvitationReply(final Notification notification, final String acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
         JsonObject json = new JsonObject();
         json.addProperty("notif_id", notification.getId());
         json.addProperty("acceptance", acceptance);
@@ -100,7 +132,7 @@ public class NotificationsInteractor {
                             if (result.get("status").getAsInt() == Network.API_STATUS_ERROR)
                                 listener.onDialogError("Statut 400", result.get("message").toString());
                             else
-                                listener.onSuccess(notification, acceptance);
+                                listener.onSuccess(notification, acceptance, rvPosition);
                         }
                         else
                             listener.onDialogError("Problème de connection", "Vérifiez votre connexion Internet");
@@ -108,9 +140,40 @@ public class NotificationsInteractor {
                 });
     }
 
-    public void eventsInvitationReply(final EventInvitation eventInvitation, final String acceptance, final IOnInvitationsFinishedListener listener) {
+    public void eventInvitationReplyGuest(final Notification notification, final boolean acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
         JsonObject json = new JsonObject();
-        json.addProperty("notif_id", eventInvitation.getNotif_id());
+        json.addProperty("notif_id", notification.getId());
+        json.addProperty("acceptance", acceptance);
+
+        Ion.with(context)
+                .load("POST", Network.API_LOCATION + Network.API_REQUEST_GUESTS_REPLY)
+                .setHeader("access-token", user.getToken())
+                .setHeader("client", user.getClient())
+                .setHeader("uid", user.getUid())
+                .setJsonObjectBody(json)
+                .as(new TypeToken<JsonObject>(){})
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception error, JsonObject result) {
+                        if (error == null) {
+                            if (result.get("status").getAsInt() == Network.API_STATUS_ERROR)
+                                listener.onDialogError("Statut 400", result.get("message").toString());
+                            else {
+                                if (acceptance)
+                                    listener.onSuccess(notification, "true", rvPosition);
+                                else
+                                    listener.onSuccess(notification, "false", rvPosition);
+                            }
+                        }
+                        else
+                            listener.onDialogError("Problème de connection", "Vérifiez votre connexion Internet");
+                    }
+                });
+    }
+
+    public void eventInvitationReply(final Notification notification, final boolean acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
+        JsonObject json = new JsonObject();
+        json.addProperty("notif_id", notification.getId());
         json.addProperty("acceptance", acceptance);
 
         Ion.with(context)
@@ -124,19 +187,22 @@ public class NotificationsInteractor {
                     @Override
                     public void onCompleted(Exception error, JsonObject result) {
                         if (error == null) {
-                            // Status == 400 == error
                             if (result.get("status").getAsInt() == Network.API_STATUS_ERROR)
-                                listener.onDialog("Statut 400", result.get("message").toString());
-                            else
-                                listener.onSuccessEventsInvitationReply(eventInvitation, acceptance);
+                                listener.onDialogError("Statut 400", result.get("message").toString());
+                            else {
+                                if (acceptance)
+                                    listener.onSuccess(notification, "true", rvPosition);
+                                else
+                                    listener.onSuccess(notification, "false", rvPosition);
+                            }
                         }
                         else
-                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                            listener.onDialogError("Problème de connection", "Vérifiez votre connexion Internet");
                     }
                 });
     }
 
-    public void emergencyReply(final Notification notification, final boolean acceptance, final IOnNotificationsFinishedListener listener) {
+    public void emergencyReply(final Notification notification, final boolean acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
         JsonObject json = new JsonObject();
         json.addProperty("acceptance", acceptance);
 
@@ -156,9 +222,9 @@ public class NotificationsInteractor {
                                 listener.onDialogError("Statut 400", result.get("message").toString());
                             else {
                                 if (acceptance)
-                                    listener.onSuccess(notification, "true");
+                                    listener.onSuccess(notification, "true", rvPosition);
                                 else
-                                    listener.onSuccess(notification, "false");
+                                    listener.onSuccess(notification, "false", rvPosition);
                             }
                         }
                         else

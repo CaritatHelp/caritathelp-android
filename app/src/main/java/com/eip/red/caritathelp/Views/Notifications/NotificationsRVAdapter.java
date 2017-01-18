@@ -3,6 +3,7 @@ package com.eip.red.caritathelp.Views.Notifications;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
             Notification    notification = notifications.get(getAdapterPosition());
 
             if (notification != null)
-                presenter.onClick(v.getId(), notification);
+                presenter.onClick(v.getId(), notification, getAdapterPosition());
         }
     }
 
@@ -102,30 +103,50 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
                     // Set Msg
                     msg = notification.getSender_name() + " souhaite rejoindre l'association <b>" + notification.getAssoc_name() + "<b>.";
                     holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.VISIBLE);
+                    holder.delete.setVisibility(View.VISIBLE);
                     break;
                 case Notification.NOTIF_TYPE_JOIN_EVENT:
                     // Set Msg
                     msg = notification.getSender_name() + " souhaite participer à l'événement <b>" + notification.getEvent_name() + "<b>.";
                     holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.VISIBLE);
+                    holder.delete.setVisibility(View.VISIBLE);
                     break;
                 case Notification.NOTIF_TYPE_INVITE_MEMBER:
                     // Set Msg
                     msg = notification.getSender_name() + " t'invite à rejoindre son association <b>" + notification.getAssoc_name() + "<b>.";
                     holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.VISIBLE);
+                    holder.delete.setVisibility(View.VISIBLE);
                     break;
                 case Notification.NOTIF_TYPE_INVITE_GUEST:
                     // Set Msg
                     msg = notification.getSender_name() + " t'invite à participer son événement <b>" + notification.getEvent_name() + "<b>.";
                     holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.VISIBLE);
+                    holder.delete.setVisibility(View.VISIBLE);
                     break;
                 case Notification.NOTIF_TYPE_ADD_FRIEND:
                     // Set Msg
                     msg = notification.getSender_name() + " souhaite rejoindre votre liste d'amis.";
                     holder.message.setText(msg);
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.VISIBLE);
+                    holder.delete.setVisibility(View.VISIBLE);
                     break;
                 case Notification.NOTIF_TYPE_NEW_MEMBER:
                     // Set Msg
-                    msg = notification.getSender_name() + " est maintenant membre de votre association <b>" + notification.getEvent_name() + "<b>.";
+                    msg = notification.getSender_name() + " est devenu membre de votre association <b>" + notification.getAssoc_name() + "<b>.";
                     holder.message.setText(Html.fromHtml(msg));
 
                     // Set Buttons Visibility
@@ -134,7 +155,7 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
                     break;
                 case Notification.NOTIF_TYPE_NEW_GUEST:
                     // Set Msg
-                    msg = notification.getSender_name() + " est maintenant membre de votre association " + notification.getEvent_name() + ".";
+                    msg = notification.getSender_name() + " participe à votre événement " + notification.getEvent_name() + ".";
                     holder.message.setText(msg);
 
                     // Set Buttons Visibility
@@ -149,6 +170,15 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
                     // Set Buttons Visibility
                     holder.confirm.setVisibility(View.VISIBLE);
                     holder.delete.setVisibility(View.VISIBLE);
+                    break;
+                case Notification.NOTIF_TYPE_EMERGENCY_REFUSED:
+                    // Set Msg
+                    msg ="Urgence de l'événement <b>" + notification.getEvent_name() + "</b> rejetée.";
+                    holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.GONE);
+                    holder.delete.setVisibility(View.GONE);
                     break;
             }
 
@@ -167,10 +197,9 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
             else
                 holder.date.setVisibility(View.GONE);
 
-
             // Set Result Msg (Friend Invitation confirmed...)
             String  result = notification.getResult();
-            if (result != null) {
+            if (result != null && !TextUtils.isEmpty(result)) {
                 // Set Buttons Visibility
                 holder.buttons.setVisibility(View.INVISIBLE);
 
