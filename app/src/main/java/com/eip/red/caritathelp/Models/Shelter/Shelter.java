@@ -10,31 +10,31 @@ import java.util.List;
 
 public class Shelter {
 
-    private Integer id;
+    private int id;
     private String name;
     private String address;
-    private Integer zipcode;
+    private int zipcode;
     private String city;
-    private Integer latitude;
-    private Integer longitude;
+    private double latitude;
+    private double longitude;
     @SerializedName("total_places")
-    private Integer totalPlaces;
+    private int totalPlaces;
     @SerializedName("free_places")
-    private Integer freePlaces;
+    private int freePlaces;
     private List<String> tags;
     @SerializedName("created_at")
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
     @SerializedName("assoc_id")
-    private Integer assocId;
+    private int assocId;
     @SerializedName("thumb_path")
     private String thumbPath;
     private String description;
     private String phone;
     private String mail;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -46,7 +46,7 @@ public class Shelter {
         return address;
     }
 
-    public Integer getZipcode() {
+    public int getZipcode() {
         return zipcode;
     }
 
@@ -54,11 +54,11 @@ public class Shelter {
         return city;
     }
 
-    public Integer getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public Integer getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -82,7 +82,7 @@ public class Shelter {
         return updatedAt;
     }
 
-    public Integer getAssocId() {
+    public int getAssocId() {
         return assocId;
     }
 

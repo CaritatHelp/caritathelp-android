@@ -3,6 +3,8 @@ package com.eip.red.caritathelp.Presenters.Organisation;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +28,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 
@@ -53,9 +59,9 @@ public class SheltersPresenter implements Shelters.Presenter {
 
         Ion.with(view.getContext())
                 .load("GET", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_BY_ID + organisationId + Network.API_REQUEST_ORGANISATION_SHELTERS)
-                .setHeader("access-token", user.getToken())
-                .setHeader("client", user.getClient())
-                .setHeader("uid", user.getUid())
+//                .setHeader("access-token", user.getToken())
+//                .setHeader("client", user.getClient())
+//                .setHeader("uid", user.getUid())
                 .as(new TypeToken<SheltersJson>(){})
                 .setCallback(new FutureCallback<SheltersJson>() {
                     @Override
@@ -119,6 +125,8 @@ public class SheltersPresenter implements Shelters.Presenter {
 
                 if (!error) {
                     JsonObject json = new JsonObject();
+                    Geocoder gcd = new Geocoder(view.getContext(), Locale.getDefault());
+
                     json.addProperty("assoc_id", organisationId);
                     json.addProperty("name", name.getText().toString());
                     json.addProperty("address", address.getText().toString());
@@ -133,6 +141,19 @@ public class SheltersPresenter implements Shelters.Presenter {
                     if (!TextUtils.isEmpty(description.getText()))
                         json.addProperty("description", description.getText().toString());
 
+                    try {
+                        String completeAddress = address.getText().toString() + " " + zipcode.getText().toString() + " " + city.getText().toString();
+                        List<Address> addressLocationList = gcd.getFromLocationName(completeAddress, 1);
+
+                        if (addressLocationList != null && addressLocationList.size() > 0) {
+                            json.addProperty("latitude", addressLocationList.get(0).getLatitude());
+                            json.addProperty("longitude", addressLocationList.get(0).getLongitude());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Json : " + json);
                     Ion.with(view.getContext())
                             .load("POST", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_SHELTERS_CREATE)
                             .setHeader("access-token", user.getToken())
@@ -262,6 +283,8 @@ public class SheltersPresenter implements Shelters.Presenter {
 
                 if (!error) {
                     JsonObject json = new JsonObject();
+                    Geocoder gcd = new Geocoder(view.getContext(), Locale.getDefault());
+
                     json.addProperty("assoc_id", organisationId);
                     if (!TextUtils.isEmpty(name.getText()))
                         json.addProperty("name", name.getText().toString());
@@ -281,6 +304,18 @@ public class SheltersPresenter implements Shelters.Presenter {
                         json.addProperty("mail", mail.getText().toString());
                     if (!TextUtils.isEmpty(description.getText()))
                         json.addProperty("description", description.getText().toString());
+
+                    try {
+                        String completeAddress = address.getText().toString() + " " + zipcode.getText().toString() + " " + city.getText().toString();
+                        List<Address> addressLocationList = gcd.getFromLocationName(completeAddress, 1);
+
+                        if (addressLocationList != null && addressLocationList.size() > 0) {
+                            json.addProperty("latitude", addressLocationList.get(0).getLatitude());
+                            json.addProperty("longitude", addressLocationList.get(0).getLongitude());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     Ion.with(view.getContext())
                             .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_SHELTERS_UPDATE + shelter.getId())
