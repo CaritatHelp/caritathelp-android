@@ -12,4 +12,8 @@ public interface IAccountSettingsPresenter {
     void getUser();
 
     void onClick(int viewId);
+
+    void setGeolocation(boolean geolocation);
+
+    void setNotification(boolean notification);
 }

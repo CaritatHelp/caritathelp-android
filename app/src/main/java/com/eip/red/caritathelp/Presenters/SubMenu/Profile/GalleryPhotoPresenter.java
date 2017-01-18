@@ -89,31 +89,43 @@ public class GalleryPhotoPresenter implements GalleryPhoto.Presenter {
         view.showProgress();
 
         String url;
-        if (type == GALLERY_PHOTO_OWNER.USER)
-            url = Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS_2 + id + Network.API_REQUEST_PICTURES;
-        else
-            url = Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_BY_ID + id + Network.API_REQUEST_PICTURES;
+        switch (type) {
+            case USER:
+                url = Network.API_LOCATION + Network.API_REQUEST_VOLUNTEERS_2 + id + Network.API_REQUEST_PICTURES;
+                break;
+            case ORGANISATION:
+                url = Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_BY_ID + id + Network.API_REQUEST_PICTURES;
+                break;
+            case EVENT:
+                url = Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT + id + Network.API_REQUEST_PICTURES;
+                break;
+            default:
+                url = null;
+                break;
+        }
 
-        Ion.with(view.getContext())
-                .load("GET", url)
-                .setHeader("access-token", user.getToken())
-                .setHeader("client", user.getClient())
-                .setHeader("uid", user.getUid())
-                .as(new TypeToken<PicturesJson>() {})
-                .setCallback(new FutureCallback<PicturesJson>() {
-                    @Override
-                    public void onCompleted(Exception error, PicturesJson result) {
-                        view.hideProgress();
-                        if (error == null) {
-                            if (result.getStatus() == Network.API_STATUS_ERROR)
-                                view.setDialog("Statut 400", result.getMessage());
+        if (url !=  null) {
+            Ion.with(view.getContext())
+                    .load("GET", url)
+                    .setHeader("access-token", user.getToken())
+                    .setHeader("client", user.getClient())
+                    .setHeader("uid", user.getUid())
+                    .as(new TypeToken<PicturesJson>() {})
+                    .setCallback(new FutureCallback<PicturesJson>() {
+                        @Override
+                        public void onCompleted(Exception error, PicturesJson result) {
+                            view.hideProgress();
+                            if (error == null) {
+                                if (result.getStatus() == Network.API_STATUS_ERROR)
+                                    view.setDialog("Statut 400", result.getMessage());
+                                else
+                                    view.updateRV(result.getResponse());
+                            }
                             else
-                                view.updateRV(result.getResponse());
+                                view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
                         }
-                        else
-                            view.setDialog("Problème de connection", "Vérifiez votre connexion Internet");
-                    }
-                });
+                    });
+        }
     }
 
     @Override

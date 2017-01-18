@@ -9,10 +9,15 @@ import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Models.User.UserJson;
 import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Views.SubMenu.AccountSettings.AccountSettingsView;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -40,13 +45,10 @@ public class AccountSettingsInteractor {
                     @Override
                     public void onCompleted(Exception error, UserJson result) {
                         if (error == null) {
-                            // Status == 400 == error
                             if (result.getStatus() == Network.API_STATUS_ERROR)
                                 listener.onDialog("Statut 400", result.getMessage());
-                            else {
-                                // Go to presenter
+                            else
                                 listener.onSuccessGetUser(result.getResponse());
-                            }
                         }
                         else
                             listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
@@ -86,45 +88,74 @@ public class AccountSettingsInteractor {
     }
 
     private void apiRequest(final HashMap<Integer, EditText> modification, final IOnAccountSettingsFinishedListener listener) {
-        JsonObject          json = new JsonObject();
+        final JsonObject          json = new JsonObject();
         final String        firstname = modification.get(AccountSettingsView.FIRSTNAME).getText().toString();
         final String        lastname = modification.get(AccountSettingsView.LASTNAME).getText().toString();
         final String        mail = modification.get(AccountSettingsView.MAIL).getText().toString();
         final String        password = modification.get(AccountSettingsView.PASSWORD_NEW).getText().toString();
 
         if (!TextUtils.isEmpty(mail) && !mail.equals(user.getMail()))
-            json.addProperty("mail", mail);
+            json.addProperty("email", mail);
 
+        System.out.println("FIRSTNAME : " + firstname);
         if (!TextUtils.isEmpty(firstname) && !firstname.equals(user.getFirstname()))
             json.addProperty("firstname", firstname);
 
         if (!TextUtils.isEmpty(lastname) && !lastname.equals(user.getLastname()))
             json.addProperty("lastname", lastname);
 
-        if (!TextUtils.isEmpty(password))
-            json.addProperty("password", password);
+//        if (!TextUtils.isEmpty(password))
+//            json.addProperty("password", password);
+
+        json.addProperty("allowgps", user.isAllowgps());
+        json.addProperty("allow_notifications", user.isAllow_notifications());
+
+        if (user.isAllowgps()) {
+            json.addProperty("latitude", user.getLatitude());
+            json.addProperty("longitude", user.getLongitude());
+        }
 
         Ion.with(context)
-                .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ACCOUNT_SETTINGS_MODIFICATION)
+                .load("PUT", Network.API_LOCATION + Network.API_REQUEST_REGISTRATIONS)
                 .setHeader("access-token", user.getToken())
                 .setHeader("client", user.getClient())
                 .setHeader("uid", user.getUid())
                 .setJsonObjectBody(json)
-                .as(new TypeToken<UserJson>() {
-                })
-                .setCallback(new FutureCallback<UserJson>() {
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
                     @Override
-                    public void onCompleted(Exception error, UserJson result) {
+                    public void onCompleted(Exception error, Response<String> result) {
                         if (error == null) {
-                            // Status == 400 == error
-                            if (result.getStatus() == Network.API_STATUS_ERROR)
-                                listener.onDialog("Statut 400", result.getMessage());
-                            else
-                                listener.onSuccessSaveModification(result.getResponse());
+                            try {
+                                final JSONObject jsonObject = new JSONObject(result.getResult());
+                                switch (result.getHeaders().code()) {
+                                    case Network.API_STATUS_ERROR:
+                                        break;
+                                    case Network.API_STATUS_ERROR_401:
+                                        break;
+                                    default:
+                                        user = new Gson().fromJson(jsonObject.getString("response"), User.class);
+                                        user.setToken(result.getHeaders().getHeaders().get("Access-Token"));
+                                        user.setClient(result.getHeaders().getHeaders().get("Client"));
+                                        listener.onSuccessSaveModification(user);
+                                        break;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                         else
-                            listener.onDialog("Problème de connection", "Vérifiez votre connexion Internet");
+                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
                     }
                 });
+    }
+
+    public void setGeolocation(boolean geolocation) {
+        user.setGeolocation(geolocation);
+    }
+
+    public void setNotification(boolean notification) {
+        user.setNotifications(notification);
     }
 }

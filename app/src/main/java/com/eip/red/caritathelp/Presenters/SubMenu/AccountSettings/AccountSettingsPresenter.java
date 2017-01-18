@@ -2,6 +2,7 @@ package com.eip.red.caritathelp.Presenters.SubMenu.AccountSettings;
 
 import android.widget.EditText;
 
+import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.R;
@@ -35,6 +36,16 @@ public class AccountSettingsPresenter implements IAccountSettingsPresenter, IOnA
             view.showProgress();
             interactor.saveModification(view.getForm(), this);
         }
+    }
+
+    @Override
+    public void setGeolocation(boolean geolocation) {
+        interactor.setGeolocation(geolocation);
+    }
+
+    @Override
+    public void setNotification(boolean notification) {
+        interactor.setNotification(notification);
     }
 
     @Override
@@ -95,6 +106,12 @@ public class AccountSettingsPresenter implements IAccountSettingsPresenter, IOnA
         form.get(AccountSettingsView.PASSWORD_CURRENT).setHint("Mot de passe actuel");
         form.get(AccountSettingsView.PASSWORD_NEW).setHint("Nouveau mot de passe");
         form.get(AccountSettingsView.PASSWORD_NEW_CHECKING).setHint("Retapez le nouveau mot de passe");
+
+        if (user.isAllowgps())
+            view.getGeolSwitch().setChecked(true);
+
+        if (user.isNotifications())
+            view.getNotifSwitch().setChecked(true);
     }
 
 }

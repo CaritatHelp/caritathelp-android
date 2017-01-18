@@ -1,5 +1,6 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.creation;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,12 @@ import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEventView;
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.creation.OrganisationEventCreationView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -46,9 +53,24 @@ public class OrganisationEventCreationPresenter implements IOrganisationEventCre
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             if (intent.resolveActivity(view.getContext().getPackageManager()) != null) {
-                                view.startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
+                                Dexter.checkPermission(new PermissionListener() {
+                                    @Override
+                                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                                        view.startActivityForResult(intent, RESULT_CAPTURE_IMAGE);
+                                    }
+
+                                    @Override
+                                    public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                                    }
+
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                                    }
+                                }, Manifest.permission.CAMERA);
                             }
                         }
                         else {

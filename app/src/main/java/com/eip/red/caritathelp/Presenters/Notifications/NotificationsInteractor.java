@@ -204,7 +204,7 @@ public class NotificationsInteractor {
 
     public void emergencyReply(final Notification notification, final boolean acceptance, final IOnNotificationsFinishedListener listener, final int rvPosition) {
         JsonObject json = new JsonObject();
-        json.addProperty("acceptance", acceptance);
+        json.addProperty("accept", acceptance);
 
         Ion.with(context)
                 .load("PUT", Network.API_LOCATION + Network.API_REQUEST_NOTIFICATIONS + "/" + notification.getId() + Network.API_REQUEST_NOTIFICATIONS_REPLY_EMERGENCY)

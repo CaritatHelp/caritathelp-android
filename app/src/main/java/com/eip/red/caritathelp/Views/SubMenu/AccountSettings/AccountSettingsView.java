@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 
 import com.eip.red.caritathelp.Activities.Main.MainActivity;
 import com.eip.red.caritathelp.Models.Network;
@@ -19,6 +20,10 @@ import com.eip.red.caritathelp.Presenters.SubMenu.AccountSettings.AccountSetting
 import com.eip.red.caritathelp.R;
 
 import java.util.HashMap;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 /**
  * Created by pierr on 22/01/2016.
@@ -32,6 +37,9 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
     static final public int    PASSWORD_CURRENT= 3;
     static final public int    PASSWORD_NEW = 4;
     static final public int    PASSWORD_NEW_CHECKING = 5;
+
+    @BindView(R.id.switch_geolocation) Switch geolSwitch;
+    @BindView(R.id.switch_notification) Switch notifSwitch;
 
     private AccountSettingsPresenter    presenter;
 
@@ -70,6 +78,7 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_submenu_account_settings, container, false);
+        ButterKnife.bind(this, view);
 
         // Init UI Element
         form = new HashMap<>();
@@ -120,12 +129,6 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
         presenter.getUser();
     }
 
-
-    @Override
-    public void onClick(View v) {
-        presenter.onClick(v.getId());
-    }
-
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
@@ -163,7 +166,30 @@ public class AccountSettingsView extends Fragment implements IAccountSettingsVie
         form.get(PASSWORD_NEW_CHECKING).setError(error);
     }
 
+    @Override
+    public void onClick(View v) {
+        presenter.onClick(v.getId());
+    }
+
+    @OnCheckedChanged(R.id.switch_geolocation)
+    public void onCheckedChangedGeo(boolean isChecked) {
+        presenter.setGeolocation(isChecked);
+    }
+
+    @OnCheckedChanged(R.id.switch_notification)
+    public void onCheckedChangedNotif(boolean isChecked) {
+        presenter.setNotification(isChecked);
+    }
+
     public HashMap<Integer, EditText> getForm() {
         return form;
+    }
+
+    public Switch getGeolSwitch() {
+        return geolSwitch;
+    }
+
+    public Switch getNotifSwitch() {
+        return notifSwitch;
     }
 }

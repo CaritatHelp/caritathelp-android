@@ -43,6 +43,7 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
 
     private DateTimeFormatter   formatter;
     private DateTimeFormatter   formatter2;
+    private DateTimeFormatter   formatter3;
     private DateTimeFormatter   newFormatter;
 
     public MyEventsRVAdapter(MyEventsPresenter presenter) {
@@ -55,7 +56,8 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
         // Init DateTimeFormatter
         formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.FRANCE);
         formatter2 = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSSSSS").withLocale(Locale.FRANCE);
-        newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");//.withZone(timeZone);
+        formatter3 = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ").withLocale(Locale.FRANCE);
+        newFormatter = DateTimeFormat.forPattern("'Le' E dd MMMM Y 'à' HH:mm");
     }
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -111,8 +113,14 @@ public class MyEventsRVAdapter extends RecyclerView.Adapter<MyEventsRVAdapter.Da
                 holder.date.setText(newFormatter.print(dt));
             }
             catch (Exception exception) {
-                DateTime dt = formatter2.parseDateTime(date);
-                holder.date.setText(newFormatter.print(dt));
+                try {
+                    DateTime dt = formatter2.parseDateTime(date);
+                    holder.date.setText(newFormatter.print(dt));
+                }
+                catch (Exception e) {
+                    DateTime dt = formatter3.parseDateTime(date);
+                    holder.date.setText(newFormatter.print(dt));
+                }
             }
         }
         else

@@ -11,6 +11,7 @@ import com.eip.red.caritathelp.Models.Enum.Animation;
 import com.eip.red.caritathelp.Models.Network;
 import com.eip.red.caritathelp.Models.News.News;
 import com.eip.red.caritathelp.Models.Organisation.Event;
+import com.eip.red.caritathelp.Models.Organisation.Organisation;
 import com.eip.red.caritathelp.Models.User.User;
 import com.eip.red.caritathelp.Presenters.SubMenu.Profile.GalleryPhotoPresenter;
 import com.eip.red.caritathelp.R;
@@ -24,6 +25,7 @@ import com.eip.red.caritathelp.Views.Organisation.Events.Event.OrganisationEvent
 import com.eip.red.caritathelp.Views.Organisation.Events.Event.emergency.EmergencyInvitationsView;
 import com.eip.red.caritathelp.Views.Organisation.OrganisationView;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.ProfileView;
+import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhoto;
 import com.eip.red.caritathelp.Views.SubMenu.Profile.galleryPhoto.GalleryPhotoView;
 
 import java.util.List;
@@ -199,7 +201,7 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
         Event event = interactor.getEvent();
 
         if (event != null && event.getRights() != null) {
-            if (event.getRights().equals("owner"))
+            if (event.getRights().equals(Organisation.ORGANISATION_OWNER) || event.getRights().equals(Organisation.ORGANISATION_HOST))
                 Tools.replaceView(view, GalleryPhotoView.newInstance(event.getId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.EVENT, true), Animation.FADE_IN_OUT, false);
             else
                 Tools.replaceView(view, GalleryPhotoView.newInstance(event.getId(), GalleryPhotoPresenter.GALLERY_PHOTO_OWNER.EVENT, false), Animation.FADE_IN_OUT, false);
@@ -253,8 +255,8 @@ public class OrganisationEventPresenter implements IOrganisationEventPresenter, 
             view.getJoinBtn().setVisibility(View.VISIBLE);
 
         view.updateRV(newsList);
-        view.getActivity().setTitle(Tools.upperCaseFirstLetter(event.getTitle()));
-        view.getArguments().putString("page", event.getTitle());
+//        view.getActivity().setTitle(Tools.upperCaseFirstLetter(event.getTitle()));
+//        view.getArguments().putString("page", event.getTitle());
         view.hideProgress();
     }
 

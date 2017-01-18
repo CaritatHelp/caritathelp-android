@@ -259,19 +259,17 @@ public class ModificationView extends Fragment implements Modification, View.OnC
         String  dateBStr = beginDate.getText().toString();
         String  timeBStr = beginTime.getText().toString();
         if (TextUtils.isEmpty(dateBStr))
-            dateBStr = beginDate.getHint().toString();
-        if (TextUtils.isEmpty(timeBStr))
-            timeBStr = beginTime.getHint().toString();
-        data.put("date begin", dateBStr + " " + timeBStr);
+            data.put("date begin", null);
+        else
+            data.put("date begin", dateBStr + " " + timeBStr);
 
         // Set Date End
         String  dateEStr = endDate.getText().toString();
         String  timeEStr = endTime.getText().toString();
         if (TextUtils.isEmpty(dateEStr))
-            dateEStr = endDate.getHint().toString();
-        if (TextUtils.isEmpty(timeEStr))
-            timeEStr = endTime.getHint().toString();
-        data.put("date end", dateEStr + " " + timeEStr);
+            data.put("date end", null);
+        else
+            data.put("date end", dateEStr + " " + timeEStr);
 
         // Set Location
         String  locationStr = location.getText().toString();

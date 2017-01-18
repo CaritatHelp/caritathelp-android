@@ -142,6 +142,9 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
                     case Notification.NOTIF_TYPE_EMERGENCY:
                         Tools.replaceView(view, OrganisationEventView.newInstance(notification.getEvent_id(), notification.getEvent_name()), Animation.FADE_IN_OUT, false);
                         break;
+                    case Notification.NOTIF_TYPE_EMERGENCY_ACCEPTED:
+                        Tools.replaceView(view, OrganisationEventView.newInstance(notification.getEvent_id(), notification.getEvent_name()), Animation.FADE_IN_OUT, false);
+                        break;
                     case Notification.NOTIF_TYPE_EMERGENCY_REFUSED:
                         Tools.replaceView(view, OrganisationEventView.newInstance(notification.getEvent_id(), notification.getEvent_name()), Animation.FADE_IN_OUT, false);
                         break;
@@ -170,7 +173,7 @@ public class NotificationsPresenter implements INotificationsPresenter, IOnNotif
         for (Notification notification : notifications) {
             String  notifType = notification.getNotif_type();
 
-            if (notifType.equals(Notification.NOTIF_TYPE_INVITE_GUEST) || notifType.equals(Notification.NOTIF_TYPE_INVITE_MEMBER) || notifType.equals(Notification.NOTIF_TYPE_ADD_FRIEND) || notifType.equals(Notification.NOTIF_TYPE_EMERGENCY) || notifType.equals(Notification.NOTIF_TYPE_EMERGENCY_REFUSED))
+            if (notifType.equals(Notification.NOTIF_TYPE_INVITE_GUEST) || notifType.equals(Notification.NOTIF_TYPE_INVITE_MEMBER) || notifType.equals(Notification.NOTIF_TYPE_ADD_FRIEND) || notifType.equals(Notification.NOTIF_TYPE_EMERGENCY) || notifType.equals(Notification.NOTIF_TYPE_EMERGENCY_ACCEPTED) || notifType.equals(Notification.NOTIF_TYPE_EMERGENCY_REFUSED))
                 volunteerNotifs.add(notification);
             else
                 ownerNotifs.add(notification);

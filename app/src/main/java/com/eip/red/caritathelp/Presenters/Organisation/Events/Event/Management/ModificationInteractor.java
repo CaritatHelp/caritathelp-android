@@ -1,6 +1,8 @@
 package com.eip.red.caritathelp.Presenters.Organisation.Events.Event.Management;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.text.TextUtils;
 import android.widget.ProgressBar;
 
@@ -13,7 +15,10 @@ import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by pierr on 14/04/2016.
@@ -76,6 +81,20 @@ public class ModificationInteractor {
             json.addProperty("begin", dateBegin);
         if (dateEnd != null && !TextUtils.isEmpty(dateEnd))
             json.addProperty("end", dateEnd);
+
+        if (place != null && !TextUtils.isEmpty(place)) {
+            Geocoder gcd = new Geocoder(context, Locale.getDefault());
+            try {
+                List<Address> addressLocationList = gcd.getFromLocationName(place, 1);
+
+                if (addressLocationList != null && addressLocationList.size() > 0) {
+                    json.addProperty("latitude", addressLocationList.get(0).getLatitude());
+                    json.addProperty("longitude", addressLocationList.get(0).getLongitude());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         Ion.with(context)
                 .load("PUT", Network.API_LOCATION + Network.API_REQUEST_ORGANISATION_EVENT_MANAGEMENT + eventId)

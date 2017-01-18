@@ -171,6 +171,15 @@ public class NotificationsRVAdapter extends RecyclerView.Adapter<NotificationsRV
                     holder.confirm.setVisibility(View.VISIBLE);
                     holder.delete.setVisibility(View.VISIBLE);
                     break;
+                case Notification.NOTIF_TYPE_EMERGENCY_ACCEPTED:
+                    // Set Msg
+                    msg ="Urgence de l'événement <b>" + notification.getEvent_name() + "</b> acceptée.";
+                    holder.message.setText(Html.fromHtml(msg));
+
+                    // Set Buttons Visibility
+                    holder.confirm.setVisibility(View.GONE);
+                    holder.delete.setVisibility(View.GONE);
+                    break;
                 case Notification.NOTIF_TYPE_EMERGENCY_REFUSED:
                     // Set Msg
                     msg ="Urgence de l'événement <b>" + notification.getEvent_name() + "</b> rejetée.";

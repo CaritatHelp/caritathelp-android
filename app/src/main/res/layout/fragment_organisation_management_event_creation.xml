@@ -59,7 +59,7 @@
                             android:textColorHint="@color/secondary_text"
                             android:textColor="@color/primary_text"
                             android:inputType="text"
-                            android:imeOptions="actionDone"
+                            android:imeOptions="actionNext"
                             android:maxLines="1"
                             android:background="@android:color/transparent" />
 

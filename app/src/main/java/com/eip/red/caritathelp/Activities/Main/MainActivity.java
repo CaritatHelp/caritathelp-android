@@ -1,6 +1,11 @@
 package com.eip.red.caritathelp.Activities.Main;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,11 +25,18 @@ import com.eip.red.caritathelp.R;
 import com.eip.red.caritathelp.Tools;
 import com.eip.red.caritathelp.Views.Search.MySearchView;
 import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.koushikdutta.ion.Ion;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ModelManager            modelManager;
+    private ModelManager modelManager;
+    private MyLocationManager locationManager;
 
     private MySearchView            mySearchView;
     private MyNavigationBottomBar   myNavigationBottomBar;
@@ -46,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Init ModelManager
         modelManager = new ModelManager(getIntent());
+        locationManager = new MyLocationManager(this);
 
         // Init ViewPager & Adapter
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -78,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
         }
+
+//        300000
     }
 
     private void initViewPagerListener() {
@@ -172,4 +187,5 @@ public class MainActivity extends AppCompatActivity {
     public MyNavigationBottomBar getMyNavigationBottomBar() {
         return myNavigationBottomBar;
     }
+
 }

@@ -94,7 +94,6 @@ public class OrganisationEventCreationInteractor {
                 if (addressLocationList != null && addressLocationList.size() > 0) {
                     json.addProperty("latitude", addressLocationList.get(0).getLatitude());
                     json.addProperty("longitude", addressLocationList.get(0).getLongitude());
-                    System.out.println("PASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSERRRRRRRRRRRRRRRRRRR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

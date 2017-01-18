@@ -66,17 +66,6 @@ public class SignInInteractor {
                 .setCallback(new FutureCallback<Response<String>>() {
                     @Override
                     public void onCompleted(Exception error, Response<String> result) {
-//                        System.out.println(result.getHeaders().getHeaders().get("Access-Token"));
-//                        System.out.println(result.getResult());
-
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(result.getResult());
-//                            User user = new Gson().fromJson(jsonObject.getString("response"), User.class);
-//                            user.setToken(result.getHeaders().getHeaders().get("Access-Token"));
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-
                         if (error == null) {
                             try {
                                 final JSONObject jsonObject = new JSONObject(result.getResult());
@@ -106,36 +95,6 @@ public class SignInInteractor {
                     }
                 });
     }
-
-//    private void apiRequest(String email, String password, final IOnSignInFinishedListener listener) {
-//        JsonObject json = new JsonObject();
-//
-//        json.addProperty("mail", email);
-//        json.addProperty("password", password);
-//
-//        Ion.with(context)
-//                .load(Network.API_LOCATION + Network.API_REQUEST_LOGIN)
-//                .setJsonObjectBody(json)
-//                .as(new TypeToken<UserJson>() {})
-//                .setCallback(new FutureCallback<UserJson>() {
-//                    @Override
-//                    public void onCompleted(Exception error, UserJson result) {
-//
-//                        if (error != null)
-//                            listener.onDialog("Problème de connection", context.getString(R.string.connection_problem));
-//                        else {
-//                            if (result.getStatus() == Network.API_STATUS_ERROR) {
-//                                if (result.getMessage().equals(Network.API_MSG_UNKNOWN_MAIL))
-//                                    listener.onEmailError("Mail inconnu");
-//                                else
-//                                    listener.onPasswordError("Mauvais mot de passe");
-//                            }
-//                            else
-//                                listener.onSuccess(result.getResponse());
-//                        }
-//                    }
-//                });
-//    }
 
 }
 
